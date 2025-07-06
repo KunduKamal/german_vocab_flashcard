@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>জার্মান ফ্ল্যাশকার্ড - (৭০০+ শব্দ)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+        .topic-selector, .mode-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .topic-btn, .mode-btn {
+            padding: 8px 16px;
+            border: 2px solid #dee2e6;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            background: #f8f9fa;
+        }
+        .topic-btn:hover, .mode-btn:hover {
+            background: #e9ecef;
+        }
+        .topic-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+        }
+        .mode-btn.active {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
+            color: white;
+            border-color: #FF6B6B;
+        }
+        .progress-bar {
+            width: 100%; height: 10px; background: #e0e0e0;
+            border-radius: 5px; margin-bottom: 20px; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; background: linear-gradient(90deg, #4CAF50, #45a049);
+            width: 0%; transition: width 0.3s ease;
+        }
+        .card {
+            background: #fff; border-radius: 15px; padding: 40px;
+            margin: 20px 0; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid #f0f0f0; cursor: pointer; transition: all 0.3s ease;
+            min-height: 220px; position: relative; perspective: 1000px;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+        .card-inner {
+            position: relative; width: 100%; height: 100%;
+            transition: transform 0.6s; transform-style: preserve-3d;
+        }
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%;
+            -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .german-word {
+            font-size: 2.5em; font-weight: bold; color: #333;
+            margin-bottom: 10px; text-align: center;
+        }
+        .article { color: #e74c3c; font-size: 0.8em; }
+        .pronunciation {
+            font-size: 1.2em; color: #7f8c8d; text-align: center;
+            font-style: italic; margin-bottom: 20px;
+        }
+        .bengali-meaning {
+            font-size: 2em; color: #2c3e50; text-align: center;
+            margin-bottom: 20px; font-weight: 600;
+        }
+        .example {
+            background: #f8f9fa; padding: 15px; border-radius: 10px;
+            border-left: 4px solid #667eea; margin-top: 15px; width: 90%;
+        }
+        .example-german { font-weight: bold; color: #333; margin-bottom: 5px; }
+        .example-bengali { color: #666; font-style: italic; }
+        .controls {
+            display: flex; justify-content: center; gap: 15px;
+            margin-top: 30px; flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 25px; border: none; border-radius: 25px;
+            cursor: pointer; font-size: 1.1em; font-weight: 600;
+            transition: all 0.3s ease; text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2); color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: #f8f9fa; color: #333; border: 2px solid #dee2e6;
+        }
+        .btn-secondary:hover {
+            background: #e9ecef; transform: translateY(-2px);
+        }
+        .btn-success { background: linear-gradient(45deg, #4CAF50, #45a049); color: white; }
+        .btn-danger { background: linear-gradient(45deg, #f44336, #d32f2f); color: white; }
+        .card-counter, .current-topic {
+            text-align: center; margin-bottom: 15px; font-size: 1.2em;
+            color: #666; font-weight: 600;
+        }
+        .stats {
+            display: flex; justify-content: space-around; margin-bottom: 20px;
+            padding: 15px; background: #f8f9fa; border-radius: 10px;
+        }
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 1.5em; font-weight: bold; color: #333; }
+        .stat-label { font-size: 0.9em; color: #666; }
+        .flip-instruction {
+            position: absolute; bottom: 10px; right: 15px;
+            color: #aaa; font-size: 0.8em; opacity: 0.8;
+        }
+        .difficulty-buttons {
+            display: flex; justify-content: center; gap: 10px;
+            margin-top: 20px;
+        }
+        .difficulty-btn {
+            padding: 8px 16px; border: none; border-radius: 20px;
+            cursor: pointer; font-size: 0.9em; transition: all 0.3s ease;
+            color: white;
+        }
+        .easy { background: #4CAF50; } .medium { background: #FF9800; } .hard { background: #f44336; }
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            .german-word { font-size: 2em; }
+            .bengali-meaning { font-size: 1.5em; }
+            .controls { flex-direction: column; align-items: stretch; }
+            .topic-selector { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🇩🇪 জার্মান ফ্ল্যাশকার্ড মাস্টার</h1>
+        <p class="subtitle">A1-A2 লেভেল - ৭০০+ শব্দ সংগ্রহ</p>
+        
+        <div class="mode-selector">
+            <div id="mode-sequential" class="mode-btn active" onclick="setMode('sequential')">ধারাবাহিক</div>
+            <div id="mode-random" class="mode-btn" onclick="setMode('random')">র‍্যান্ডম</div>
+            <div id="mode-difficult" class="mode-btn" onclick="setMode('difficult')">কঠিন শব্দ</div>
+        </div>
+
+        <div class="topic-selector">
+            <div class="topic-btn active" onclick="selectTopic('all')">সবগুলো</div>
+            <div class="topic-btn" onclick="selectTopic(0)">পরিবার</div>
+            <div class="topic-btn" onclick="selectTopic(1)">শরীর</div>
+            <div class="topic-btn" onclick="selectTopic(2)">খাবার</div>
+            <div class="topic-btn" onclick="selectTopic(3)">পোশাক</div>
+            <div class="topic-btn" onclick="selectTopic(4)">বাড়ি</div>
+            <div class="topic-btn" onclick="selectTopic(5)">রঙ ও সংখ্যা</div>
+            <div class="topic-btn" onclick="selectTopic(6)">পেশা</div>
+            <div class="topic-btn" onclick="selectTopic(7)">যানবাহন</div>
+            <div class="topic-btn" onclick="selectTopic(8)">প্রাণী</div>
+            <div class="topic-btn" onclick="selectTopic(9)">প্রকৃতি</div>
+            <div class="topic-btn" onclick="selectTopic(10)">ক্রিয়াপদ</div>
+            <div class="topic-btn" onclick="selectTopic(11)">বিশেষণ</div>
+            <div class="topic-btn" onclick="selectTopic(12)">স্থান</div>
+            <div class="topic-btn" onclick="selectTopic(13)">স্কুল</div>
+            <div class="topic-btn" onclick="selectTopic(14)">কেনাকাটা</div>
+            <div class="topic-btn" onclick="selectTopic(15)">স্বাস্থ্য</div>
+            <div class="topic-btn" onclick="selectTopic(16)">ব্যক্তিগত তথ্য ও অভিবাদন</div>
+            <div class="topic-btn" onclick="selectTopic(17)">সাধারণ</div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalWords">0</div>
+                <div class="stat-label">মোট শব্দ</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="learnedWords">0</div>
+                <div class="stat-label">শেখা হয়েছে</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="difficultWords">0</div>
+                <div class="stat-label">কঠিন শব্দ</div>
+            </div>
+        </div>
+        
+        <div class="current-topic" id="currentTopic">বিষয়: সবগুলো</div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="card-counter">
+            <span id="currentCard">0</span> / <span id="totalCards">0</span>
+        </div>
+        
+        <div class="card" id="flashcard" onclick="flipCard(event)">
+             <div class="card-inner">
+                <div class="card-front">
+                    <div class="german-word">
+                        <span class="article" id="article"></span> 
+                        <span id="germanWord"></span>
+                    </div>
+                    <div class="pronunciation" id="pronunciation"></div>
+                    <div class="flip-instruction">💡 কার্ড ক্লিক করে উত্তর দেখুন</div>
+                </div>
+                <div class="card-back">
+                    <div class="bengali-meaning" id="bengaliMeaning"></div>
+                    <div class="example">
+                        <div class="example-german" id="exampleGerman"></div>
+                        <div class="example-bengali" id="exampleBengali"></div>
+                    </div>
+                    <div class="difficulty-buttons">
+                        <button class="difficulty-btn easy" onclick="markDifficulty('easy')">সহজ ✓</button>
+                        <button class="difficulty-btn medium" onclick="markDifficulty('medium')">মধ্যম ⚡</button>
+                        <button class="difficulty-btn hard" onclick="markDifficulty('hard')">কঠিন ✗</button>
+                    </div>
+                     <div class="flip-instruction">💡 আবার ক্লিক করে জার্মান শব্দ দেখুন</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-secondary" onclick="previousCard()">⬅️ পূর্ববর্তী</button>
+            <button class="btn btn-primary" onclick="flipCard(event)">🔄 উল্টান</button>
+            <button class="btn btn-secondary" onclick="nextCard()">পরবর্তী ➡️</button>
+            <button class="btn btn-success" onclick="shuffleCards()">🎲 এলোমেলো</button>
+            <button class="btn btn-danger" onclick="resetProgress()">🔄 রিসেট</button>
+        </div>
+    </div>
+
+    <script>
+        const allFlashcards = [
+            // 0: Familie (30)
+                [
+                {german: "Familie", article: "die", pronunciation: "[faˈmiːli̯ə]", bengali: "পরিবার", exampleGerman: "Das ist meine Familie.", exampleBengali: "এটা আমার পরিবার।"},
+                {german: "Mutter", article: "die", pronunciation: "['mʊtɐ]", bengali: "মা", exampleGerman: "Meine Mutter ist Lehrerin.", exampleBengali: "আমার মা একজন শিক্ষিকা।"},
+                {german: "Vater", article: "der", pronunciation: "['faːtɐ]", bengali: "বাবা", exampleGerman: "Mein Vater arbeitet in einer Bank.", exampleBengali: "আমার বাবা একটি ব্যাংকে কাজ করেন।"},
+                {german: "Eltern", article: "die (pl.)", pronunciation: "['ɛltɐn]", bengali: "বাবা-মা", exampleGerman: "Meine Eltern wohnen zusammen.", exampleBengali: "আমার বাবা-মা একসাথে থাকেন।"},
+                {german: "Bruder", article: "der", pronunciation: "['bʁuːdɐ]", bengali: "ভাই", exampleGerman: "Ich habe einen Bruder.", exampleBengali: "আমার এক ভাই আছে।"},
+                {german: "Schwester", article: "die", pronunciation: "['ʃvɛstɐ]", bengali: "বোন", exampleGerman: "Meine Schwester ist jünger als ich.", exampleBengali: "আমার বোন আমার চেয়ে ছোট।"},
+                {german: "Kind", article: "das", pronunciation: "[kɪnt]", bengali: "সন্তান/বাচ্চা", exampleGerman: "Haben Sie Kinder?", exampleBengali: "আপনার কি সন্তান আছে?"},
+                {german: "Mann", article: "der", pronunciation: "[man]", bengali: "পুরুষ / স্বামী", exampleGerman: "Der Mann ist mein Ehemann.", exampleBengali: "এই পুরুষটি আমার স্বামী।"},
+                {german: "Frau", article: "die", pronunciation: "[fʁaʊ]", bengali: "মহিলা / স্ত্রী", exampleGerman: "Das ist meine Frau.", exampleBengali: "ইনি আমার স্ত্রী।"},
+                {german: "Freund", article: "der", pronunciation: "[fʁɔɪ̯nt]", bengali: "বন্ধু (ছেলে)", exampleGerman: "Das ist ein Freund von mir.", exampleBengali: "এ আমার এক বন্ধু।"},
+                {german: "Umwelt", article: "die", pronunciation: "['ʊmˌvɛlt]", bengali: "পরিবেশ", exampleGerman: "Wir müssen unsere Umwelt schützen.", exampleBengali: "আমাদের অবশ্যই আমাদের পরিবেশ রক্ষা করতে হবে।"},
+                {german: "Umweltschutz", article: "der", pronunciation: "['ʊmvɛltˌʃʊt͡s]", bengali: "পরিবেশ সুরক্ষা", exampleGerman: "Umweltschutz ist ein Thema, das uns alle betrifft.", exampleBengali: "পরিবেশ সুরক্ষা এমন একটি বিষয় যা আমাদের সকলের সাথে সম্পর্কিত।"},
+                {german: "Klimawandel", article: "der", pronunciation: "['kliːmaˌvandl̩]", bengali: "জলবায়ু পরিবর্তন", exampleGerman: "Der Klimawandel ist eine der größten Herausforderungen unserer Zeit.", exampleBengali: "জলবায়ু পরিবর্তন আমাদের সময়ের সবচেয়ে বড় চ্যালেঞ্জগুলোর মধ্যে একটি।"},
+                {german: "Müll", article: "der", pronunciation: "[mʏl]", bengali: "আবর্জনা", exampleGerman: "Bitte werfen Sie den Müll nicht auf die Straße.", exampleBengali: "দয়া করে রাস্তায় আবর্জনা ফেলবেন না।"},
+                {german: "recyceln", article: "", pronunciation: "[ʁiˈsaɪ̯kl̩n]", bengali: "পুনর্ব্যবহার করা", exampleGerman: "Es ist wichtig, Papier, Glas und Plastik zu recyceln.", exampleBengali: "কাগজ, গ্লাস এবং প্লাস্টিক পুনর্ব্যবহার করা গুরুত্বপূর্ণ।"},
+                {german: "nergie", article: "die", pronunciation: "[enɛʁˈɡiː]", bengali: "শক্তি", exampleGerman: "Wir sollten versuchen, Energie zu sparen.", exampleBengali: "আমাদের শক্তি সঞ্চয় করার চেষ্টা করা উচিত।"},
+                {german: "verschmutzen", article: "", pronunciation: "[fɛɐ̯ˈʃmʊt͡sn̩]", bengali: "দূষিত করা", exampleGerman: "Fabriken verschmutzen oft die Luft und das Wasser.", exampleBengali: "কারখানাগুলো প্রায়ই বায়ু এবং পানি দূষিত করে।"}
+                ],
+            // 1: Körper (25)
+            [
+                {german: "Körper", article: "der", pronunciation: "['kœrpɐ]", bengali: "শরীর", exampleGerman: "Der menschliche Körper ist faszinierend.", exampleBengali: "মানুষের শরীর আকর্ষণীয়।"},
+                {german: "Kopf", article: "der", pronunciation: "[kɔpf]", bengali: "মাথা", exampleGerman: "Mir tut der Kopf weh.", exampleBengali: "আমার মাথা ব্যথা করছে।"},
+                {german: "Haar", article: "das", pronunciation: "[haːɐ̯]", bengali: "চুল", exampleGerman: "Sie hat lange, schwarze Haare.", exampleBengali: "তার লম্বা কালো চুল আছে।"},
+                {german: "Gesicht", article: "das", pronunciation: "[gə'zɪçt]", bengali: "মুখমণ্ডল", exampleGerman: "Er hat ein freundliches Gesicht.", exampleBengali: "তার একটি বন্ধুত্বপূর্ণ মুখ আছে।"},
+                {german: "Auge", article: "das", pronunciation: "['aʊgə]", bengali: "চোখ", exampleGerman: "Meine Augen sind braun.", exampleBengali: "আমার চোখ বাদামী।"},
+                {german: "Nase", article: "die", pronunciation: "['na:zə]", bengali: "নাক", exampleGerman: "Die Nase ist zum Riechen da.", exampleBengali: "নাক গন্ধ শোঁকার জন্য।"},
+                {german: "Mund", article: "der", pronunciation: "[mʊnt]", bengali: "মুখ", exampleGerman: "Bitte öffne den Mund.", exampleBengali: "দয়া করে মুখ খোলো।"},
+                {german: "Lippe", article: "die", pronunciation: "['lɪpə]", bengali: "ঠোঁট", exampleGerman: "Sie hat rote Lippen.", exampleBengali: "তার ঠোঁট লাল।"},
+                {german: "Zahn", article: "der", pronunciation: "[tsa:n]", bengali: "দাঁত", exampleGerman: "Ich putze meine Zähne zweimal am Tag.", exampleBengali: "আমি দিনে দুবার দাঁত মাজি।"},
+                {german: "Zunge", article: "die", pronunciation: "['tsʊŋə]", bengali: "জিহ্বা", exampleGerman: "Die Zunge hilft beim Schmecken.", exampleBengali: "জিহ্বা স্বাদ নিতে সাহায্য করে।"},
+                {german: "Ohr", article: "das", pronunciation: "[o:ɐ]", bengali: "কান", exampleGerman: "Ich höre mit meinen Ohren.", exampleBengali: "আমি আমার কান দিয়ে শুনি।"},
+                {german: "Hals", article: "der", pronunciation: "[hals]", bengali: "গলা", exampleGerman: "Ich habe Halsschmerzen.", exampleBengali: "আমার গলা ব্যথা।"},
+                {german: "Schulter", article: "die", pronunciation: "['ʃʊltɐ]", bengali: "কাঁধ", exampleGerman: "Seine Schultern sind breit.", exampleBengali: "তার কাঁধ চওড়া।"},
+                {german: "Arm", article: "der", pronunciation: "[arm]", bengali: "বাহু", exampleGerman: "Mein rechter Arm ist stark.", exampleBengali: "আমার ডান বাহু শক্তিশালী।"},
+                {german: "Hand", article: "die", pronunciation: "[hant]", bengali: "হাত", exampleGerman: "Gib mir deine Hand.", exampleBengali: "তোমার হাত আমাকে দাও।"},
+                {german: "Finger", article: "der", pronunciation: "['fɪŋɐ]", bengali: "আঙুল", exampleGerman: "Ein Mensch hat zehn Finger.", exampleBengali: "একজন মানুষের দশটি আঙুল থাকে।"},
+                {german: "Brust", article: "die", pronunciation: "[brʊst]", bengali: "বুক", exampleGerman: "Er hat Schmerzen in der Brust.", exampleBengali: "তার বুকে ব্যথা হচ্ছে।"},
+                {german: "Bauch", article: "der", pronunciation: "[baʊx]", bengali: "পেট", exampleGerman: "Mein Bauch ist voll.", exampleBengali: "আমার পেট ভরা।"},
+                {german: "Rücken", article: "der", pronunciation: "['rʏkən]", bengali: "পিঠ", exampleGerman: "Ich habe Rückenschmerzen.", exampleBengali: "আমার পিঠে ব্যথা।"},
+                {german: "Bein", article: "das", pronunciation: "[baɪn]", bengali: "পা", exampleGerman: "Sie hat sich das Bein gebrochen.", exampleBengali: "সে তার পা ভেঙে ফেলেছে।"},
+                {german: "Knie", article: "das", pronunciation: "[kniː]", bengali: "হাঁটু", exampleGerman: "Mein Knie tut weh.", exampleBengali: "আমার হাঁটুতে ব্যথা করছে।"},
+                {german: "Fuß", article: "der", pronunciation: "[fu:s]", bengali: "পায়ের পাতা", exampleGerman: "Meine Füße sind kalt.", exampleBengali: "আমার পায়ের পাতা ঠান্ডা।"},
+                {german: "Herz", article: "das", pronunciation: "[hɛrts]", bengali: "হৃদয়", exampleGerman: "Mein Herz schlägt schnell.", exampleBengali: "আমার হৃদয় দ্রুত স্পন্দিত হচ্ছে।"},
+                {german: "Blut", article: "das", pronunciation: "[bluːt]", bengali: "রক্ত", exampleGerman: "Blut ist rot.", exampleBengali: "রক্ত লাল।"},
+                {german: "Haut", article: "die", pronunciation: "[haʊt]", bengali: "ত্বক", exampleGerman: "Die Haut ist das größte Organ.", exampleBengali: "ত্বক সবচেয়ে বড় অঙ্গ।"}
+            ],
+            // 2: Essen & Trinken (80)
+            [
+                {german: "Essen", article: "das", pronunciation: "['ɛsən]", bengali: "খাবার", exampleGerman: "Das Essen ist fertig.", exampleBengali: "খাবার তৈরি।"},
+                {german: "Trinken", article: "das", pronunciation: "['trɪŋkən]", bengali: "পানীয়", exampleGerman: "Was möchtest du zum Trinken?", exampleBengali: "তুমি পানীয় হিসেবে কি চাও?"},
+                {german: "Frühstück", article: "das", pronunciation: "['fry:ʃtʏk]", bengali: "সকালের নাস্তা", exampleGerman: "Ich esse Müsli zum Frühstück.", exampleBengali: "আমি সকালের নাস্তায় মুসলি খাই।"},
+                {german: "Mittagessen", article: "das", pronunciation: "['mɪta:k'ɛsən]", bengali: "দুপুরের খাবার", exampleGerman: "Wir essen um 13 Uhr zu Mittag.", exampleBengali: "আমরা দুপুর ১টায় দুপুরের খাবার খাই।"},
+                {german: "Abendessen", article: "das", pronunciation: "['a:bənt'ɛsən]", bengali: "রাতের খাবার", exampleGerman: "Was gibt es zum Abendessen?", exampleBengali: "রাতের খাবারে কি আছে?"},
+                {german: "Wasser", article: "das", pronunciation: "['vasɐ]", bengali: "পানি", exampleGerman: "Ich trinke viel Wasser.", exampleBengali: "আমি অনেক পানি পান করি।"},
+                {german: "Kaffee", article: "der", pronunciation: "['kafe]", bengali: "কফি", exampleGerman: "Morgens trinke ich einen Kaffee.", exampleBengali: "সকালে আমি এক কাপ কফি পান করি।"},
+                {german: "Tee", article: "der", pronunciation: "[te:]", bengali: "চা", exampleGerman: "Möchtest du eine Tasse Tee?", exampleBengali: "তুমি কি এক কাপ চা চাও?"},
+                {german: "Milch", article: "die", pronunciation: "[mɪlç]", bengali: "দুধ", exampleGerman: "Kinder sollten Milch trinken.", exampleBengali: "শিশুদের দুধ পান করা উচিত।"},
+                {german: "Saft", article: "der", pronunciation: "[zaft]", bengali: "জুস", exampleGerman: "Ich trinke gern Orangensaft.", exampleBengali: "আমি কমলার জুস পান করতে পছন্দ করি।"},
+                {german: "Bier", article: "das", pronunciation: "[biːɐ̯]", bengali: "বিয়ার", exampleGerman: "In Deutschland trinkt man viel Bier.", exampleBengali: "জার্মানিতে লোকেরা অনেক বিয়ার পান করে।"},
+                {german: "Wein", article: "der", pronunciation: "[vaɪn]", bengali: "ওয়াইন", exampleGerman: "Rotwein oder Weißwein?", exampleBengali: "রেড ওয়াইন নাকি হোয়াইট ওয়াইন?"},
+                {german: "Brot", article: "das", pronunciation: "[bro:t]", bengali: "রুটি", exampleGerman: "Ich kaufe frisches Brot.", exampleBengali: "আমি তাজা রুটি কিনি।"},
+                {german: "Brötchen", article: "das", pronunciation: "['brø:tçən]", bengali: "ছোট রুটি", exampleGerman: "Zum Frühstück esse ich ein Brötchen.", exampleBengali: "সকালের নাস্তায় আমি একটি ছোট রুটি খাই।"},
+                {german: "Käse", article: "der", pronunciation: "['kɛ:zə]", bengali: "পনির", exampleGerman: "Ich esse gern Käse auf dem Brot.", exampleBengali: "আমি রুটির উপর পনির খেতে পছন্দ করি।"},
+                {german: "Wurst", article: "die", pronunciation: "[vʊrst]", bengali: "সসেজ", exampleGerman: "Bratwurst ist eine deutsche Spezialität.", exampleBengali: "ব্রাটভুর্স্ট একটি জার্মান বিশেষত্ব।"},
+                {german: "Butter", article: "die", pronunciation: "['bʊtɐ]", bengali: "মাখন", exampleGerman: "Ich brauche Butter für den Kuchen.", exampleBengali: "কেকের জন্য আমার মাখন দরকার।"},
+                {german: "Marmelade", article: "die", pronunciation: "[marmə'la:də]", bengali: "জ্যাম", exampleGerman: "Erdbeermarmelade ist meine Lieblingsmarmelade.", exampleBengali: "স্ট্রবেরি জ্যাম আমার প্রিয়।"},
+                {german: "Honig", article: "der", pronunciation: "['ho:nɪç]", bengali: "মধু", exampleGerman: "Tee mit Honig ist gut bei Erkältung.", exampleBengali: "ঠান্ডা লাগলে মধু দিয়ে চা ভালো।"},
+                {german: "Ei", article: "das", pronunciation: "[aɪ]", bengali: "ডিম", exampleGerman: "Ich esse ein gekochtes Ei.", exampleBengali: "আমি একটি সিদ্ধ ডিম খাই।"},
+                {german: "Fleisch", article: "das", pronunciation: "[flaɪ̯ʃ]", bengali: "মাংস", exampleGerman: "Er isst kein Fleisch, er ist Vegetarier.", exampleBengali: "সে মাংস খায় না, সে নিরামিষাশী।"},
+                {german: "Hähnchen", article: "das", pronunciation: "['hɛ:nçən]", bengali: "মুরগির মাংস", exampleGerman: "Wir grillen Hähnchen.", exampleBengali: "আমরা মুরগির মাংস গ্রিল করছি।"},
+                {german: "Rindfleisch", article: "das", pronunciation: "['rɪntflaɪ̯ʃ]", bengali: "গরুর মাংস", exampleGerman: "Ich mag Steaks aus Rindfleisch.", exampleBengali: "আমি গরুর মাংসের স্টিক পছন্দ করি।"},
+                {german: "Schwein", article: "das", pronunciation: "[ʃvaɪn]", bengali: "শূকরের মাংস", exampleGerman: "In vielen Gerichten gibt es Schweinefleisch.", exampleBengali: "অনেক খাবারে শূকরের মাংস থাকে।"},
+                {german: "Fisch", article: "der", pronunciation: "[fɪʃ]", bengali: "মাছ", exampleGerman: "Freitags essen wir oft Fisch.", exampleBengali: "শুক্রবার আমরা প্রায়ই মাছ খাই।"},
+                {german: "Obst", article: "das", pronunciation: "[o:pst]", bengali: "ফল", exampleGerman: "Obst ist gesund.", exampleBengali: "ফল স্বাস্থ্যকর।"},
+                {german: "Apfel", article: "der", pronunciation: "['apfl]", bengali: "আপেল", exampleGerman: "Ein Apfel am Tag hält den Arzt fern.", exampleBengali: "দিনে একটি আপেল ডাক্তার থেকে দূরে রাখে।"},
+                {german: "Banane", article: "die", pronunciation: "[ba'na:nə]", bengali: "কলা", exampleGerman: "Bananen sind reich an Kalium.", exampleBengali: "কলা পটাসিয়াম সমৃদ্ধ।"},
+                {german: "Orange", article: "die", pronunciation: "[o'rã:ʒə]", bengali: "কমলা", exampleGerman: "Ich esse gerne eine Orange.", exampleBengali: "আমি কমলা খেতে পছন্দ করি।"},
+                {german: "Zitrone", article: "die", pronunciation: "[tsi'tro:nə]", bengali: "লেবু", exampleGerman: "Zitronen sind sauer.", exampleBengali: "লেবু টক হয়।"},
+                {german: "Erdbeere", article: "die", pronunciation: "['eːɐ̯tbeːrə]", bengali: "স্ট্রবেরি", exampleGerman: "Im Sommer gibt es frische Erdbeeren.", exampleBengali: "গ্রীষ্মকালে তাজা স্ট্রবেরি পাওয়া যায়।"},
+                {german: "Traube", article: "die", pronunciation: "['traʊbə]", bengali: "আঙ্গুর", exampleGerman: "Aus Trauben macht man Wein.", exampleBengali: "আঙ্গুর থেকে ওয়াইন তৈরি হয়।"},
+                {german: "Gemüse", article: "das", pronunciation: "[gə'my:zə]", bengali: "শাকসবজি", exampleGerman: "Man sollte viel Gemüse essen.", exampleBengali: "অনেক শাকসবজি খাওয়া উচিত।"},
+                {german: "Kartoffel", article: "die", pronunciation: "[kar'tɔfl]", bengali: "আলু", exampleGerman: "Pommes frites werden aus Kartoffeln gemacht.", exampleBengali: "ফ্রেঞ্চ ফ্রাই আলু থেকে তৈরি হয়।"},
+                {german: "Tomate", article: "die", pronunciation: "[to'ma:tə]", bengali: "টমেটো", exampleGerman: "Tomaten sind gut für den Salat.", exampleBengali: "সালাদের জন্য টমেটো ভালো।"},
+                {german: "Zwiebel", article: "die", pronunciation: "['tsvi:bəl]", bengali: "পেঁয়াজ", exampleGerman: "Beim Zwiebelschneiden muss ich weinen.", exampleBengali: "পেঁয়াজ কাটার সময় আমাকে কাঁদতে হয়।"},
+                {german: "Knoblauch", article: "der", pronunciation: "['kno:blaʊx]", bengali: "রসুন", exampleGerman: "Knoblauch gibt dem Essen Geschmack.", exampleBengali: "রসুন খাবারে স্বাদ যোগ করে।"},
+                {german: "Salat", article: "der", pronunciation: "[za'la:t]", bengali: "সালাদ/লেটুস", exampleGerman: "Ich esse einen gemischten Salat.", exampleBengali: "আমি একটি মিশ্র সালাদ খাই।"},
+                {german: "Gurke", article: "die", pronunciation: "['gʊrkə]", bengali: "শসা", exampleGerman: "Gurkensalat ist erfrischend.", exampleBengali: "শসার সালাদ সতেজকারক।"},
+                {german: "Karotte", article: "die", pronunciation: "[ka'rɔtə]", bengali: "গাজর", exampleGerman: "Kaninchen mögen Karotten.", exampleBengali: "খরগোশ গাজর পছন্দ করে।"},
+                {german: "Reis", article: "der", pronunciation: "[raɪs]", bengali: "ভাত", exampleGerman: "In Asien isst man viel Reis.", exampleBengali: "এশিয়ায় লোকেরা অনেক ভাত খায়।"},
+                {german: "Nudeln", article: "die (pl)", pronunciation: "['nu:dəln]", bengali: "নুডলস", exampleGerman: "Kinder lieben Nudeln mit Tomatensoße.", exampleBengali: "বাচ্চারা টমেটো সস দিয়ে নুডলস ভালোবাসে।"},
+                {german: "Suppe", article: "die", pronunciation: "['zʊpə]", bengali: "স্যুপ", exampleGerman: "Im Winter esse ich gerne eine heiße Suppe.", exampleBengali: "শীতকালে আমি গরম স্যুপ খেতে পছন্দ করি।"},
+                {german: "Soße", article: "die", pronunciation: "['zo:sə]", bengali: "সস", exampleGerman: "Die Soße ist sehr lecker.", exampleBengali: "সসটি খুব সুস্বাদু।"},
+                {german: "Kuchen", article: "der", pronunciation: "['ku:xən]", bengali: "কেক", exampleGerman: "Zum Geburtstag gibt es einen Kuchen.", exampleBengali: "জন্মদিনে একটি কেক থাকে।"},
+                {german: "Schokolade", article: "die", pronunciation: "[ʃoko'la:də]", bengali: "চকলেট", exampleGerman: "Ich esse gern Schokolade.", exampleBengali: "আমি চকলেট খেতে পছন্দ করি।"},
+                {german: "Eis", article: "das", pronunciation: "[aɪs]", bengali: "আইসক্রিম", exampleGerman: "Im Sommer esse ich oft Eis.", exampleBengali: "গ্রীষ্মে আমি প্রায়ই আইসক্রিম খাই।"},
+                {german: "Zucker", article: "der", pronunciation: "['tsʊkɐ]", bengali: "চিনি", exampleGerman: "Ich nehme Zucker in meinen Kaffee.", exampleBengali: "আমি আমার কফিতে চিনি নিই।"},
+                {german: "Salz", article: "das", pronunciation: "[zalts]", bengali: "লবণ", exampleGerman: "Die Suppe braucht noch etwas Salz.", exampleBengali: "স্যুপে আরও একটু লবণ লাগবে।"},
+                {german: "Pfeffer", article: "der", pronunciation: "['pfɛfɐ]", bengali: "গোলমরিচ", exampleGerman: "Ich mag Pfeffer auf meinem Steak.", exampleBengali: "আমি আমার স্টিকে গোলমরিচ পছন্দ করি।"},
+                {german: "Öl", article: "das", pronunciation: "[ø:l]", bengali: "তেল", exampleGerman: "Wir braten mit Öl.", exampleBengali: "আমরা তেল দিয়ে ভাজি।"},
+                {german: "Essig", article: "der", pronunciation: "['ɛsɪç]", bengali: "ভিনেগার", exampleGerman: "Für den Salat brauchen wir Öl und Essig.", exampleBengali: "সালাদের জন্য আমাদের তেল এবং ভিনেগার লাগবে।"},
+                {german: "Mehl", article: "das", pronunciation: "[me:l]", bengali: "ময়দা", exampleGerman: "Zum Backen braucht man Mehl.", exampleBengali: "বেকিংয়ের জন্য ময়দা প্রয়োজন।"},
+                {german: "Senf", article: "der", pronunciation: "[zɛnf]", bengali: "সরিষা", exampleGerman: "Senf isst man oft mit Wurst.", exampleBengali: "সরিষা প্রায়ই সসেজের সাথে খাওয়া হয়।"},
+                {german: "Joghurt", article: "der", pronunciation: "['jo:gʊrt]", bengali: "দই", exampleGerman: "Ich esse Joghurt mit Früchten.", exampleBengali: "আমি ফলের সাথে দই খাই।"},
+                {german: "Gericht", article: "das", pronunciation: "[gə'rɪçt]", bengali: "খাবারের পদ", exampleGerman: "Was ist dein Lieblingsgericht?", exampleBengali: "তোমার প্রিয় খাবার কী?"},
+                {german: "Mahlzeit", article: "die", pronunciation: "['ma:ltsaɪt]", bengali: "ভোজন", exampleGerman: "Gute Mahlzeit!", exampleBengali: "আপনার খাবার উপভোগ করুন!"},
+                {german: "Durst", article: "der", pronunciation: "[dʊrst]", bengali: "তৃষ্ণা", exampleGerman: "Ich habe großen Durst.", exampleBengali: "আমার খুব তৃষ্ণা পেয়েছে।"},
+                {german: "Hunger", article: "der", pronunciation: "['hʊŋɐ]", bengali: "ক্ষুধা", exampleGerman: "Hast du Hunger?", exampleBengali: "তোমার কি ক্ষুধা পেয়েছে?"},
+                {german: "Speisekarte", article: "die", pronunciation: "['ʃpaɪzəkartə]", bengali: "মেনু কার্ড", exampleGerman: "Können wir bitte die Speisekarte haben?", exampleBengali: "আমরা কি দয়া করে মেনু কার্ড পেতে পারি?"},
+                {german: "Kellner", article: "der", pronunciation: "['kɛlnɐ]", bengali: "ওয়েটার", exampleGerman: "Der Kellner bringt die Rechnung.", exampleBengali: "ওয়েটার বিল নিয়ে আসছে।"},
+                {german: "Rechnung", article: "die", pronunciation: "['rɛçnʊŋ]", bengali: "বিল", exampleGerman: "Die Rechnung, bitte.", exampleBengali: "বিল, দয়া করে।"},
+                {german: "Trinkgeld", article: "das", pronunciation: "['trɪŋkgɛlt]", bengali: "টিপস/বকশিস", exampleGerman: "In Deutschland gibt man etwa 10% Trinkgeld.", exampleBengali: "জার্মানিতে প্রায় ১০% টিপস দেওয়া হয়।"},
+                {german: "Messer", article: "das", pronunciation: "['mɛsɐ]", bengali: "ছুরি", exampleGerman: "Das Messer ist scharf.", exampleBengali: "ছুরিটি ধারালো।"},
+                {german: "Gabel", article: "die", pronunciation: "['ga:bəl]", bengali: "কাঁটাচামচ", exampleGerman: "Ich esse Salat mit einer Gabel.", exampleBengali: "আমি কাঁটাচামচ দিয়ে সালাদ খাই।"},
+                {german: "Löffel", article: "der", pronunciation: "['lœfəl]", bengali: "চামচ", exampleGerman: "Für die Suppe brauche ich einen Löffel.", exampleBengali: "স্যুপের জন্য আমার একটি চামচ দরকার।"},
+                {german: "Teller", article: "der", pronunciation: "['tɛlɐ]", bengali: "প্লেট", exampleGerman: "Mein Teller ist leer.", exampleBengali: "আমার প্লেট খালি।"},
+                {german: "Tasse", article: "die", pronunciation: "['tasə]", bengali: "কাপ", exampleGerman: "Eine Tasse Kaffee, bitte.", exampleBengali: "এক কাপ কফি, দয়া করে।"},
+                {german: "Glas", article: "das", pronunciation: "[gla:s]", bengali: "গ্লাস", exampleGerman: "Ich hätte gern ein Glas Wasser.", exampleBengali: "আমি এক গ্লাস পানি চাই।"},
+                {german: "Flasche", article: "die", pronunciation: "['flaʃə]", bengali: "বোতল", exampleGerman: "Eine Flasche Wein, bitte.", exampleBengali: "এক বোতল ওয়াইন, দয়া করে।"},
+                {german: "lecker", article: "", pronunciation: "['lɛkɐ]", bengali: "সুস্বাদু", exampleGerman: "Das Essen ist sehr lecker.", exampleBengali: "খাবারটি খুব সুস্বাদু।"},
+                {german: "süß", article: "", pronunciation: "[zy:s]", bengali: "মিষ্টি", exampleGerman: "Der Kuchen ist zu süß.", exampleBengali: "কেকটি খুব মিষ্টি।"},
+                {german: "sauer", article: "", pronunciation: "['zaʊɐ]", bengali: "টক", exampleGerman: "Die Zitrone ist sauer.", exampleBengali: "লেবুটি টক।"},
+                {german: "salzig", article: "", pronunciation: "['zaltsɪç]", bengali: "নোনতা", exampleGerman: "Die Suppe ist zu salzig.", exampleBengali: "স্যুপটি খুব নোনতা।"},
+                {german: "scharf", article: "", pronunciation: "[ʃarf]", bengali: "ঝাল", exampleGerman: "Isst du gerne scharf?", exampleBengali: "তুমি কি ঝাল খেতে পছন্দ কর?"},
+                {german: "bitter", article: "", pronunciation: "['bɪtɐ]", bengali: "তিক্ত", exampleGerman: "Kaffee ohne Zucker schmeckt bitter.", exampleBengali: "চিনি ছাড়া কফি তিক্ত স্বাদের।"},
+                {german: "frisch", article: "", pronunciation: "[frɪʃ]", bengali: "তাজা", exampleGerman: "Das Brot ist frisch aus dem Ofen.", exampleBengali: "রুটিটি ওভেন থেকে তাজা বের করা।"},
+                {german: "kochen", article: "", pronunciation: "['kɔxən]", bengali: "রান্না করা", exampleGerman: "Ich koche heute Abend Pasta.", exampleBengali: "আমি আজ রাতে পাস্তা রান্না করব।"},
+                {german: "backen", article: "", pronunciation: "['bakən]", bengali: "বেಕ್ করা", exampleGerman: "Sie backt einen Apfelkuchen.", exampleBengali: "সে একটি আপেল কেক বেক করছে।"},
+                {german: "braten", article: "", pronunciation: "['bra:tən]", bengali: "ভাজা", exampleGerman: "Ich brate ein Ei in der Pfanne.", exampleBengali: "আমি প্যানে একটি ডিম ভাজছি।"},
+                {german: "grillen", article: "", pronunciation: "['grɪlən]", bengali: "গ্রিল করা", exampleGerman: "Im Sommer grillen wir oft im Garten.", exampleBengali: "গ্রীষ্মে আমরা প্রায়ই বাগানে গ্রিল করি।"},
+            ],
+            // 3: Kleidung (40)
+            [
+                {german: "Kleidung", article: "die", pronunciation: "['klaɪdʊŋ]", bengali: "পোশাক", exampleGerman: "Ich kaufe neue Kleidung.", exampleBengali: "আমি নতুন পোশাক কিনছি।"},
+                {german: "Hose", article: "die", pronunciation: "['ho:zə]", bengali: "প্যান্ট", exampleGerman: "Diese Hose passt mir gut.", exampleBengali: "এই প্যান্টটি আমার জন্য ঠিক আছে।"},
+                {german: "Jeans", article: "die", pronunciation: "[dʒi:ns]", bengali: "জিন্স", exampleGerman: "Ich trage am liebsten Jeans.", exampleBengali: "আমি জিন্স পরতে সবচেয়ে বেশি পছন্দ করি।"},
+                {german: "Hemd", article: "das", pronunciation: "[hɛmt]", bengali: "শার্ট", exampleGerman: "Er trägt ein weißes Hemd.", exampleBengali: "সে একটি সাদা শার্ট পরেছে।"},
+                {german: "T-Shirt", article: "das", pronunciation: "['ti:ʃœːt]", bengali: "টি-শার্ট", exampleGerman: "Im Sommer trage ich nur T-Shirts.", exampleBengali: "গ্রীষ্মে আমি শুধু টি-শার্ট পরি।"},
+                {german: "Pullover", article: "der", pronunciation: "[pʊ'loːvɐ]", bengali: "সোয়েটার", exampleGerman: "Im Winter brauche ich einen warmen Pullover.", exampleBengali: "শীতকালে আমার একটি গরম সোয়েটার দরকার।"},
+                {german: "Jacke", article: "die", pronunciation: "['jakə]", bengali: "জ্যাকেট", exampleGerman: "Nimm eine Jacke mit, es ist kalt.", exampleBengali: "একটি জ্যাকেট সাথে নাও, ঠান্ডা পড়েছে।"},
+                {german: "Mantel", article: "der", pronunciation: "['mantəl]", bengali: "কোট", exampleGerman: "Mein Wintermantel ist sehr warm.", exampleBengali: "আমার শীতের কোটটি খুব গরম।"},
+                {german: "Kleid", article: "das", pronunciation: "[klaɪt]", bengali: "পোশাক (মহিলাদের)", exampleGerman: "Sie trägt ein schönes Kleid.", exampleBengali: "সে একটি সুন্দর পোশাক পরেছে।"},
+                {german: "Rock", article: "der", pronunciation: "[rɔk]", bengali: "স্কার্ট", exampleGerman: "Der Rock ist zu kurz.", exampleBengali: "স্কার্টটি খুব ছোট।"},
+                {german: "Anzug", article: "der", pronunciation: "['antsuːk]", bengali: "স্যুট", exampleGerman: "Zur Arbeit trägt er einen Anzug.", exampleBengali: "কাজের জন্য সে একটি স্যুট পরে।"},
+                {german: "Schuh", article: "der", pronunciation: "[ʃuː]", bengali: "জুতা", exampleGerman: "Wo ist mein anderer Schuh?", exampleBengali: "আমার অন্য জুতাটি কোথায়?"},
+                {german: "Stiefel", article: "der", pronunciation: "['ʃtiːfəl]", bengali: "বুট", exampleGerman: "Im Winter trage ich Stiefel.", exampleBengali: "শীতে আমি বুট পরি।"},
+                {german: "Socke", article: "die", pronunciation: "['zɔkə]", bengali: "মোজা", exampleGerman: "Ich brauche ein Paar neue Socken.", exampleBengali: "আমার একজোড়া নতুন মোজা দরকার।"},
+                {german: "Unterwäsche", article: "die", pronunciation: "['ʊntɐvɛʃə]", bengali: "অন্তর্বাস", exampleGerman: "Man sollte die Unterwäsche täglich wechseln.", exampleBengali: "অন্তর্বাস প্রতিদিন পরিবর্তন করা উচিত।"},
+                {german: "Hut", article: "der", pronunciation: "[huːt]", bengali: "টুপি", exampleGerman: "Im Sommer trage ich einen Hut gegen die Sonne.", exampleBengali: "গ্রীষ্মে আমি সূর্যের বিরুদ্ধে একটি টুপি পরি।"},
+                {german: "Mütze", article: "die", pronunciation: "['mʏtsə]", bengali: "টুপি (শীতের)", exampleGerman: "Vergiss deine Mütze nicht, es ist kalt.", exampleBengali: "তোমার টুপি ভুলো না, ঠান্ডা পড়েছে।"},
+                {german: "Schal", article: "der", pronunciation: "[ʃaːl]", bengali: "স্কার্ফ/মাফলার", exampleGerman: "Ein warmer Schal ist im Winter wichtig.", exampleBengali: "শীতে একটি গরম স্কার্ফ গুরুত্বপূর্ণ।"},
+                {german: "Handschuh", article: "der", pronunciation: "['hantʃuː]", bengali: "হাতমোজা", exampleGerman: "Meine Handschuhe sind aus Leder.", exampleBengali: "আমার হাতমোজা চামড়ার তৈরি।"},
+                {german: "Gürtel", article: "der", pronunciation: "['gʏrtəl]", bengali: "বেল্ট", exampleGerman: "Die Hose ist zu weit, ich brauche einen Gürtel.", exampleBengali: "প্যান্টটি খুব ঢিলা, আমার একটি বেল্ট দরকার।"},
+                {german: "Brille", article: "die", pronunciation: "['brɪlə]", bengali: "চশমা", exampleGerman: "Ich kann ohne meine Brille nicht gut sehen.", exampleBengali: "আমি আমার চশমা ছাড়া ভালো দেখতে পাই না।"},
+                {german: "Tasche", article: "die", pronunciation: "['taʃə]", bengali: "ব্যাগ", exampleGerman: "Was hast du in deiner Tasche?", exampleBengali: "তোমার ব্যাগে কী আছে?"},
+                {german: "Uhr", article: "die", pronunciation: "[uːɐ̯]", bengali: "ঘড়ি", exampleGerman: "Meine Uhr geht falsch.", exampleBengali: "আমার ঘড়িটি ভুল সময় দেখাচ্ছে।"},
+                {german: "Schmuck", article: "der", pronunciation: "[ʃmʊk]", bengali: "গয়না", exampleGerman: "Sie trägt schönen Schmuck.", exampleBengali: "সে সুন্দর গয়না পরেছে।"},
+                {german: "Ring", article: "der", pronunciation: "[rɪŋ]", bengali: "আংটি", exampleGerman: "Er hat ihr einen goldenen Ring geschenkt.", exampleBengali: "সে তাকে একটি সোনার আংটি উপহার দিয়েছে।"},
+                {german: "Kette", article: "die", pronunciation: "['kɛtə]", bengali: "হার/চেইন", exampleGerman: "Die Kette ist aus Silber.", exampleBengali: "হারটি রূপার তৈরি।"},
+                {german: "Ohrring", article: "der", pronunciation: "['oːɐ̯rɪŋ]", bengali: "কানের দুল", exampleGerman: "Sie hat neue Ohrringe.", exampleBengali: "তার নতুন কানের দুল আছে।"},
+                {german: "tragen", article: "", pronunciation: "['traːgən]", bengali: "পরিধান করা", exampleGerman: "Was trägst du heute?", exampleBengali: "আজ তুমি কী পরেছ?"},
+                {german: "anziehen", article: "", pronunciation: "['antsiːən]", bengali: "পোশাক পরা", exampleGerman: "Ich muss mich anziehen.", exampleBengali: "আমাকে পোশাক পরতে হবে।"},
+                {german: "ausziehen", article: "", pronunciation: "['aʊstsiːən]", bengali: "পোশাক খোলা", exampleGerman: "Zieh deine schmutzigen Schuhe aus!", exampleBengali: "তোমার নোংরা জুতো খোলো!"},
+                {german: "passen", article: "", pronunciation: "['pasən]", bengali: "ফিট হওয়া", exampleGerman: "Die Jacke passt perfekt.", exampleBengali: "জ্যাকেটটি পুরোপুরি ফিট হয়েছে।"},
+                {german: "Größe", article: "die", pronunciation: "['grøːsə]", bengali: "মাপ/সাইজ", exampleGerman: "Welche Größe haben Sie?", exampleBengali: "আপনার সাইজ কত?"},
+                {german: "Stoff", article: "der", pronunciation: "[ʃtɔf]", bengali: "কাপড়", exampleGerman: "Der Stoff fühlt sich weich an.", exampleBengali: "কাপড়টি নরম অনুভূত হচ্ছে।"},
+                {german: "Wolle", article: "die", pronunciation: "['vɔlə]", bengali: "উল/পশম", exampleGerman: "Der Pullover ist aus reiner Wolle.", exampleBengali: "সোয়েটারটি খাঁটি উল দিয়ে তৈরি।"},
+                {german: "Baumwolle", article: "die", pronunciation: "['baʊmvɔlə]", bengali: "তুলা/কটন", exampleGerman: "T-Shirts sind oft aus Baumwolle.", exampleBengali: "টি-শার্ট প্রায়শই কটন দিয়ে তৈরি হয়।"},
+                {german: "Leder", article: "das", pronunciation: "['leːdɐ]", bengali: "চামড়া", exampleGerman: "Lederschuhe sind sehr haltbar.", exampleBengali: "চামড়ার জুতো খুব টেকসই।"},
+                {german: "sauber", article: "", pronunciation: "['zaʊbɐ]", bengali: "পরিষ্কার", exampleGerman: "Ist mein Hemd sauber?", exampleBengali: "আমার শার্টটি কি পরিষ্কার?"},
+                {german: "schmutzig", article: "", pronunciation: "['ʃmʊtsɪç]", bengali: "নোংরা", exampleGerman: "Deine Schuhe sind schmutzig.", exampleBengali: "তোমার জুতো নোংরা।"},
+                {german: "neu", article: "", pronunciation: "[nɔʏ]", bengali: "নতুন", exampleGerman: "Ich habe neue Schuhe.", exampleBengali: "আমার নতুন জুতো আছে।"},
+                {german: "alt", article: "", pronunciation: "[alt]", bengali: "পুরানো", exampleGerman: "Das ist meine alte Jacke.", exampleBengali: "এটা আমার পুরানো জ্যাকেট।"}
+            ],
+            // 4: Haus & Wohnung (60)
+            [
+                {german: "Haus", article: "das", pronunciation: "[haʊs]", bengali: "বাড়ি", exampleGerman: "Wir wohnen in einem großen Haus.", exampleBengali: "আমরা একটি বড় বাড়িতে থাকি।"},
+                {german: "Wohnung", article: "die", pronunciation: "['voːnʊŋ]", bengali: "অ্যাপার্টমেন্ট/ফ্ল্যাট", exampleGerman: "Ich suche eine neue Wohnung.", exampleBengali: "আমি একটি নতুন ফ্ল্যাট খুঁজছি।"},
+                {german: "Zimmer", article: "das", pronunciation: "['tsɪmɐ]", bengali: "রুম/কক্ষ", exampleGerman: "Die Wohnung hat drei Zimmer.", exampleBengali: "ফ্ল্যাটটিতে তিনটি রুম আছে।"},
+                {german: "Wohnzimmer", article: "das", pronunciation: "['voːntsɪmɐ]", bengali: "বসার ঘর", exampleGerman: "Wir sehen im Wohnzimmer fern.", exampleBengali: "আমরা বসার ঘরে টিভি দেখি।"},
+                {german: "Schlafzimmer", article: "das", pronunciation: "['ʃlaːftsɪmɐ]", bengali: "শোবার ঘর", exampleGerman: "Mein Bett steht im Schlafzimmer.", exampleBengali: "আমার বিছানা শোবার ঘরে।"},
+                {german: "Küche", article: "die", pronunciation: "['kʏçə]", bengali: "রান্নাঘর", exampleGerman: "Die Küche ist sehr modern.", exampleBengali: "রান্নাঘরটি খুব আধুনিক।"},
+                {german: "Badezimmer", article: "das", pronunciation: "['baːdətsɪmɐ]", bengali: "বাথরুম", exampleGerman: "Das Badezimmer hat eine Dusche und eine Badewanne.", exampleBengali: "বাথরুমে একটি শাওয়ার এবং একটি বাথটাব আছে।"},
+                {german: "Toilette", article: "die", pronunciation: "[toa'lɛtə]", bengali: "টয়লেট", exampleGerman: "Wo ist die Toilette, bitte?", exampleBengali: "টয়লেট কোথায়, দয়া করে?"},
+                {german: "Flur", article: "der", pronunciation: "[fluːɐ̯]", bengali: "করিডোর", exampleGerman: "Die Schuhe stehen im Flur.", exampleBengali: "জুতো করিডোরে আছে।"},
+                {german: "Balkon", article: "der", pronunciation: "[bal'kɔn]", bengali: "বারান্দা", exampleGerman: "Im Sommer sitzen wir auf dem Balkon.", exampleBengali: "গ্রীষ্মে আমরা বারান্দায় বসি।"},
+                {german: "Garten", article: "der", pronunciation: "['gartən]", bengali: "বাগান", exampleGerman: "Die Kinder spielen im Garten.", exampleBengali: "বাচ্চারা বাগানে খেলছে।"},
+                {german: "Keller", article: "der", pronunciation: "['kɛlɐ]", bengali: "বেসমেন্ট", exampleGerman: "Im Keller lagern wir alte Sachen.", exampleBengali: "আমরা বেসমেন্টে পুরানো জিনিস রাখি।"},
+                {german: "Dach", article: "das", pronunciation: "[dax]", bengali: "ছাদ", exampleGerman: "Das Dach ist neu.", exampleBengali: "ছাদটি নতুন।"},
+                {german: "Tür", article: "die", pronunciation: "[tyːɐ̯]", bengali: "দরজা", exampleGerman: "Bitte schließ die Tür.", exampleBengali: "দয়া করে দরজা বন্ধ কর।"},
+                {german: "Fenster", article: "das", pronunciation: "['fɛnstɐ]", bengali: "জানালা", exampleGerman: "Mach bitte das Fenster auf.", exampleBengali: "দয়া করে জানালাটি খোল।"},
+                {german: "Wand", article: "die", pronunciation: "[vant]", bengali: "দেয়াল", exampleGerman: "Das Bild hängt an der Wand.", exampleBengali: "ছবিটি দেয়ালে ঝুলছে।"},
+                {german: "Boden", article: "der", pronunciation: "['boːdən]", bengali: "মেঝে", exampleGerman: "Der Boden ist aus Holz.", exampleBengali: "মেঝেটি কাঠের তৈরি।"},
+                {german: "Decke", article: "die", pronunciation: "['dɛkə]", bengali: "সিলিং", exampleGerman: "Die Lampe hängt an der Decke.", exampleBengali: "বাতিটি সিলিং থেকে ঝুলছে।"},
+                {german: "Treppe", article: "die", pronunciation: "['trɛpə]", bengali: "সিঁড়ি", exampleGerman: "Sei vorsichtig auf der Treppe.", exampleBengali: "সিঁড়িতে সাবধানে থেকো।"},
+                {german: "Licht", article: "das", pronunciation: "[lɪçt]", bengali: "আলো", exampleGerman: "Mach bitte das Licht an.", exampleBengali: "দয়া করে আলোটি জ্বালাও।"},
+                {german: "Schlüssel", article: "der", pronunciation: "['ʃlʏsəl]", bengali: "চাবি", exampleGerman: "Ich habe meinen Schlüssel verloren.", exampleBengali: "আমি আমার চাবি হারিয়ে ফেলেছি।"},
+                {german: "Möbel", article: "die (pl)", pronunciation: "['møːbəl]", bengali: "আসবাবপত্র", exampleGerman: "Wir kaufen neue Möbel für die Wohnung.", exampleBengali: "আমরা ফ্ল্যাটের জন্য নতুন আসবাবপত্র কিনছি।"},
+                {german: "Tisch", article: "der", pronunciation: "[tɪʃ]", bengali: "টেবিল", exampleGerman: "Das Buch liegt auf dem Tisch.", exampleBengali: "বইটি টেবিলের উপর আছে।"},
+                {german: "Stuhl", article: "der", pronunciation: "[ʃtuːl]", bengali: "চেয়ার", exampleGerman: "Setz dich auf den Stuhl.", exampleBengali: "চেয়ারে বসো।"},
+                {german: "Sofa", article: "das", pronunciation: "['zoːfa]", bengali: "সোফা", exampleGerman: "Das Sofa im Wohnzimmer ist sehr bequem.", exampleBengali: "বসার ঘরের সোফাটি খুব আরামদায়ক।"},
+                {german: "Bett", article: "das", pronunciation: "[bɛt]", bengali: "বিছানা", exampleGerman: "Ich gehe jetzt ins Bett.", exampleBengali: "আমি এখন বিছানায় যাচ্ছি।"},
+                {german: "Schrank", article: "der", pronunciation: "[ʃraŋk]", bengali: "আলমারি", exampleGerman: "Meine Kleidung ist im Schrank.", exampleBengali: "আমার পোশাক আলমারিতে আছে।"},
+                {german: "Regal", article: "das", pronunciation: "[re'gaːl]", bengali: "তাক", exampleGerman: "Die Bücher stehen im Regal.", exampleBengali: "বইগুলো তাকের উপর আছে।"},
+                {german: "Lampe", article: "die", pronunciation: "['lampə]", bengali: "বাতি", exampleGerman: "Die Lampe gibt ein warmes Licht.", exampleBengali: "বাতিটি একটি উষ্ণ আলো দেয়।"},
+                {german: "Teppich", article: "der", pronunciation: "['tɛpɪç]", bengali: "কার্পেট", exampleGerman: "Der Teppich ist sehr weich.", exampleBengali: "কার্পেটটি খুব নরম।"},
+                {german: "Vorhang", article: "der", pronunciation: "['foːɐ̯haŋ]", bengali: "পর্দা", exampleGerman: "Zieh bitte die Vorhänge zu.", exampleBengali: "দয়া করে পর্দাগুলো টেনে দাও।"},
+                {german: "Spiegel", article: "der", pronunciation: "['ʃpiːgəl]", bengali: "আয়না", exampleGerman: "Ich sehe mich im Spiegel an.", exampleBengali: "আমি আয়নায় নিজেকে দেখছি।"},
+                {german: "Bild", article: "das", pronunciation: "[bɪlt]", bengali: "ছবি", exampleGerman: "An der Wand hängt ein schönes Bild.", exampleBengali: "দেয়ালে একটি সুন্দর ছবি ঝুলছে।"},
+                {german: "Pflanze", article: "die", pronunciation: "['pflantsə]", bengali: "উদ্ভিদ/গাছ", exampleGerman: "Ich habe viele Pflanzen in meiner Wohnung.", exampleBengali: "আমার ফ্ল্যাটে অনেক গাছ আছে।"},
+                {german: "Heizung", article: "die", pronunciation: "['haɪtsʊŋ]", bengali: "হিটার", exampleGerman: "Im Winter schalten wir die Heizung ein.", exampleBengali: "শীতকালে আমরা হিটার চালু করি।"},
+                {german: "Kühlschrank", article: "der", pronunciation: "['kyːlʃraŋk]", bengali: "ফ্রিজ", exampleGerman: "Die Milch ist im Kühlschrank.", exampleBengali: "দুধ ফ্রিজে আছে।"},
+                {german: "Herd", article: "der", pronunciation: "[heːɐ̯t]", bengali: "চুলা", exampleGerman: "Der Topf steht auf dem Herd.", exampleBengali: "পাত্রটি চুলার উপর আছে।"},
+                {german: "Ofen", article: "der", pronunciation: "['oːfən]", bengali: "ওভেন", exampleGerman: "Der Kuchen ist im Ofen.", exampleBengali: "কেকটি ওভেনে আছে।"},
+                {german: "Mikrowelle", article: "die", pronunciation: "['miːkrovɛlə]", bengali: "মাইক্রোওয়েভ", exampleGerman: "Ich wärme das Essen in der Mikrowelle auf.", exampleBengali: "আমি মাইক্রোওয়েভে খাবার গরম করছি।"},
+                {german: "Spülmaschine", article: "die", pronunciation: "['ʃpyːlmaʃiːnə]", bengali: "ডিশওয়াশার", exampleGerman: "Das schmutzige Geschirr kommt in die Spülmaschine.", exampleBengali: "নোংরা বাসনপত্র ডিশওয়াশারে যায়।"},
+                {german: "Waschmaschine", article: "die", pronunciation: "['vaʃmaʃiːnə]", bengali: "ওয়াশিং মেশিন", exampleGerman: "Die Wäsche ist in der Waschmaschine.", exampleBengali: "কাপড় ওয়াশিং মেশিনে আছে।"},
+                {german: "Staubsauger", article: "der", pronunciation: "['ʃtaʊpzaʊgɐ]", bengali: "ভ্যাকুয়াম ক্লিনার", exampleGerman: "Ich muss mit dem Staubsauger saugen.", exampleBengali: "আমাকে ভ্যাকুয়াম ক্লিনার দিয়ে পরিষ্কার করতে হবে।"},
+                {german: "Fernseher", article: "der", pronunciation: "['fɛrnzeːɐ]", bengali: "টেলিভিশন", exampleGerman: "Der Fernseher ist kaputt.", exampleBengali: "টেলিভিশনটি নষ্ট হয়ে গেছে।"},
+                {german: "Radio", article: "das", pronunciation: "['raːdio]", bengali: "রেডিও", exampleGerman: "Ich höre morgens Radio.", exampleBengali: "আমি সকালে রেডিও শুনি।"},
+                {german: "Computer", article: "der", pronunciation: "[kɔm'pjuːtɐ]", bengali: "কম্পিউটার", exampleGerman: "Ich arbeite am Computer.", exampleBengali: "আমি কম্পিউটারে কাজ করি।"},
+                {german: "Telefon", article: "das", pronunciation: "['teːlefoːn]", bengali: "ফোন", exampleGerman: "Das Telefon klingelt.", exampleBengali: "ফোন বাজছে।"},
+                {german: "Handy", article: "das", pronunciation: "['hɛndi]", bengali: "মোবাইল ফোন", exampleGerman: "Wo ist mein Handy?", exampleBengali: "আমার মোবাইল ফোন কোথায়?"},
+                {german: "Miete", article: "die", pronunciation: "['miːtə]", bengali: "ভাড়া", exampleGerman: "Die Miete für die Wohnung ist hoch.", exampleBengali: "ফ্ল্যাটের ভাড়া বেশি।"},
+                {german: "Nachbar", article: "der", pronunciation: "['naxbaːr]", bengali: "প্রতিবেশী", exampleGerman: "Mein Nachbar ist sehr nett.", exampleBengali: "আমার প্রতিবেশী খুব ভালো।"},
+                {german: "Strom", article: "der", pronunciation: "[ʃtroːm]", bengali: "বিদ্যুৎ", exampleGerman: "Wir müssen Strom sparen.", exampleBengali: "আমাদের বিদ্যুৎ সাশ্রয় করতে হবে।"},
+                {german: "Wasser", article: "das", pronunciation: "['vasɐ]", bengali: "পানি", exampleGerman: "Das warme Wasser funktioniert nicht.", exampleBengali: "গরম পানি কাজ করছে না।"},
+                {german: "Müll", article: "der", pronunciation: "[mʏl]", bengali: "ময়লা", exampleGerman: "Ich muss den Müll rausbringen.", exampleBengali: "আমাকে ময়লা বাইরে নিয়ে যেতে হবে।"},
+                {german: "Briefkasten", article: "der", pronunciation: "['briːfkastən]", bengali: "চিঠির বাক্স", exampleGerman: "Ist Post im Briefkasten?", exampleBengali: "চিঠির বাক্সে কি কোনো চিঠি আছে?"},
+                {german: "Klingel", article: "die", pronunciation: "['klɪŋəl]", bengali: "কলিং বেল", exampleGerman: "Es hat an der Tür geklingelt.", exampleBengali: "দরজায় বেল বেজেছে।"},
+                {german: "wohnen", article: "", pronunciation: "['voːnən]", bengali: "বসবাস করা", exampleGerman: "Wo wohnen Sie?", exampleBengali: "আপনি কোথায় বাস করেন?"},
+                {german: "mieten", article: "", pronunciation: "['miːtən]", bengali: "ভাড়া করা", exampleGerman: "Wir mieten eine Wohnung.", exampleBengali: "আমরা একটি ফ্ল্যাট ভাড়া করেছি।"},
+                {german: "putzen", article: "", pronunciation: "['pʊtsən]", bengali: "পরিষ্কার করা", exampleGerman: "Ich muss heute das Bad putzen.", exampleBengali: "আমাকে আজ বাথরুম পরিষ্কার করতে হবে।"},
+                {german: "aufräumen", article: "", pronunciation: "['aʊfrɔʏmən]", bengali: "গোছানো", exampleGerman: "Du musst dein Zimmer aufräumen.", exampleBengali: "তোমাকে তোমার রুম গোছাতে হবে।"},
+                {german: "kochen", article: "", pronunciation: "['kɔxən]", bengali: "রান্না করা", exampleGerman: "Ich koche in der Küche.", exampleBengali: "আমি রান্নাঘরে রান্না করি।"},
+                {german: "Miete", article: "die", pronunciation: "[ˈmiːtə]", bengali: "ভাড়া", exampleGerman: "Die Miete für diese Wohnung ist 600 Euro pro Monat.", exampleBengali: "এই ফ্ল্যাটের ভাড়া প্রতি মাসে ৬০০ ইউরো।"},
+                {german: "Vermieter / die Vermieterin", article: "der/die", pronunciation: "[fɛɐ̯ˈmiːtɐ / fɛɐ̯ˈmiːtəʁɪn]", bengali: "বাড়িওয়ালা / বাড়িওয়ালী", exampleGerman: "Mein Vermieter ist sehr nett.", exampleBengali: "আমার বাড়িওয়ালা খুব ভালো।"},
+                {german: "Mieter / die Mieterin", article: "der/die", pronunciation: "[ˈmiːtɐ / ˈmiːtəʁɪn]", bengali: "ভাড়াটে", exampleGerman: "Die neuen Mieter ziehen morgen ein.", exampleBengali: "নতুন ভাড়াটেরা আগামীকাল উঠছে।"},
+                {german: "Nachbar / die Nachbarin", article: "der/die", pronunciation: "[ˈnaxbaːɐ̯ / ˈnaxbaːʁɪn]", bengali: "প্রতিবেশী", exampleGerman: "Meine Nachbarn sind manchmal laut.", exampleBengali: "আমার প্রতিবেশীরা মাঝে মাঝে কোলাহল করে।"},
+                {german: "Umzug", article: "der", pronunciation: "[ˈʊmˌt͡suːk]", bengali: "বাড়ি বদল", exampleGerman: "Der Umzug in die neue Wohnung war anstrengend.", exampleBengali: "নতুন ফ্ল্যাটে বাড়ি বদল করাটা ক্লান্তিকর ছিল।"},
+                {german: "Kaution", article: "die", pronunciation: "[kaʊ̯ˈt͡si̯oːn]", bengali: "জামানত", exampleGerman: "Vor dem Einzug muss man eine Kaution bezahlen.", exampleBengali: "ওঠার আগে একজনকে জামানত পরিশোধ করতে হয়।"},
+                {german: "Nebenkosten", article: "die (pl.)", pronunciation: "[ˈneːbn̩ˌkɔstn̩]", bengali: "অতিরিক্ত খরচ (সার্ভিস চার্জ)", exampleGerman: "Die Miete ist 500 Euro plus Nebenkosten.", exampleBengali: "ভাড়া ৫০০ ইউরো এবং এর সাথে অতিরিক্ত খরচ আছে।"},
+                {german: "möbliert", article: "", pronunciation: "[møˈbliːɐ̯t]", bengali: "আসবাবপত্রসহ", exampleGerman: "Ich suche eine möblierte Wohnung.", exampleBengali: "আমি আসবাবপত্রসহ একটি ফ্ল্যাট খুঁজছি।"}
+
+            ],
+             // 5: Farben & Zahlen (50)
+            [
+                {german: "Farbe", article: "die", pronunciation: "['farbə]", bengali: "রঙ", exampleGerman: "Was ist deine Lieblingsfarbe?", exampleBengali: "তোমার প্রিয় রঙ কী?"},
+                {german: "rot", article: "", pronunciation: "[roːt]", bengali: "লাল", exampleGerman: "Der Apfel ist rot.", exampleBengali: "আপেলটি লাল।"},
+                {german: "blau", article: "", pronunciation: "[blaʊ]", bengali: "নীল", exampleGerman: "Der Himmel ist blau.", exampleBengali: "আকাশ নীল।"},
+                {german: "gelb", article: "", pronunciation: "[gɛlp]", bengali: "হলুদ", exampleGerman: "Die Zitrone ist gelb.", exampleBengali: "লেবুটি হলুদ।"},
+                {german: "grün", article: "", pronunciation: "[gryːn]", bengali: "সবুজ", exampleGerman: "Das Gras ist grün.", exampleBengali: "ঘাস সবুজ।"},
+                {german: "schwarz", article: "", pronunciation: "[ʃvarts]", bengali: "কালো", exampleGerman: "Die Nacht ist schwarz.", exampleBengali: "রাত কালো।"},
+                {german: "weiß", article: "", pronunciation: "[vaɪs]", bengali: "সাদা", exampleGerman: "Der Schnee ist weiß.", exampleBengali: "বরফ সাদা।"},
+                {german: "grau", article: "", pronunciation: "[graʊ]", bengali: "ধূসর", exampleGerman: "Der Himmel ist heute grau.", exampleBengali: "আজ আকাশ ধূসর।"},
+                {german: "braun", article: "", pronunciation: "[braʊn]", bengali: "বাদামী", exampleGerman: "Der Bär ist braun.", exampleBengali: "ভালুকটি বাদামী।"},
+                {german: "orange", article: "", pronunciation: "[o'rã:ʒə]", bengali: "কমলা", exampleGerman: "Die Karotte ist orange.", exampleBengali: "গাজরটি কমলা।"},
+                {german: "lila", article: "", pronunciation: "['liːla]", bengali: "বেগুনি", exampleGerman: "Ihr Kleid ist lila.", exampleBengali: "তার পোশাকটি বেগুনি।"},
+                {german: "rosa", article: "", pronunciation: "['roːza]", bengali: "গোলাপী", exampleGerman: "Das Schwein ist rosa.", exampleBengali: "শূকরটি গোলাপী।"},
+                {german: "bunt", article: "", pronunciation: "[bʊnt]", bengali: "রঙিন", exampleGerman: "Der Vogel ist bunt.", exampleBengali: "পাখিটি রঙিন।"},
+                {german: "hell", article: "", pronunciation: "[hɛl]", bengali: "হালকা", exampleGerman: "Das ist ein helles Grün.", exampleBengali: "এটি একটি হালকা সবুজ।"},
+                {german: "dunkel", article: "", pronunciation: "['dʊŋkəl]", bengali: "গাঢ়", exampleGerman: "Ich mag dunkelblau.", exampleBengali: "আমি গাঢ় নীল পছন্দ করি।"},
+                {german: "Zahl", article: "die", pronunciation: "[tsaːl]", bengali: "সংখ্যা", exampleGerman: "Nenne mir eine Zahl.", exampleBengali: "আমাকে একটি সংখ্যা বল।"},
+                {german: "null", article: "", pronunciation: "[nʊl]", bengali: "শূন্য", exampleGerman: "Es ist null Grad Celsius.", exampleBengali: "তাপমাত্রা শূন্য ডিগ্রি সেলসিয়াস।"},
+                {german: "eins", article: "", pronunciation: "[aɪns]", bengali: "এক", exampleGerman: "Ich habe einen Hund.", exampleBengali: "আমার একটি কুকুর আছে।"},
+                {german: "zwei", article: "", pronunciation: "[tsvaɪ]", bengali: "দুই", exampleGerman: "Ich habe zwei Schwestern.", exampleBengali: "আমার দুই বোন আছে।"},
+                {german: "drei", article: "", pronunciation: "[draɪ]", bengali: "তিন", exampleGerman: "Das Auto hat drei Räder? Nein, vier.", exampleBengali: "গাড়িটির কি তিনটি চাকা? না, চারটি।"},
+                {german: "vier", article: "", pronunciation: "[fiːɐ̯]", bengali: "চার", exampleGerman: "Ein Tisch hat vier Beine.", exampleBengali: "একটি টেবিলের চারটি পা আছে।"},
+                {german: "fünf", article: "", pronunciation: "[fʏnf]", bengali: "পাঁচ", exampleGerman: "Eine Hand hat fünf Finger.", exampleBengali: "একটি হাতে পাঁচটি আঙুল থাকে।"},
+                {german: "sechs", article: "", pronunciation: "[zɛks]", bengali: "ছয়", exampleGerman: "Ein Würfel hat sechs Seiten.", exampleBengali: "একটি ছক্কার ছয়টি দিক থাকে।"},
+                {german: "sieben", article: "", pronunciation: "['ziːbən]", bengali: "সাত", exampleGerman: "Eine Woche hat sieben Tage.", exampleBengali: "এক সপ্তাহে সাত দিন থাকে।"},
+                {german: "acht", article: "", pronunciation: "[axt]", bengali: "আট", exampleGerman: "Eine Spinne hat acht Beine.", exampleBengali: "একটি মাকড়সার আটটি পা আছে।"},
+                {german: "neun", article: "", pronunciation: "[nɔʏn]", bengali: "নয়", exampleGerman: "Neun plus eins ist zehn.", exampleBengali: "নয় যোগ এক দশ হয়।"},
+                {german: "zehn", article: "", pronunciation: "[tseːn]", bengali: "দশ", exampleGerman: "Ich habe zehn Euro.", exampleBengali: "আমার কাছে দশ ইউরো আছে।"},
+                {german: "elf", article: "", pronunciation: "[ɛlf]", bengali: "এগারো", exampleGerman: "Die Fußballmannschaft hat elf Spieler.", exampleBengali: "ফুটবল দলে এগারোজন খেলোয়াড় থাকে।"},
+                {german: "zwölf", article: "", pronunciation: "[tsvœlf]", bengali: "বারো", exampleGerman: "Ein Jahr hat zwölf Monate.", exampleBengali: "এক বছরে বারো মাস থাকে।"},
+                {german: "dreizehn", article: "", pronunciation: "['draɪtseːn]", bengali: "তেরো", exampleGerman: "Freitag, der dreizehnte, ist ein Unglückstag.", exampleBengali: "শুক্রবার তেরো তারিখ একটি দুর্ভাগ্যের দিন।"},
+                {german: "vierzehn", article: "", pronunciation: "['fɪɐ̯tseːn]", bengali: "চৌদ্দ", exampleGerman: "Sie ist vierzehn Jahre alt.", exampleBengali: "তার বয়স চৌদ্দ বছর।"},
+                {german: "fünfzehn", article: "", pronunciation: "['fʏnftseːn]", bengali: "পনেরো", exampleGerman: "Der Bus kommt in fünfzehn Minuten.", exampleBengali: "বাসটি পনেরো মিনিটের মধ্যে আসবে।"},
+                {german: "sechzehn", article: "", pronunciation: "['zɛçtseːn]", bengali: "ষোল", exampleGerman: "Mit sechzehn darf man in Deutschland Bier trinken.", exampleBengali: "ষোল বছর বয়সে জার্মানিতে বিয়ার পান করা যায়।"},
+                {german: "siebzehn", article: "", pronunciation: "['ziːptseːn]", bengali: "সতেরো", exampleGerman: "Mein Bruder ist siebzehn.", exampleBengali: "আমার ভাইয়ের বয়স সতেরো।"},
+                {german: "achtzehn", article: "", pronunciation: "['axtseːn]", bengali: "আঠারো", exampleGerman: "Mit achtzehn ist man volljährig.", exampleBengali: "আঠারো বছর বয়সে একজন প্রাপ্তবয়স্ক হয়।"},
+                {german: "neunzehn", article: "", pronunciation: "['nɔʏntseːn]", bengali: "উনিশ", exampleGerman: "Das Buch hat neunzehn Kapitel.", exampleBengali: "বইটিতে উনিশটি অধ্যায় আছে।"},
+                {german: "zwanzig", article: "", pronunciation: "['tsvantsɪç]", bengali: "বিশ", exampleGerman: "Ich habe zwanzig Euro.", exampleBengali: "আমার কাছে বিশ ইউরো আছে।"},
+                {german: "einundzwanzig", article: "", pronunciation: "['aɪnʊntsvantsɪç]", bengali: "একুশ", exampleGerman: "Mein Geburtstag ist am einundzwanzigsten Mai.", exampleBengali: "আমার জন্মদিন একুশে মে।"},
+                {german: "dreißig", article: "", pronunciation: "['draɪsɪç]", bengali: "ত্রিশ", exampleGerman: "Der Monat hat dreißig oder einunddreißig Tage.", exampleBengali: "মাসে ত্রিশ বা একত্রিশ দিন থাকে।"},
+                {german: "vierzig", article: "", pronunciation: "['fɪɐ̯tsɪç]", bengali: "চল্লিশ", exampleGerman: "Mein Vater ist vierzig Jahre alt.", exampleBengali: "আমার বাবার বয়স চল্লিশ বছর।"},
+                {german: "fünfzig", article: "", pronunciation: "['fʏnftsɪç]", bengali: "পঞ্চাশ", exampleGerman: "Das kostet fünfzig Euro.", exampleBengali: "এটির দাম পঞ্চাশ ইউরো।"},
+                {german: "sechzig", article: "", pronunciation: "['zɛçtsɪç]", bengali: "ষাট", exampleGerman: "Eine Stunde hat sechzig Minuten.", exampleBengali: "এক ঘণ্টায় ষাট মিনিট থাকে।"},
+                {german: "siebzig", article: "", pronunciation: "['ziːptsɪç]", bengali: "সত্তর", exampleGerman: "Mein Großvater ist siebzig.", exampleBengali: "আমার দাদার বয়স সত্তর।"},
+                {german: "achtzig", article: "", pronunciation: "['axtsɪç]", bengali: "আশি", exampleGerman: "Die Höchstgeschwindigkeit ist achtzig km/h.", exampleBengali: "সর্বোচ্চ গতিসীমা আশি কিমি/ঘন্টা।"},
+                {german: "neunzig", article: "", pronunciation: "['nɔʏntsɪç]", bengali: "নব্বই", exampleGerman: "Ein rechter Winkel hat neunzig Grad.", exampleBengali: "একটি সমকোণের মান নব্বই ডিগ্রি।"},
+                {german: "hundert", article: "", pronunciation: "['hʊndɐt]", bengali: "একশ", exampleGerman: "Ich habe hundert Bücher.", exampleBengali: "আমার একশটি বই আছে।"},
+                {german: "tausend", article: "", pronunciation: "['taʊzənt]", bengali: "এক হাজার", exampleGerman: "Das Fahrrad kostet tausend Euro.", exampleBengali: "সাইকেলটির দাম এক হাজার ইউরো।"},
+                {german: "Million", article: "die", pronunciation: "[mɪ'li̯oːn]", bengali: "দশ লক্ষ", exampleGerman: "Die Stadt hat eine Million Einwohner.", exampleBengali: "শহরটিতে দশ লক্ষ বাসিন্দা রয়েছে।"},
+                {german: "erste", article: "", pronunciation: "['eːɐ̯stə]", bengali: "প্রথম", exampleGerman: "Das ist die erste Seite.", exampleBengali: "এটি প্রথম পৃষ্ঠা।"},
+                {german: "letzte", article: "", pronunciation: "['lɛtstə]", bengali: "শেষ", exampleGerman: "Das ist die letzte Frage.", exampleBengali: "এটি শেষ প্রশ্ন।"}
+            ],
+            // All other topics filled below...
+            // 6: Berufe (35)
+            [
+                {german: "Beruf", article: "der", pronunciation: "[bə'ruːf]", bengali: "পেশা", exampleGerman: "Was sind Sie von Beruf?", exampleBengali: "আপনার পেশা কী?"},
+                {german: "Arzt", article: "der", pronunciation: "[aːɐ̯tst]", bengali: "ডাক্তার (পুরুষ)", exampleGerman: "Ich gehe zum Arzt.", exampleBengali: "আমি ডাক্তারের কাছে যাচ্ছি।"},
+                {german: "Ärztin", article: "die", pronunciation: "['ɛrts.tɪn]", bengali: "ডাক্তার (মহিলা)", exampleGerman: "Die Ärztin ist sehr freundlich.", exampleBengali: "ডাক্তার (মহিলা) খুব বন্ধুত্বপূর্ণ।"},
+                {german: "Lehrer", article: "der", pronunciation: "['leːrɐ]", bengali: "শিক্ষক (পুরুষ)", exampleGerman: "Mein Lehrer erklärt gut.", exampleBengali: "আমার শিক্ষক ভালো ব্যাখ্যা করেন।"},
+                {german: "Lehrerin", article: "die", pronunciation: "['leːrərɪn]", bengali: "শিক্ষিকা", exampleGerman: "Die Lehrerin gibt Hausaufgaben.", exampleBengali: "শিক্ষিকা বাড়ির কাজ দেন।"},
+                {german: "Ingenieur", article: "der", pronunciation: "[ɪnʒe'ni̯øːɐ̯]", bengali: "প্রকৌশলী (পুরুষ)", exampleGerman: "Er arbeitet als Ingenieur bei Siemens.", exampleBengali: "তিনি সিমেন্সে একজন প্রকৌশলী হিসেবে কাজ করেন।"},
+                {german: "Ingenieurin", article: "die", pronunciation: "[ɪnʒe'ni̯øːrɪn]", bengali: "প্রকৌশলী (মহিলা)", exampleGerman: "Sie ist eine erfolgreiche Ingenieurin.", exampleBengali: "তিনি একজন সফল প্রকৌশলী।"},
+                {german: "Student", article: "der", pronunciation: "[ʃtu'dɛnt]", bengali: "ছাত্র (বিশ্ববিদ্যালয়)", exampleGerman: "Er ist Student an der Universität.", exampleBengali: "সে বিশ্ববিদ্যালয়ের ছাত্র।"},
+                {german: "Studentin", article: "die", pronunciation: "[ʃtu'dɛntɪn]", bengali: "ছাত্রী (বিশ্ববিদ্যালয়)", exampleGerman: "Sie ist Studentin der Medizin.", exampleBengali: "সে মেডিসিনের ছাত্রী।"},
+                {german: "Kellner", article: "der", pronunciation: "['kɛlnɐ]", bengali: "ওয়েটার", exampleGerman: "Der Kellner bringt die Speisekarte.", exampleBengali: "ওয়েটার মেনু কার্ড নিয়ে আসছে।"},
+                {german: "Kellnerin", article: "die", pronunciation: "['kɛlnərɪn]", bengali: "ওয়েট্রেস", exampleGerman: "Die Kellnerin nimmt die Bestellung auf.", exampleBengali: "ওয়েট্রেস অর্ডার নিচ্ছে।"},
+                {german: "Koch", article: "der", pronunciation: "[kɔx]", bengali: "রাঁধুনি (পুরুষ)", exampleGerman: "Der Koch bereitet das Essen zu.", exampleBengali: "রাঁধুনি খাবার তৈরি করছে।"},
+                {german: "Köchin", article: "die", pronunciation: "['kœçɪn]", bengali: "রাঁধুনি (মহিলা)", exampleGerman: "Sie ist eine berühmte Köchin.", exampleBengali: "তিনি একজন বিখ্যাত রাঁধুনি।"},
+                {german: "Polizist", article: "der", pronunciation: "[poli'tsɪst]", bengali: "পুলিশ (পুরুষ)", exampleGerman: "Der Polizist regelt den Verkehr.", exampleBengali: "পুলিশ ট্র্যাফিক নিয়ন্ত্রণ করছে।"},
+                {german: "Polizistin", article: "die", pronunciation: "[poli'tsɪstɪn]", bengali: "পুলিশ (মহিলা)", exampleGerman: "Die Polizistin hat mir geholfen.", exampleBengali: "মহিলা পুলিশ আমাকে সাহায্য করেছেন।"},
+                {german: "Feuerwehrmann", article: "der", pronunciation: "['fɔʏɐveːɐ̯man]", bengali: "দমকলকর্মী (পুরুষ)", exampleGerman: "Der Feuerwehrmann löscht das Feuer.", exampleBengali: "দমকলকর্মী আগুন নেভাচ্ছে।"},
+                {german: "Friseur", article: "der", pronunciation: "[fri'zøːɐ̯]", bengali: "নাপিত (পুরুষ)", exampleGerman: "Ich gehe zum Friseur.", exampleBengali: "আমি নাপিতের কাছে যাচ্ছি।"},
+                {german: "Friseurin", article: "die", pronunciation: "[fri'zøːrɪn]", bengali: "নাপিত (মহিলা)", exampleGerman: "Die Friseurin schneidet meine Haare.", exampleBengali: "মহিলা নাপিত আমার চুল কাটছে।"},
+                {german: "Verkäufer", article: "der", pronunciation: "[fɛɐ̯'kɔʏfɐ]", bengali: "বিক্রেতা (পুরুষ)", exampleGerman: "Der Verkäufer im Laden ist hilfsbereit.", exampleBengali: "দোকানের বিক্রেতা সাহায্যকারী।"},
+                {german: "Verkäuferin", article: "die", pronunciation: "[fɛɐ̯'kɔʏfərɪn]", bengali: "বিক্রেতা (মহিলা)", exampleGerman: "Die Verkäuferin zeigt mir ein Kleid.", exampleBengali: "বিক্রেতা আমাকে একটি পোশাক দেখাচ্ছে।"},
+                {german: "Bäcker", article: "der", pronunciation: "['bɛkɐ]", bengali: "রুটিওয়ালা", exampleGerman: "Der Bäcker backt frisches Brot.", exampleBengali: "রুটিওয়ালা তাজা রুটি তৈরি করে।"},
+                {german: "Metzger", article: "der", pronunciation: "['mɛtsgɐ]", bengali: "কসাই", exampleGerman: "Ich kaufe Fleisch beim Metzger.", exampleBengali: "আমি কসাইয়ের কাছ থেকে মাংস কিনি।"},
+                {german: "Bauer", article: "der", pronunciation: "['baʊɐ]", bengali: "কৃষক", exampleGerman: "Der Bauer arbeitet auf dem Feld.", exampleBengali: "কৃষক মাঠে কাজ করে।"},
+                {german: "Maler", article: "der", pronunciation: "['maːlɐ]", bengali: "চিত্রকর/রংমিস্ত্রি", exampleGerman: "Der Maler streicht die Wände weiß.", exampleBengali: "রংমিস্ত্রি দেয়াল সাদা রং করছে।"},
+                {german: "Mechaniker", article: "der", pronunciation: "[me'çaːnɪkɐ]", bengali: "মেকানিক", exampleGerman: "Der Mechaniker repariert mein Auto.", exampleBengali: "মেকানিক আমার গাড়ি মেরামত করছে।"},
+                {german: "Architekt", article: "der", pronunciation: "[arçi'tɛkt]", bengali: "স্থপতি", exampleGerman: "Der Architekt plant das neue Gebäude.", exampleBengali: "স্থপতি নতুন ভবনটির পরিকল্পনা করছেন।"},
+                {german: "Journalist", article: "der", pronunciation: "[ʒʊrna'lɪst]", bengali: "সাংবাদিক", exampleGerman: "Der Journalist schreibt einen Artikel.", exampleBengali: "সাংবাদিক একটি প্রবন্ধ লিখছেন।"},
+                {german: "Fotograf", article: "der", pronunciation: "[foto'graːf]", bengali: "ফটোগ্রাফার", exampleGerman: "Der Fotograf macht schöne Bilder.", exampleBengali: "ফটোগ্রাফার সুন্দর ছবি তোলে।"},
+                {german: "Musiker", article: "der", pronunciation: "['muːzɪkɐ]", bengali: "সংগীতশিল্পী", exampleGerman: "Er ist ein talentierter Musiker.", exampleBengali: "তিনি একজন প্রতিভাবান সংগীতশিল্পী।"},
+                {german: "Schauspieler", article: "der", pronunciation: "['ʃaʊʃpiːlɐ]", bengali: "অভিনেতা", exampleGerman: "Er ist ein berühmter Schauspieler.", exampleBengali: "তিনি একজন বিখ্যাত অভিনেতা।"},
+                {german: "Künstler", article: "der", pronunciation: "['kʏnstlɐ]", bengali: "শিল্পী", exampleGerman: "Der Künstler malt ein Porträt.", exampleBengali: "শিল্পী একটি প্রতিকৃতি আঁকছেন।"},
+                {german: "Sekretärin", article: "die", pronunciation: "[zekre'tɛːrɪn]", bengali: "সচিব (মহিলা)", exampleGerman: "Die Sekretärin beantwortet das Telefon.", exampleBengali: "সচিব ফোনে উত্তর দিচ্ছেন।"},
+                {german: "Taxifahrer", article: "der", pronunciation: "['taksifaːrɐ]", bengali: "ট্যাক্সি চালক", exampleGerman: "Der Taxifahrer kennt die Stadt gut.", exampleBengali: "ট্যাক্সি চালক শহরটি ভালো করে চেনেন।"},
+                {german: "Arbeit", article: "die", pronunciation: "['arbaɪt]", bengali: "কাজ", exampleGerman: "Ich gehe zur Arbeit.", exampleBengali: "আমি কাজে যাচ্ছি।"},
+                {german: "arbeiten", article: "", pronunciation: "['arbaɪtən]", bengali: "কাজ করা", exampleGerman: "Wo arbeiten Sie?", exampleBengali: "আপনি কোথায় কাজ করেন?"},
+                {german: "Karriere", article: "die", pronunciation: "[kaˈʁi̯eːʁə]", bengali: "কর্মজীবন/ক্যারিয়ার", exampleGerman: "Sie hat eine beeindruckende Karriere in der IT-Branche gemacht.", exampleBengali: "তিনি আইটি শিল্পে একটি চিত্তাকর্ষক ক্যারিয়ার তৈরি করেছেন।"},
+                {german: "Arbeitgeber", article: "der", pronunciation: "[ˈaʁbaɪ̯tˌɡeːbɐ]", bengali: "নিয়োগকর্তা", exampleGerman: "Mein Arbeitgeber bietet flexible Arbeitszeiten an.", exampleBengali: "আমার নিয়োগকর্তা নমনীয় কাজের সময় অফার করেন।"},
+                {german: "Arbeitnehmer", article: "der", pronunciation: "[ˈaʁbaɪ̯tˌneːmɐ]", bengali: "কর্মী/কর্মচারী", exampleGerman: "Die Arbeitnehmer fordern eine Gehaltserhöhung.", exampleBengali: "কর্মচারীরা বেতন বৃদ্ধির দাবি জানাচ্ছেন।"},
+                {german: "Vorstellungsgespräch", article: "das", pronunciation: "[ˈfoːɐ̯ʃtɛlʊŋsɡəˌʃpʁɛːç]", bengali: "চাকরির ইন্টারভিউ", exampleGerman: "Morgen habe ich ein Vorstellungsgespräch bei einer großen Firma.", exampleBengali: "আগামীকাল একটি বড় কোম্পানিতে আমার একটি চাকরির ইন্টারভিউ আছে।"},
+                {german: "sich bewerben um", article: "", pronunciation: "[zɪç bəˈvɛʁbn̩ ʊm]", bengali: "আবেদন করা", exampleGerman: "Er bewirbt sich um eine Stelle als Ingenieur.", exampleBengali: "সে একজন প্রকৌশলী হিসেবে একটি পদের জন্য আবেদন করছে।"},
+                {german: "Fähigkeit", article: "die", pronunciation: "[ˈfɛːɪçkaɪ̯t]", bengali: "দক্ষতা", exampleGerman: "Teamfähigkeit ist eine wichtige soziale Fähigkeit.", exampleBengali: "দলবদ্ধভাবে কাজ করার ক্ষমতা একটি গুরুত্বপূর্ণ সামাজিক দক্ষতা।"},
+                {german: "Erfahrung", article: "die", pronunciation: "[ɛɐ̯ˈfaːʁʊŋ]", bengali: "অভিজ্ঞতা", exampleGerman: "Für diesen Job braucht man viel Erfahrung.", exampleBengali: "এই চাকরির জন্য অনেক অভিজ্ঞতা প্রয়োজন।"},
+                {german: "Weiterbildung", article: "die", pronunciation: "[ˈvaɪ̯tɐˌbɪldʊŋ]", bengali: "উচ্চতর প্রশিক্ষণ", exampleGerman: "Durch eine Weiterbildung kann man seine Karrierechancen verbessern.", exampleBengali: "উচ্চতর প্রশিক্ষণের মাধ্যমে একজন তার ক্যারিয়ারের সুযোগ উন্নত করতে পারে।"}
+
+            ],
+            // 7: Verkehr (45)
+            [
+                {german: "Verkehr", article: "der", pronunciation: "[fɛɐ̯'keːɐ̯]", bengali: "ট্র্যাফিক/যানবাহন ব্যবস্থা", exampleGerman: "Der Verkehr in der Stadt ist schrecklich.", exampleBengali: "শহরের ট্র্যাফিক ভয়াবহ।"},
+                {german: "Auto", article: "das", pronunciation: "['aʊto]", bengali: "গাড়ি", exampleGerman: "Ich fahre mit dem Auto zur Arbeit.", exampleBengali: "আমি গাড়িতে করে কাজে যাই।"},
+                {german: "Fahrrad", article: "das", pronunciation: "['faːɐ̯raːt]", bengali: "সাইকেল", exampleGerman: "Bei gutem Wetter fahre ich Fahrrad.", exampleBengali: "ভালো আবহাওয়ায় আমি সাইকেল চালাই।"},
+                {german: "Bus", article: "der", pronunciation: "[bʊs]", bengali: "বাস", exampleGerman: "Der Bus kommt alle zehn Minuten.", exampleBengali: "বাস প্রতি দশ মিনিটে আসে।"},
+                {german: "Zug", article: "der", pronunciation: "[tsuːk]", bengali: "ট্রেন", exampleGerman: "Ich nehme den Zug nach Berlin.", exampleBengali: "আমি বার্লিনের জন্য ট্রেন নিচ্ছি।"},
+                {german: "U-Bahn", article: "die", pronunciation: "['uːbaːn]", bengali: "পাতাল রেল/মেট্রো", exampleGerman: "Die U-Bahn ist schnell und praktisch.", exampleBengali: "মেট্রো দ্রুত এবং সুবিধাজনক।"},
+                {german: "S-Bahn", article: "die", pronunciation: "['ɛsbaːn]", bengali: "শহরতলির ট্রেন", exampleGerman: "Die S-Bahn fährt auch in die Vororte.", exampleBengali: "এস-বান শহরতলিতেও যায়।"},
+                {german: "Straßenbahn", article: "die", pronunciation: "['ʃtraːsənbaːn]", bengali: "ট্রাম", exampleGerman: "In vielen Städten gibt es eine Straßenbahn.", exampleBengali: "অনেক শহরে ট্রাম আছে।"},
+                {german: "Flugzeug", article: "das", pronunciation: "['fluːktsɔʏk]", bengali: "বিমান", exampleGerman: "Wir fliegen mit dem Flugzeug in den Urlaub.", exampleBengali: "আমরা বিমানে করে ছুটিতে যাচ্ছি।"},
+                {german: "Schiff", article: "das", pronunciation: "[ʃɪf]", bengali: "জাহাজ", exampleGerman: "Das Schiff überquert den Ozean.", exampleBengali: "জাহাজটি মহাসাগর পাড়ি দেয়।"},
+                {german: "Boot", article: "das", pronunciation: "[boːt]", bengali: "নৌকা", exampleGerman: "Wir machen eine Bootsfahrt auf dem See.", exampleBengali: "আমরা লেকে একটি নৌকা ভ্রমণ করছি।"},
+                {german: "Motorrad", article: "das", pronunciation: "['moːtoːraːt]", bengali: "মোটরসাইকেল", exampleGerman: "Er fährt ein schnelles Motorrad.", exampleBengali: "সে একটি দ্রুতগতির মোটরসাইকেল চালায়।"},
+                {german: "Taxi", article: "das", pronunciation: "['taksi]", bengali: "ট্যাক্সি", exampleGerman: "Können Sie mir ein Taxi rufen?", exampleBengali: "আপনি কি আমার জন্য একটি ট্যাক্সি ডাকতে পারেন?"},
+                {german: "Lastwagen (LKW)", article: "der", pronunciation: "['lastvaːgən]", bengali: "ট্রাক", exampleGerman: "Der LKW transportiert Waren.", exampleBengali: "ট্রাকটি মালামাল পরিবহন করে।"},
+                {german: "Bahnhof", article: "der", pronunciation: "['baːnhoːf]", bengali: "রেল স্টেশন", exampleGerman: "Der Zug fährt vom Hauptbahnhof ab.", exampleBengali: "ট্রেনটি প্রধান রেল স্টেশন থেকে ছাড়ে।"},
+                {german: "Flughafen", article: "der", pronunciation: "['fluːkhaːfən]", bengali: "বিমানবন্দর", exampleGerman: "Wir müssen in zwei Stunden am Flughafen sein.", exampleBengali: "আমাদের দুই ঘণ্টার মধ্যে বিমানবন্দরে থাকতে হবে।"},
+                {german: "Haltestelle", article: "die", pronunciation: "['haltəʃtɛlə]", bengali: "বাস স্টপ", exampleGerman: "Die nächste Bushaltestelle ist um die Ecke.", exampleBengali: "পরবর্তী বাস স্টপটি কোণায়।"},
+                {german: "Gleis", article: "das", pronunciation: "[glaɪs]", bengali: "প্ল্যাটফর্ম (ট্রেন)", exampleGerman: "Der Zug nach München fährt von Gleis 5.", exampleBengali: "মিউনিখের ট্রেন প্ল্যাটফর্ম ৫ থেকে ছাড়বে।"},
+                {german: "Straße", article: "die", pronunciation: "['ʃtraːsə]", bengali: "রাস্তা", exampleGerman: "Diese Straße führt ins Stadtzentrum.", exampleBengali: "এই রাস্তাটি শহরের কেন্দ্রে যায়।"},
+                {german: "Weg", article: "der", pronunciation: "[veːk]", bengali: "পথ", exampleGerman: "Kennen Sie den Weg zum Bahnhof?", exampleBengali: "আপনি কি স্টেশনের পথ চেনেন?"},
+                {german: "Kreuzung", article: "die", pronunciation: "['krɔʏtsʊŋ]", bengali: "মোড়", exampleGerman: "An der nächsten Kreuzung biegen Sie rechts ab.", exampleBengali: "পরবর্তী মোড়ে ডানদিকে ঘুরবেন।"},
+                {german: "Ampel", article: "die", pronunciation: "['ampəl]", bengali: "ট্র্যাফিক লাইট", exampleGerman: "Die Ampel ist rot, wir müssen warten.", exampleBengali: "ট্র্যাফিক লাইট লাল, আমাদের অপেক্ষা করতে হবে।"},
+                {german: "Brücke", article: "die", pronunciation: "['brʏkə]", bengali: "সেতু", exampleGerman: "Wir fahren über eine lange Brücke.", exampleBengali: "আমরা একটি দীর্ঘ সেতুর উপর দিয়ে যাচ্ছি।"},
+                {german: "Tunnel", article: "der", pronunciation: "['tʊnəl]", bengali: "টানেল/সুড়ঙ্গ", exampleGerman: "Der Zug fährt durch einen Tunnel.", exampleBengali: "ট্রেনটি একটি টানেলের মধ্য দিয়ে যাচ্ছে।"},
+                {german: "fahren", article: "", pronunciation: "['faːrən]", bengali: "চালানো/যাওয়া (যানে)", exampleGerman: "Ich fahre mit dem Bus.", exampleBengali: "আমি বাসে করে যাই।"},
+                {german: "fliegen", article: "", pronunciation: "['fliːgən]", bengali: "উড়ে যাওয়া", exampleGerman: "Nächstes Jahr fliegen wir nach Spanien.", exampleBengali: "আগামী বছর আমরা স্পেনে উড়ে যাব।"},
+                {german: "gehen", article: "", pronunciation: "['geːən]", bengali: "হেঁটে যাওয়া", exampleGerman: "Ich gehe zu Fuß zur Schule.", exampleBengali: "আমি পায়ে হেঁটে স্কুলে যাই।"},
+                {german: "abfahren", article: "", pronunciation: "['apfaːrən]", bengali: "ছেড়ে যাওয়া (যান)", exampleGerman: "Wann fährt der Zug ab?", exampleBengali: "ট্রেন কখন ছাড়বে?"},
+                {german: "ankommen", article: "", pronunciation: "['ankɔmən]", bengali: "পৌঁছানো", exampleGerman: "Der Bus kommt pünktlich an.", exampleBengali: "বাস সময়মতো পৌঁছায়।"},
+                {german: "einsteigen", article: "", pronunciation: "['aɪnʃtaɪgən]", bengali: "ওঠা (যানে)", exampleGerman: "Bitte hier einsteigen.", exampleBengali: "দয়া করে এখানে উঠুন।"},
+                {german: "aussteigen", article: "", pronunciation: "['aʊsʃtaɪgən]", bengali: "নামা (যান থেকে)", exampleGerman: "An der nächsten Haltestelle steige ich aus.", exampleBengali: "পরবর্তী স্টপে আমি নামব।"},
+                {german: "umsteigen", article: "", pronunciation: "['ʊmʃtaɪgən]", bengali: "যান পরিবর্তন করা", exampleGerman: "In Frankfurt müssen wir umsteigen.", exampleBengali: "ফ্রাঙ্কফুর্টে আমাদের ট্রেন পরিবর্তন করতে হবে।"},
+                {german: "Fahrkarte", article: "die", pronunciation: "['faːɐ̯kartə]", bengali: "টিকেট", exampleGerman: "Haben Sie eine Fahrkarte?", exampleBengali: "আপনার কি টিকেট আছে?"},
+                {german: "Ticket", article: "das", pronunciation: "['tɪkət]", bengali: "টিকেট", exampleGerman: "Ich muss noch ein Ticket kaufen.", exampleBengali: "আমাকে এখনও একটি টিকেট কিনতে হবে।"},
+                {german: "Reise", article: "die", pronunciation: "['raɪzə]", bengali: "ভ্রমণ", exampleGerman: "Gute Reise!", exampleBengali: "শুভ ভ্রমণ!"},
+                {german: "Urlaub", article: "der", pronunciation: "['uːɐ̯laʊp]", bengali: "ছুটি", exampleGerman: "Wir machen Urlaub am Meer.", exampleBengali: "আমরা সমুদ্রের ধারে ছুটি কাটাচ্ছি।"},
+                {german: "Koffer", article: "der", pronunciation: "['kɔfɐ]", bengali: "স্যুটকেস", exampleGerman: "Mein Koffer ist sehr schwer.", exampleBengali: "আমার স্যুটকেস খুব ভারী।"},
+                {german: "Gepäck", article: "das", pronunciation: "[gə'pɛk]", bengali: "লাগেজ", exampleGerman: "Wo ist die Gepäckausgabe?", exampleBengali: "লাগেজ সংগ্রহের জায়গা কোথায়?"},
+                {german: "Pass", article: "der", pronunciation: "[pas]", bengali: "পাসপোর্ট", exampleGerman: "Vergessen Sie Ihren Pass nicht.", exampleBengali: "আপনার পাসপোর্ট ভুলবেন না।"},
+                {german: "schnell", article: "", pronunciation: "[ʃnɛl]", bengali: "দ্রুত", exampleGerman: "Der ICE ist ein sehr schneller Zug.", exampleBengali: "ICE একটি খুব দ্রুতগতির ট্রেন।"},
+                {german: "langsam", article: "", pronunciation: "['laŋzaːm]", bengali: "ধীর", exampleGerman: "Der Verkehr ist heute sehr langsam.", exampleBengali: "আজ ট্র্যাফিক খুব ধীর।"},
+                {german: "pünktlich", article: "", pronunciation: "['pʏŋktlɪç]", bengali: "সময়নিষ্ঠ", exampleGerman: "Der Bus ist fast immer pünktlich.", exampleBengali: "বাস প্রায় সবসময় সময়নিষ্ঠ।"},
+                {german: "verspätet", article: "", pronunciation: "[fɛɐ̯'ʃpɛːtət]", bengali: "বিলম্বিত", exampleGerman: "Mein Zug ist verspätet.", exampleBengali: "আমার ট্রেন দেরি হয়েছে।"},
+                {german: "unterwegs", article: "", pronunciation: "[ʊntɐ'veːks]", bengali: "পথে", exampleGerman: "Ich bin unterwegs zum Bahnhof.", exampleBengali: "আমি স্টেশনের পথে আছি।"},
+                {german: "Richtung", article: "die", pronunciation: "['rɪçtʊŋ]", bengali: "দিক", exampleGerman: "In welche Richtung müssen wir fahren?", exampleBengali: "আমাদের কোন দিকে যেতে হবে?"}
+            ],
+            // 8: Tiere (30)
+            [
+                {german: "Tier", article: "das", pronunciation: "[tiːɐ̯]", bengali: "প্রাণী", exampleGerman: "Welches Tier magst du am liebsten?", exampleBengali: "কোন প্রাণীটি তুমি সবচেয়ে বেশি পছন্দ কর?"},
+                {german: "Hund", article: "der", pronunciation: "[hʊnt]", bengali: "কুকুর", exampleGerman: "Der Hund bellt.", exampleBengali: "কুকুরটি ঘেউ ঘেউ করছে।"},
+                {german: "Katze", article: "die", pronunciation: "['katsə]", bengali: "বিড়াল", exampleGerman: "Die Katze schläft auf dem Sofa.", exampleBengali: "বিড়ালটি সোফায় ঘুমাচ্ছে।"},
+                {german: "Vogel", article: "der", pronunciation: "['foːgəl]", bengali: "পাখি", exampleGerman: "Der Vogel singt am Morgen.", exampleBengali: "পাখিটি সকালে গান গায়।"},
+                {german: "Fisch", article: "der", pronunciation: "[fɪʃ]", bengali: "মাছ", exampleGerman: "Der Fisch schwimmt im Wasser.", exampleBengali: "মাছটি পানিতে সাঁতার কাটে।"},
+                {german: "Pferd", article: "das", pronunciation: "[pfeːɐ̯t]", bengali: "ঘোড়া", exampleGerman: "Ich lerne reiten auf einem Pferd.", exampleBengali: "আমি ঘোড়ায় চড়া শিখছি।"},
+                {german: "Kuh", article: "die", pronunciation: "[kuː]", bengali: "গরু", exampleGerman: "Die Kuh gibt uns Milch.", exampleBengali: "গরু আমাদের দুধ দেয়।"},
+                {german: "Schwein", article: "das", pronunciation: "[ʃvaɪn]", bengali: "শূকর", exampleGerman: "Das Schwein wälzt sich im Schlamm.", exampleBengali: "শূকরটি কাদায় গড়াগড়ি খাচ্ছে।"},
+                {german: "Schaf", article: "das", pronunciation: "[ʃaːf]", bengali: "ভেড়া", exampleGerman: "Aus der Wolle vom Schaf macht man Pullover.", exampleBengali: "ভেড়ার পশম থেকে সোয়েটার তৈরি হয়।"},
+                {german: "Ziege", article: "die", pronunciation: "['tsiːgə]", bengali: "ছাগল", exampleGerman: "Die Ziege klettert auf den Felsen.", exampleBengali: "ছাগলটি পাথরের উপর উঠছে।"},
+                {german: "Huhn", article: "das", pronunciation: "[huːn]", bengali: "মুরগি", exampleGerman: "Das Huhn legt ein Ei.", exampleBengali: "মুরগিটি একটি ডিম পাড়ে।"},
+                {german: "Hase", article: "der", pronunciation: "['haːzə]", bengali: "খরগোশ", exampleGerman: "Der Hase hat lange Ohren.", exampleBengali: "খরগোশের লম্বা কান আছে।"},
+                {german: "Maus", article: "die", pronunciation: "[maʊs]", bengali: "ইঁদুর", exampleGerman: "Die Katze jagt die Maus.", exampleBengali: "বিড়ালটি ইঁদুর শিকার করছে।"},
+                {german: "Elefant", article: "der", pronunciation: "[ele'fant]", bengali: "হাতি", exampleGerman: "Der Elefant ist das größte Landtier.", exampleBengali: "হাতি স্থলের সবচেয়ে বড় প্রাণী।"},
+                {german: "Löwe", article: "der", pronunciation: "['løːvə]", bengali: "সিংহ", exampleGerman: "Der Löwe ist der König der Tiere.", exampleBengali: "সিংহ পশুদের রাজা।"},
+                {german: "Tiger", article: "der", pronunciation: "['tiːgɐ]", bengali: "বাঘ", exampleGerman: "Der Tiger lebt im Dschungel.", exampleBengali: "বাঘ জঙ্গলে বাস করে।"},
+                {german: "Bär", article: "der", pronunciation: "[bɛːɐ̯]", bengali: "ভালুক", exampleGerman: "Der Bär hält Winterschlaf.", exampleBengali: "ভালুক শীতকালে ঘুমায়।"},
+                {german: "Affe", article: "der", pronunciation: "['afə]", bengali: "বানর", exampleGerman: "Der Affe isst eine Banane.", exampleBengali: "বানরটি একটি কলা খাচ্ছে।"},
+                {german: "Schlange", article: "die", pronunciation: "['ʃlaŋə]", bengali: "সাপ", exampleGerman: "Ich habe Angst vor Schlangen.", exampleBengali: "আমি সাপকে ভয় পাই।"},
+                {german: "Frosch", article: "der", pronunciation: "[frɔʃ]", bengali: "ব্যাঙ", exampleGerman: "Der Frosch quakt im Teich.", exampleBengali: "ব্যাঙটি পুকুরে ডাকে।"},
+                {german: "Biene", article: "die", pronunciation: "['biːnə]", bengali: "মৌমাছি", exampleGerman: "Die Biene sammelt Nektar.", exampleBengali: "মৌমাছি মধু সংগ্রহ করে।"},
+                {german: "Schmetterling", article: "der", pronunciation: "['ʃmɛtɐlɪŋ]", bengali: "প্রজাপতি", exampleGerman: "Der Schmetterling ist sehr bunt.", exampleBengali: "প্রজাপতিটি খুব রঙিন।"},
+                {german: "Spinne", article: "die", pronunciation: "['ʃpɪnə]", bengali: "মাকড়সা", exampleGerman: "Die Spinne webt ein Netz.", exampleBengali: "মাকড়সা একটি জাল বোনে।"},
+                {german: "Fliege", article: "die", pronunciation: "['fliːgə]", bengali: "মাছি", exampleGerman: "Die Fliege ist nervig.", exampleBengali: "মাছিটি বিরক্তিকর।"},
+                {german: "Ente", article: "die", pronunciation: "['ɛntə]", bengali: "হাঁস", exampleGerman: "Die Ente schwimmt auf dem See.", exampleBengali: "হাঁসটি লেকে সাঁতার কাটে।"},
+                {german: "Wolf", article: "der", pronunciation: "[vɔlf]", bengali: "নেকড়ে", exampleGerman: "Der Wolf heult den Mond an.", exampleBengali: "নেকড়েটি চাঁদের দিকে তাকিয়ে ডাকে।"},
+                {german: "Fuchs", article: "der", pronunciation: "[fʊks]", bengali: "শিয়াল", exampleGerman: "Der Fuchs ist schlau.", exampleBengali: "শিয়াল চালাক।"},
+                {german: "Haustier", article: "das", pronunciation: "['haʊstiːɐ̯]", bengali: "পোষা প্রাণী", exampleGerman: "Hast du ein Haustier?", exampleBengali: "তোমার কি কোনো পোষা প্রাণী আছে?"},
+                {german: "Zoo", article: "der", pronunciation: "[tsoː]", bengali: "চিড়িয়াখানা", exampleGerman: "Am Sonntag gehen wir in den Zoo.", exampleBengali: "রবিবার আমরা চিড়িয়াখানায় যাব।"},
+                {german: "füttern", article: "", pronunciation: "['fʏtɐn]", bengali: "খাওয়ানো", exampleGerman: "Ich muss meine Katze füttern.", exampleBengali: "আমাকে আমার বিড়ালকে খাওয়াতে হবে।"}
+            ],
+            // 9: Natur & Wetter (25)
+            [
+                {german: "Natur", article: "die", pronunciation: "[na'tuːɐ̯]", bengali: "প্রকৃতি", exampleGerman: "Ich liebe es, in der Natur zu sein.", exampleBengali: "আমি প্রকৃতিতে থাকতে ভালোবাসি।"},
+                {german: "Wetter", article: "das", pronunciation: "['vɛtɐ]", bengali: "আবহাওয়া", exampleGerman: "Wie ist das Wetter heute?", exampleBengali: "আজ আবহাওয়া কেমন?"},
+                {german: "Sonne", article: "die", pronunciation: "['zɔnə]", bengali: "সূর্য", exampleGerman: "Die Sonne scheint.", exampleBengali: "সূর্য কিরণ দিচ্ছে।"},
+                {german: "Mond", article: "der", pronunciation: "[moːnt]", bengali: "চাঁদ", exampleGerman: "Der Mond leuchtet in der Nacht.", exampleBengali: "চাঁদ রাতে আলো দেয়।"},
+                {german: "Stern", article: "der", pronunciation: "[ʃtɛrn]", bengali: "তারা", exampleGerman: "Ich sehe viele Sterne am Himmel.", exampleBengali: "আমি আকাশে অনেক তারা দেখছি।"},
+                {german: "Himmel", article: "der", pronunciation: "['hɪməl]", bengali: "আকাশ", exampleGerman: "Der Himmel ist heute blau.", exampleBengali: "আজ আকাশ নীল।"},
+                {german: "Wolke", article: "die", pronunciation: "['vɔlkə]", bengali: "মেঘ", exampleGerman: "Es gibt viele Wolken am Himmel.", exampleBengali: "আকাশে অনেক মেঘ আছে।"},
+                {german: "Regen", article: "der", pronunciation: "['reːgən]", bengali: "বৃষ্টি", exampleGerman: "Es fängt an zu regnen.", exampleBengali: "বৃষ্টি শুরু হচ্ছে।"},
+                {german: "Schnee", article: "der", pronunciation: "[ʃneː]", bengali: "বরফ", exampleGerman: "Im Winter fällt Schnee.", exampleBengali: "শীতকালে বরফ পড়ে।"},
+                {german: "Wind", article: "der", pronunciation: "[vɪnt]", bengali: "বাতাস", exampleGerman: "Der Wind ist heute sehr stark.", exampleBengali: "আজ বাতাস খুব শক্তিশালী।"},
+                {german: "Nebel", article: "der", pronunciation: "['neːbəl]", bengali: "কুয়াশা", exampleGerman: "Am Morgen gibt es oft Nebel.", exampleBengali: "সকালে প্রায়ই কুয়াশা থাকে।"},
+                {german: "Temperatur", article: "die", pronunciation: "[tɛmpəra'tuːɐ̯]", bengali: "তাপমাত্রা", exampleGerman: "Die Temperatur liegt bei 20 Grad.", exampleBengali: "তাপমাত্রা ২০ ডিগ্রি।"},
+                {german: "warm", article: "", pronunciation: "[varm]", bengali: "গরম", exampleGerman: "Heute ist es schön warm.", exampleBengali: "আজ সুন্দর গরম।"},
+                {german: "kalt", article: "", pronunciation: "[kalt]", bengali: "ঠান্ডা", exampleGerman: "Mir ist kalt.", exampleBengali: "আমার ঠান্ডা লাগছে।"},
+                {german: "sonnig", article: "", pronunciation: "['zɔnɪç]", bengali: "রৌদ্রোজ্জ্বল", exampleGerman: "Morgen wird es sonnig.", exampleBengali: "আগামীকাল রৌদ্রোজ্জ্বল হবে।"},
+                {german: "regnerisch", article: "", pronunciation: "['reːgnərɪʃ]", bengali: "বৃষ্টিমুখর", exampleGerman: "Das Wetter ist regnerisch.", exampleBengali: "আবহাওয়া বৃষ্টিমুখর।"},
+                {german: "windig", article: "", pronunciation: "['vɪndɪç]", bengali: "ঝড়ো", exampleGerman: "Es ist sehr windig heute.", exampleBengali: "আজ খুব ঝড়ো হাওয়া।"},
+                {german: "Baum", article: "der", pronunciation: "[baʊm]", bengali: "গাছ", exampleGerman: "Der Baum hat viele grüne Blätter.", exampleBengali: "গাছটির অনেক সবুজ পাতা আছে।"},
+                {german: "Blume", article: "die", pronunciation: "['bluːmə]", bengali: "ফুল", exampleGerman: "Diese Blume riecht gut.", exampleBengali: "এই ফুলটির সুন্দর গন্ধ।"},
+                {german: "Gras", article: "das", pronunciation: "[graːs]", bengali: "ঘাস", exampleGerman: "Das Gras im Park ist grün.", exampleBengali: "পার্কের ঘাস সবুজ।"},
+                {german: "Berg", article: "der", pronunciation: "[bɛrk]", bengali: "পাহাড়", exampleGerman: "Wir wandern auf den Berg.", exampleBengali: "আমরা পাহাড়ে হাইকিং করছি।"},
+                {german: "See", article: "der", pronunciation: "[zeː]", bengali: "হ্রদ", exampleGerman: "Im Sommer schwimmen wir im See.", exampleBengali: "গ্রীষ্মে আমরা হ্রদে সাঁতার কাটি।"},
+                {german: "Fluss", article: "der", pronunciation: "[flʊs]", bengali: "নদী", exampleGerman: "Der Rhein ist ein großer Fluss.", exampleBengali: "রাইন একটি বড় নদী।"},
+                {german: "Meer", article: "das", pronunciation: "[meːɐ̯]", bengali: "সাগর", exampleGerman: "Ich fahre im Urlaub ans Meer.", exampleBengali: "আমি ছুটিতে সাগরে যাই।"},
+                {german: "Wald", article: "der", pronunciation: "[valt]", bengali: "বন/জঙ্গল", exampleGerman: "Wir machen einen Spaziergang im Wald.", exampleBengali: "আমরা বনে হাঁটতে যাচ্ছি।"},
+                {german: "Umwelt", article: "die", pronunciation: "[ˈʊmˌvɛlt]", bengali: "পরিবেশ", exampleGerman: "Wir müssen unsere Umwelt schützen.", exampleBengali: "আমাদের অবশ্যই আমাদের পরিবেশ রক্ষা করতে হবে।"},
+                {german: "Umweltschutz", article: "der", pronunciation: "[ˈʊmvɛltˌʃʊt͡s]", bengali: "পরিবেশ সুরক্ষা", exampleGerman: "Umweltschutz ist ein Thema, das uns alle betrifft.", exampleBengali: "পরিবেশ সুরক্ষা এমন একটি বিষয় যা আমাদের সকলের সাথে সম্পর্কিত।"},
+                {german: "Klimawandel", article: "der", pronunciation: "[ˈkliːmaˌvandl̩]", bengali: "জলবায়ু পরিবর্তন", exampleGerman: "Der Klimawandel ist eine der größten Herausforderungen unserer Zeit.", exampleBengali: "জলবায়ু পরিবর্তন আমাদের সময়ের সবচেয়ে বড় চ্যালেঞ্জগুলোর মধ্যে একটি।"},
+                {german: "Müll", article: "der", pronunciation: "[mʏl]", bengali: "আবর্জনা", exampleGerman: "Bitte werfen Sie den Müll nicht auf die Straße.", exampleBengali: "দয়া করে রাস্তায় আবর্জনা ফেলবেন না।"},
+                {german: "recyceln", article: "", pronunciation: "[ʁiˈsaɪ̯kl̩n]", bengali: "পুনর্ব্যবহার করা", exampleGerman: "Es ist wichtig, Papier, Glas und Plastik zu recyceln.", exampleBengali: "কাগজ, গ্লাস এবং প্লাস্টিক পুনর্ব্যবহার করা গুরুত্বপূর্ণ।"},
+                {german: "Energie", article: "die", pronunciation: "[enɛʁˈɡiː]", bengali: "শক্তি", exampleGerman: "Wir sollten versuchen, Energie zu sparen.", exampleBengali: "আমাদের শক্তি সঞ্চয় করার চেষ্টা করা উচিত।"},
+                {german: "verschmutzen", article: "", pronunciation: "[fɛɐ̯ˈʃmʊt͡sn̩]", bengali: "দূষিত করা", exampleGerman: "Fabriken verschmutzen oft die Luft und das Wasser.", exampleBengali: "কারখানাগুলো প্রায়ই বায়ু এবং পানি দূষিত করে।"}
+
+            ],
+            // 10: Verben (80)
+            [
+                {german: "sein", article: "", pronunciation: "[zaɪn]", bengali: "হওয়া", exampleGerman: "Ich bin müde.", exampleBengali: "আমি ক্লান্ত।"},
+                {german: "haben", article: "", pronunciation: "['haːbən]", bengali: "থাকা/আছে", exampleGerman: "Ich habe einen Hund.", exampleBengali: "আমার একটি কুকুর আছে।"},
+                {german: "werden", article: "", pronunciation: "['veːɐ̯dən]", bengali: "হওয়া (juti)", exampleGerman: "Er wird Arzt.", exampleBengali: "সে ডাক্তার হবে।"},
+                {german: "können", article: "", pronunciation: "['kœnən]", bengali: "পারা", exampleGerman: "Ich kann Deutsch sprechen.", exampleBengali: "আমি জার্মান বলতে পারি।"},
+                {german: "müssen", article: "", pronunciation: "['mʏsən]", bengali: "করতে হবে (বাধ্য)", exampleGerman: "Ich muss jetzt gehen.", exampleBengali: "আমাকে এখন যেতে হবে।"},
+                {german: "wollen", article: "", pronunciation: "['vɔlən]", bengali: "চাওয়া", exampleGerman: "Ich will ein Eis essen.", exampleBengali: "আমি একটি আইসক্রিম খেতে চাই।"},
+                {german: "sollen", article: "", pronunciation: "['zɔlən]", bengali: "উচিত", exampleGerman: "Du sollst deine Hausaufgaben machen.", exampleBengali: "তোমার বাড়ির কাজ করা উচিত।"},
+                {german: "dürfen", article: "", pronunciation: "['dʏrfən]", bengali: "অনুমতি থাকা", exampleGerman: "Hier darf man nicht rauchen.", exampleBengali: "এখানে ধূমপান করার অনুমতি নেই।"},
+                {german: "mögen", article: "", pronunciation: "['møːgən]", bengali: "পছন্দ করা", exampleGerman: "Ich mag Schokolade.", exampleBengali: "আমি চকলেট পছন্দ করি।"},
+                {german: "möchten", article: "", pronunciation: "['mœçtən]", bengali: "চাইতে (ভদ্রভাবে)", exampleGerman: "Ich möchte einen Kaffee, bitte.", exampleBengali: "আমি একটি কফি চাই, দয়া করে।"},
+                {german: "gehen", article: "", pronunciation: "['geːən]", bengali: "যাওয়া", exampleGerman: "Wir gehen ins Kino.", exampleBengali: "আমরা সিনেমায় যাচ্ছি।"},
+                {german: "kommen", article: "", pronunciation: "['kɔmən]", bengali: "আসা", exampleGerman: "Kommst du mit?", exampleBengali: "তুমি কি সাথে আসছ?"},
+                {german: "fahren", article: "", pronunciation: "['faːrən]", bengali: "যাওয়া (যানে)", exampleGerman: "Er fährt mit dem Auto.", exampleBengali: "সে গাড়িতে করে যায়।"},
+                {german: "sprechen", article: "", pronunciation: "['ʃprɛçən]", bengali: "কথা বলা", exampleGerman: "Sprechen Sie Englisch?", exampleBengali: "আপনি কি ইংরেজি বলেন?"},
+                {german: "sagen", article: "", pronunciation: "['zaːgən]", bengali: "বলা", exampleGerman: "Was hast du gesagt?", exampleBengali: "তুমি কি বলেছ?"},
+                {german: "fragen", article: "", pronunciation: "['fraːgən]", bengali: "জিজ্ঞাসা করা", exampleGerman: "Ich möchte etwas fragen.", exampleBengali: "আমি কিছু জিজ্ঞাসা করতে চাই।"},
+                {german: "antworten", article: "", pronunciation: "['antvɔrtən]", bengali: "উত্তর দেওয়া", exampleGerman: "Bitte antworten Sie auf meine Frage.", exampleBengali: "দয়া করে আমার প্রশ্নের উত্তর দিন।"},
+                {german: "geben", article: "", pronunciation: "['geːbən]", bengali: "দেওয়া", exampleGerman: "Gib mir bitte das Buch.", exampleBengali: "দয়া করে আমাকে বইটি দাও।"},
+                {german: "nehmen", article: "", pronunciation: "['neːmən]", bengali: "নেওয়া", exampleGerman: "Ich nehme den Bus.", exampleBengali: "আমি বাস নেব।"},
+                {german: "sehen", article: "", pronunciation: "['zeːən]", bengali: "দেখা", exampleGerman: "Ich sehe einen Vogel.", exampleBengali: "আমি একটি পাখি দেখছি।"},
+                {german: "hören", article: "", pronunciation: "['høːrən]", bengali: "শোনা", exampleGerman: "Ich höre gern Musik.", exampleBengali: "আমি গান শুনতে পছন্দ করি।"},
+                {german: "lesen", article: "", pronunciation: "['leːzən]", bengali: "পড়া", exampleGerman: "Ich lese ein Buch.", exampleBengali: "আমি একটি বই পড়ছি।"},
+                {german: "schreiben", article: "", pronunciation: "['ʃraɪbən]", bengali: "লেখা", exampleGerman: "Ich schreibe einen Brief.", exampleBengali: "আমি একটি চিঠি লিখছি।"},
+                {german: "lernen", article: "", pronunciation: "['lɛrnən]", bengali: "শেখা", exampleGerman: "Wir lernen Deutsch.", exampleBengali: "আমরা জার্মান শিখছি।"},
+                {german: "studieren", article: "", pronunciation: "[ʃtu'diːrən]", bengali: "পড়াশোনা করা (বিশ্ববিদ্যালয়)", exampleGerman: "Sie studiert Medizin in Berlin.", exampleBengali: "সে বার্লিনে মেডিসিন নিয়ে পড়াশোনা করে।"},
+                {german: "arbeiten", article: "", pronunciation: "['arbaɪtən]", bengali: "কাজ করা", exampleGerman: "Mein Vater arbeitet bei einer Bank.", exampleBengali: "আমার বাবা একটি ব্যাংকে কাজ করেন।"},
+                {german: "machen", article: "", pronunciation: "['maxən]", bengali: "করা", exampleGerman: "Was machst du?", exampleBengali: "তুমি কি করছো?"},
+                {german: "tun", article: "", pronunciation: "[tuːn]", bengali: "করা", exampleGerman: "Ich habe viel zu tun.", exampleBengali: "আমার অনেক কিছু করার আছে।"},
+                {german: "essen", article: "", pronunciation: "['ɛsən]", bengali: "খাওয়া", exampleGerman: "Wir essen um 12 Uhr.", exampleBengali: "আমরা ১২টায় খাই।"},
+                {german: "trinken", article: "", pronunciation: "['trɪŋkən]", bengali: "পান করা", exampleGerman: "Ich trinke Wasser.", exampleBengali: "আমি পানি পান করি।"},
+                {german: "schlafen", article: "", pronunciation: "['ʃlaːfən]", bengali: "ঘুমানো", exampleGerman: "Ich schlafe acht Stunden pro Nacht.", exampleBengali: "আমি প্রতি রাতে আট ঘণ্টা ঘুমাই।"},
+                {german: "wohnen", article: "", pronunciation: "['voːnən]", bengali: "বসবাস করা", exampleGerman: "Ich wohne in Magdeburg.", exampleBengali: "আমি ম্যাগডেবুর্গে বাস করি।"},
+                {german: "leben", article: "", pronunciation: "['leːbən]", bengali: "জীবনযাপন করা", exampleGerman: "Meine Großeltern leben auf dem Land.", exampleBengali: "আমার দাদা-দাদী গ্রামে থাকেন।"},
+                {german: "heißen", article: "", pronunciation: "['haɪsən]", bengali: "নাম হওয়া", exampleGerman: "Wie heißen Sie?", exampleBengali: "আপনার নাম কী?"},
+                {german: "kaufen", article: "", pronunciation: "['kaʊfən]", bengali: "কেনা", exampleGerman: "Ich kaufe im Supermarkt ein.", exampleBengali: "আমি সুপারমার্কেটে কেনাকাটা করি।"},
+                {german: "verkaufen", article: "", pronunciation: "[fɛɐ̯'kaʊfən]", bengali: "বিক্রি করা", exampleGerman: "Er verkauft sein altes Auto.", exampleBengali: "সে তার পুরানো গাড়ি বিক্রি করছে।"},
+                {german: "bezahlen", article: "", pronunciation: "[bə'tsaːlən]", bengali: "টাকা পরিশোধ করা", exampleGerman: "Ich möchte bitte bezahlen.", exampleBengali: "আমি বিল পরিশোধ করতে চাই, দয়া করে।"},
+                {german: "suchen", article: "", pronunciation: "['zuːxən]", bengali: "খোঁজা", exampleGerman: "Ich suche meinen Schlüssel.", exampleBengali: "আমি আমার চাবি খুঁজছি।"},
+                {german: "finden", article: "", pronunciation: "['fɪndən]", bengali: "খুঁজে পাওয়া", exampleGerman: "Ich kann meine Brille nicht finden.", exampleBengali: "আমি আমার চশমা খুঁজে পাচ্ছি না।"},
+                {german: "bringen", article: "", pronunciation: "['brɪŋən]", bengali: "আনা", exampleGerman: "Bring mir bitte ein Glas Wasser.", exampleBengali: "দয়া করে আমার জন্য এক গ্লাস পানি আনো।"},
+                {german: "denken", article: "", pronunciation: "['dɛŋkən]", bengali: "ভাবা/চিন্তা করা", exampleGerman: "Was denkst du?", exampleBengali: "তুমি কি ভাবছ?"},
+                {german: "glauben", article: "", pronunciation: "['glaʊbən]", bengali: "বিশ্বাস করা", exampleGerman: "Ich glaube dir.", exampleBengali: "আমি তোমাকে বিশ্বাস করি।"},
+                {german: "wissen", article: "", pronunciation: "['vɪsən]", bengali: "জানা", exampleGerman: "Ich weiß das nicht.", exampleBengali: "আমি এটা জানি না।"},
+                {german: "kennen", article: "", pronunciation: "['kɛnən]", bengali: "চেনা/জানা (ব্যক্তি/স্থান)", exampleGerman: "Ich kenne ihn nicht.", exampleBengali: "আমি তাকে চিনি না।"},
+                {german: "verstehen", article: "", pronunciation: "[fɛɐ̯'ʃteːən]", bengali: "বোঝা", exampleGerman: "Verstehen Sie mich?", exampleBengali: "আপনি কি আমাকে বুঝতে পারছেন?"},
+                {german: "helfen", article: "", pronunciation: "['hɛlfən]", bengali: "সাহায্য করা", exampleGerman: "Kann ich Ihnen helfen?", exampleBengali: "আমি কি আপনাকে সাহায্য করতে পারি?"},
+                {german: "spielen", article: "", pronunciation: "['ʃpiːlən]", bengali: "খেলা করা", exampleGerman: "Die Kinder spielen im Garten.", exampleBengali: "বাচ্চারা বাগানে খেলছে।"},
+                {german: "lieben", article: "", pronunciation: "['liːbən]", bengali: "ভালোবাসা", exampleGerman: "Ich liebe dich.", exampleBengali: "আমি তোমাকে ভালোবাসি।"},
+                {german: "hassen", article: "", pronunciation: "['hasən]", bengali: "ঘৃণা করা", exampleGerman: "Ich hasse Lügen.", exampleBengali: "আমি মিথ্যা ঘৃণা করি।"},
+                {german: "sitzen", article: "", pronunciation: "['zɪtsən]", bengali: "বসা", exampleGerman: "Wir sitzen auf dem Sofa.", exampleBengali: "আমরা সোফায় বসে আছি।"},
+                {german: "stehen", article: "", pronunciation: "['ʃteːən]", bengali: "দাঁড়ানো", exampleGerman: "Er steht an der Bushaltestelle.", exampleBengali: "সে বাস স্টপে দাঁড়িয়ে আছে।"},
+                {german: "liegen", article: "", pronunciation: "['liːgən]", bengali: "শুয়ে থাকা/অবস্থিত থাকা", exampleGerman: "Das Buch liegt auf dem Tisch.", exampleBengali: "বইটি টেবিলের উপর আছে।"},
+                {german: "tanzen", article: "", pronunciation: "['tantsən]", bengali: "নাচা", exampleGerman: "Sie tanzt gern.", exampleBengali: "সে নাচতে ভালোবাসে।"},
+                {german: "singen", article: "", pronunciation: "['zɪŋən]", bengali: "গান গাওয়া", exampleGerman: "Er singt ein Lied.", exampleBengali: "সে একটি গান গাইছে।"},
+                {german: "lachen", article: "", pronunciation: "['laxən]", bengali: "হাসা", exampleGerman: "Warum lachst du?", exampleBengali: "তুমি হাসছ কেন?"},
+                {german: "weinen", article: "", pronunciation: "['vaɪnən]", bengali: "কাঁদা", exampleGerman: "Das Baby weint.", exampleBengali: "বাচ্চাটি কাঁদছে।"},
+                {german: "öffnen", article: "", pronunciation: "['œfnən]", bengali: "খোলা", exampleGerman: "Öffnen Sie bitte die Tür.", exampleBengali: "দয়া করে দরজাটি খুলুন।"},
+                {german: "schließen", article: "", pronunciation: "['ʃliːsən]", bengali: "বন্ধ করা", exampleGerman: "Schließ das Fenster, es ist kalt.", exampleBengali: "জানালাটি বন্ধ কর, ঠান্ডা লাগছে।"},
+                {german: "beginnen", article: "", pronunciation: "[bə'gɪnən]", bengali: "শুরু করা", exampleGerman: "Der Film beginnt um 20 Uhr.", exampleBengali: "সিনেমাটি রাত ৮টায় শুরু হবে।"},
+                {german: "enden", article: "", pronunciation: "['ɛndən]", bengali: "শেষ হওয়া", exampleGerman: "Die Party endet um Mitternacht.", exampleBengali: "পার্টিটি মধ্যরাতে শেষ হবে।"},
+                {german: "anrufen", article: "", pronunciation: "['anruːfən]", bengali: "ফোন করা", exampleGerman: "Ich rufe dich später an.", exampleBengali: "আমি তোমাকে পরে ফোন করব।"},
+                {german: "treffen", article: "", pronunciation: "['trɛfən]", bengali: "দেখা করা", exampleGerman: "Ich treffe heute meine Freunde.", exampleBengali: "আমি আজ আমার বন্ধুদের সাথে দেখা করব।"},
+                {german: "besuchen", article: "", pronunciation: "[bə'zuːxən]", bengali: "পরিদর্শন করা/দেখা করতে যাওয়া", exampleGerman: "Am Wochenende besuche ich meine Oma.", exampleBengali: "সপ্তাহান্তে আমি আমার দাদীর সাথে দেখা করতে যাই।"},
+                {german: "warten", article: "", pronunciation: "['vartən]", bengali: "অপেক্ষা করা", exampleGerman: "Ich warte auf den Bus.", exampleBengali: "আমি বাসের জন্য অপেক্ষা করছি।"},
+                {german: "bleiben", article: "", pronunciation: "['blaɪbən]", bengali: "থাকা", exampleGerman: "Ich bleibe heute zu Hause.", exampleBengali: "আমি আজ বাড়িতে থাকব।"},
+                {german: "reisen", article: "", pronunciation: "['raɪzən]", bengali: "ভ্রমণ করা", exampleGerman: "Ich reise gern.", exampleBengali: "আমি ভ্রমণ করতে ভালোবাসি।"},
+                {german: "erzählen", article: "", pronunciation: "[ɛɐ̯'tsɛːlən]", bengali: "বলা/বর্ণনা করা", exampleGerman: "Erzähl mir eine Geschichte.", exampleBengali: "আমাকে একটি গল্প বল।"},
+                {german: "erklären", article: "", pronunciation: "[ɛɐ̯'klɛːrən]", bengali: "ব্যাখ্যা করা", exampleGerman: "Können Sie das bitte erklären?", exampleBengali: "আপনি কি দয়া করে এটি ব্যাখ্যা করতে পারেন?"},
+                {german: "zeigen", article: "", pronunciation: "['tsaɪgən]", bengali: "দেখানো", exampleGerman: "Zeig mir deine Hände.", exampleBengali: "তোমার হাত আমাকে দেখাও।"},
+                {german: "brauchen", article: "", pronunciation: "['braʊxən]", bengali: "প্রয়োজন হওয়া", exampleGerman: "Ich brauche Hilfe.", exampleBengali: "আমার সাহায্য প্রয়োজন।"},
+                {german: "waschen", article: "", pronunciation: "['vaʃən]", bengali: "ধোয়া", exampleGerman: "Ich wasche meine Hände.", exampleBengali: "আমি আমার হাত ধুচ্ছি।"},
+                {german: "kochen", article: "", pronunciation: "['kɔxən]", bengali: "রান্না করা", exampleGerman: "Meine Mutter kocht sehr gut.", exampleBengali: "আমার মা খুব ভালো রান্না করেন।"},
+                {german: "putzen", article: "", pronunciation: "['pʊtsən]", bengali: "পরিষ্কার করা", exampleGerman: "Ich putze die Fenster.", exampleBengali: "আমি জানালা পরিষ্কার করছি।"},
+                {german: "reparieren", article: "", pronunciation: "[repa'riːrən]", bengali: "মেরামত করা", exampleGerman: "Er repariert mein Fahrrad.", exampleBengali: "সে আমার সাইকেল মেরামত করছে।"},
+                {german: "mieten", article: "", pronunciation: "['miːtən]", bengali: "ভাড়া করা", exampleGerman: "Wir mieten ein Auto.", exampleBengali: "আমরা একটি গাড়ি ভাড়া করছি।"},
+                {german: "tragen", article: "", pronunciation: "['traːgən]", bengali: "পরিধান করা/বহন করা", exampleGerman: "Sie trägt ein rotes Kleid.", exampleBengali: "সে একটি লাল পোশাক পরেছে।"},
+                {german: "hoffen", article: "", pronunciation: "['hɔfən]", bengali: "আশা করা", exampleGerman: "Ich hoffe, es geht dir gut.", exampleBengali: "আমি আশা করি তুমি ভালো আছ।"},
+                {german: "vergessen", article: "", pronunciation: "[fɛɐ̯'gɛsən]", bengali: "ভুলে যাওয়া", exampleGerman: "Ich habe meinen Termin vergessen.", exampleBengali: "আমি আমার অ্যাপয়েন্টমেন্ট ভুলে গেছি।"},
+                {german: "erinnern", article: "", pronunciation: "[ɛɐ̯'ɪnɐn]", bengali: "মনে করা/করানো", exampleGerman: "Ich kann mich nicht erinnern.", exampleBengali: "আমার মনে পড়ছে না।"},
+                {german: "finden", article: "", pronunciation: "",bengali: "খুঁজে পাওয়া", "exampleGerman": "Ich kann den Schlüssel nicht finden.", "exampleBengali": "আমি চাবিটা খুঁজে পাচ্ছি না।"},
+                {german: "haben (als Hilfsverb)", article: "", pronunciation: "[ˈhaːbn̩]", bengali: "haben (সাহায্যকারী ক্রিয়া)", exampleGerman: "Ich habe gestern einen Film gesehen.", exampleBengali: "আমি গতকাল একটি সিনেমা দেখেছি।"},
+                {german: "sein (als Hilfsverb)", article: "", pronunciation: "[zaɪ̯n]", bengali: "sein (সাহায্যকারী ক্রিয়া)", exampleGerman: "Er ist nach Deutschland geflogen.", exampleBengali: "সে জার্মানিতে উড়ে গিয়েছে।"},
+                {german: "gesehen (sehen)", article: "", pronunciation: "[ɡəˈzeːən]", bengali: "দেখেছি (দেখা)", exampleGerman: "Hast du das neue Auto gesehen?", exampleBengali: "তুমি কি নতুন গাড়িটি দেখেছ?"},
+                {german: "gelernt (lernen)", article: "", pronunciation: "[ɡəˈlɛʁnt]", bengali: "শিখেছি (শেখা)", exampleGerman: "Wir haben zusammen Deutsch gelernt.", exampleBengali: "আমরা একসাথে জার্মান শিখেছি।"},
+                {german: "gegangen (gehen)", article: "", pronunciation: "[ɡəˈɡaŋən]", bengali: "গিয়েছি (যাওয়া)", exampleGerman: "Sie ist schon nach Hause gegangen.", exampleBengali: "সে ইতোমধ্যে বাড়ি চলে গিয়েছে।"},
+                {german: "geschrieben (schreiben)", article: "", pronunciation: "[ɡəˈʃʁiːbn̩]", bengali: "লিখেছি (লেখা)", exampleGerman: "Ich habe ihm eine lange E-Mail geschrieben.", exampleBengali: "আমি তাকে একটি দীর্ঘ ই-মেইল লিখেছি।"},
+                {german: "getrunken (trinken)", article: "", pronunciation: "[ɡəˈtʁʊŋkn̩]", bengali: "পান করেছি (পান করা)", exampleGerman: "Was hast du getrunken?", exampleBengali: "তুমি কী পান করেছ?"},
+                {german: "weil", article: "", pronunciation: "[vaɪ̯l]", bengali: "কারণ", exampleGerman: "Ich lerne Deutsch, weil ich in Deutschland arbeiten möchte.", exampleBengali: "আমি জার্মান শিখি, কারণ আমি জার্মানিতে কাজ করতে চাই।"},
+                {german: "dass", article: "", pronunciation: "[das]", bengali: "যে", exampleGerman: "Ich denke, dass das eine gute Idee ist.", exampleBengali: "আমি মনে করি যে, এটি একটি ভালো বুদ্ধি।"},
+                {german: "wenn", article: "", pronunciation: "[vɛn]", bengali: "যদি / যখন", exampleGerman: "Wenn das Wetter gut ist, gehen wir spazieren.", exampleBengali: "যদি আবহাওয়া ভালো থাকে, আমরা হাঁটতে যাব।"},
+                {german: "obwohl", article: "", pronunciation: "[ɔpˈvoːl]", bengali: "যদিও", exampleGerman: "Er geht zur Arbeit, obwohl er krank ist.", exampleBengali: "সে কাজে যাচ্ছে, যদিও সে অসুস্থ।"},
+                {german: "deshalb", article: "", pronunciation: "[ˈdɛsˌhalp]", bengali: "এইজন্য/তাই", exampleGerman: "Ich war krank, deshalb bin ich nicht gekommen.", exampleBengali: "আমি অসুস্থ ছিলাম, তাই আমি আসিনি।"},
+                {german: "denn", article: "", pronunciation: "[dɛn]", bengali: "কারণ (সহজ)", exampleGerman: "Ich kann nicht kommen, denn ich habe keine Zeit.", exampleBengali: "আমি আসতে পারব না, কারণ আমার সময় নেই।"},
+                {german: "aber", article: "", pronunciation: "[ˈaːbɐ]", bengali: "কিন্তু", exampleGerman: "Die Wohnung ist schön, aber sie ist zu teuer.", exampleBengali: "ফ্ল্যাটটি সুন্দর, কিন্তু এটি খুব দামী।"},
+                {german: "als", article: "", pronunciation: "[als]", bengali: "চেয়ে (তুলনায়)", exampleGerman: "Mein Bruder ist älter als ich.", exampleBengali: "আমার ভাই আমার চেয়ে বড়।"},
+                {german: "wie", article: "", pronunciation: "[viː]", bengali: "মতো (সমতুল্য)", exampleGerman: "Sie ist so schnell wie ihr Bruder.", exampleBengali: "সে তার ভাইয়ের মতোই দ্রুত।"},
+                {german: "größer", article: "", pronunciation: "[ˈɡʁøːsɐ]", bengali: "আরও বড়", exampleGerman: "Ein Elefant ist größer als eine Maus.", exampleBengali: "একটি হাতি একটি ইঁদুরের চেয়ে বড়।"},
+                {german: "besser", article: "", pronunciation: "[ˈbɛsɐ]", bengali: "আরও ভালো", exampleGerman: "Sein Deutsch ist viel besser geworden.", exampleBengali: "তার জার্মান অনেক ভালো হয়েছে।"},
+                {german: "am liebsten", article: "", pronunciation: "[am ˈliːpstn̩]", bengali: "সবচেয়ে প্রিয়", exampleGerman: "Am liebsten trinke ich Kaffee.", exampleBengali: "আমার সবচেয়ে প্রিয় পানীয় হলো কফি।"},
+                {german: "interessant", article: "", pronunciation: "[ɪntəʁɛˈsant]", bengali: "আকর্ষণীয়", exampleGerman: "Ich habe ein interessantes Buch gelesen.", exampleBengali: "আমি একটি আকর্ষণীয় বই পড়েছি।"},
+                {german: "langweilig", article: "", pronunciation: "[ˈlaŋˌvaɪ̯lɪç]", bengali: "বিরক্তিকর", exampleGerman: "Der Film war langweilig.", exampleBengali: "সিনেমাটি বিরক্তিকর ছিল।"},
+                {german: "warten auf (+ Akkusativ)", article: "", pronunciation: "[ˈvaʁtn̩ aʊ̯f]", bengali: "কারো বা কিছুর জন্য অপেক্ষা করা", exampleGerman: "Ich warte auf den Bus.", exampleBengali: "আমি বাসটির জন্য অপেক্ষা করছি।"},
+                {german: "denken an (+ Akkusativ)", article: "", pronunciation: "[ˈdɛŋkn̩ an]", bengali: "কারো বা কিছুর কথা ভাবা", exampleGerman: "Sie denkt oft an ihre Familie in der Heimat.", exampleBengali: "সে প্রায়ই দেশে থাকা তার পরিবারের কথা ভাবে।"},
+                {german: "sprechen über (+ Akkusativ)", article: "", pronunciation: "[ˈʃpʁɛçn̩ ˈyːbɐ]", bengali: "কোনো বিষয়ে কথা বলা", exampleGerman: "Wir müssen über das Problem sprechen.", exampleBengali: "আমাদের সমস্যাটি নিয়ে কথা বলতে হবে।"},
+                {german: "sprechen mit (+ Dativ)", article: "", pronunciation: "[ˈʃpʁɛçn̩ mɪt]", bengali: "কারো সাথে কথা বলা", exampleGerman: "Ich habe gestern mit dem Lehrer gesprochen.", exampleBengali: "আমি গতকাল শিক্ষকের সাথে কথা বলেছি।"},
+                {german: "sich interessieren für (+ Akkusativ)", article: "", pronunciation: "[zɪç ɪntəʁɛˈsiːʁən fyːɐ̯]", bengali: "কোনো বিষয়ে আগ্রহী হওয়া", exampleGerman: "Er interessiert sich für klassische Musik.", exampleBengali: "সে ক্লাসিক্যাল সঙ্গীতের প্রতি আগ্রহী।"},
+                {german: "sich freuen auf (+ Akkusativ)", article: "", pronunciation: "[zɪç ˈfʁɔʏ̯ən aʊ̯f]", bengali: "ভবিষ্যতের কোনো কিছুর জন্য অধীর আগ্রহে থাকা", exampleGerman: "Die Kinder freuen sich auf die Ferien.", exampleBengali: "বাচ্চারা ছুটির জন্য অধীর আগ্রহে আছে।"},
+                {german: "sich freuen über (+ Akkusativ)", article: "", pronunciation: "[zɪç ˈfʁɔʏ̯ən ˈyːbɐ]", bengali: "কোনো কিছু পেয়ে আনন্দিত হওয়া", exampleGerman: "Sie hat sich sehr über das Geschenk gefreut.", exampleBengali: "সে উপহারটি পেয়ে খুব আনন্দিত হয়েছে।"},
+                {german: "träumen von (+ Dativ)", article: "", pronunciation: "[ˈtʁɔʏ̯mən fɔn]", bengali: "কোনো কিছুর স্বপ্ন দেখা", exampleGerman: "Ich träume von einer langen Reise.", exampleBengali: "আমি একটি দীর্ঘ ভ্রমণের স্বপ্ন দেখি।"}
+            ],
+            // 11: Adjektive (50)
+            [
+                {german: "gut", article: "", pronunciation: "[guːt]", bengali: "ভালো", exampleGerman: "Das Essen ist gut.", exampleBengali: "খাবারটি ভালো।"},
+                {german: "schlecht", article: "", pronunciation: "[ʃlɛçt]", bengali: "খারাপ", exampleGerman: "Das Wetter ist heute schlecht.", exampleBengali: "আজ আবহাওয়া খারাপ।"},
+                {german: "groß", article: "", pronunciation: "[groːs]", bengali: "বড়", exampleGerman: "Das Haus ist sehr groß.", exampleBengali: "বাড়িটি খুব বড়।"},
+                {german: "klein", article: "", pronunciation: "[klaɪn]", bengali: "ছোট", exampleGerman: "Meine Wohnung ist klein.", exampleBengali: "আমার ফ্ল্যাটটি ছোট।"},
+                {german: "neu", article: "", pronunciation: "[nɔʏ]", bengali: "নতুন", exampleGerman: "Ich habe ein neues Auto.", exampleBengali: "আমার একটি নতুন গাড়ি আছে।"},
+                {german: "alt", article: "", pronunciation: "[alt]", bengali: "পুরানো/বয়স্ক", exampleGerman: "Mein Großvater ist sehr alt.", exampleBengali: "আমার দাদা খুব বয়স্ক।"},
+                {german: "jung", article: "", pronunciation: "[jʊŋ]", bengali: "তরুণ", exampleGerman: "Sie ist noch sehr jung.", exampleBengali: "সে এখনও খুব তরুণ।"},
+                {german: "schön", article: "", pronunciation: "[ʃøːn]", bengali: "সুন্দর", exampleGerman: "Die Blumen sind schön.", exampleBengali: "ফুলগুলো সুন্দর।"},
+                {german: "hässlich", article: "", pronunciation: "['hɛslɪç]", bengali: "কুৎসিত", exampleGerman: "Ich finde diese Farbe hässlich.", exampleBengali: "আমার এই রঙটি কুৎসিত লাগে।"},
+                {german: "lang", article: "", pronunciation: "[laŋ]", bengali: "লম্বা", exampleGerman: "Der Weg ist lang.", exampleBengali: "পথটি লম্বা।"},
+                {german: "kurz", article: "", pronunciation: "[kʊrts]", bengali: "ছোট/সংক্ষিপ্ত", exampleGerman: "Ich habe nur eine kurze Frage.", exampleBengali: "আমার শুধু একটি সংক্ষিপ্ত প্রশ্ন আছে।"},
+                {german: "hoch", article: "", pronunciation: "[hoːx]", bengali: "উঁচু", exampleGerman: "Der Berg ist sehr hoch.", exampleBengali: "পাহাড়টি খুব উঁচু।"},
+                {german: "niedrig", article: "", pronunciation: "['niːdrɪç]", bengali: "নিচু", exampleGerman: "Die Preise sind hier niedrig.", exampleBengali: "এখানে দাম কম।"},
+                {german: "schnell", article: "", pronunciation: "[ʃnɛl]", bengali: "দ্রুত", exampleGerman: "Das Auto ist schnell.", exampleBengali: "গাড়িটি দ্রুত।"},
+                {german: "langsam", article: "", pronunciation: "['laŋzaːm]", bengali: "ধীর", exampleGerman: "Die Schnecke ist langsam.", exampleBengali: "শামুকটি ধীর।"},
+                {german: "warm", article: "", pronunciation: "[varm]", bengali: "গরম", exampleGerman: "Der Kaffee ist noch warm.", exampleBengali: "কফিটি এখনও গরম।"},
+                {german: "kalt", article: "", pronunciation: "[kalt]", bengali: "ঠান্ডা", exampleGerman: "Das Wasser ist kalt.", exampleBengali: "পানিটি ঠান্ডা।"},
+                {german: "heiß", article: "", pronunciation: "[haɪs]", bengali: "উত্তপ্ত", exampleGerman: "Vorsicht, die Suppe ist heiß!", exampleBengali: "সাবধান, স্যুপটি গরম!"},
+                {german: "hell", article: "", pronunciation: "[hɛl]", bengali: "উজ্জ্বল/হালকা", exampleGerman: "Das Zimmer ist sehr hell.", exampleBengali: "রুমটি খুব উজ্জ্বল।"},
+                {german: "dunkel", article: "", pronunciation: "['dʊŋkəl]", bengali: "অন্ধকার/গাঢ়", exampleGerman: "Es wird draußen dunkel.", exampleBengali: "বাইরে অন্ধকার হচ্ছে।"},
+                {german: "teuer", article: "", pronunciation: "['tɔʏɐ]", bengali: "দামী", exampleGerman: "Das Hotel ist zu teuer.", exampleBengali: "হোটেলটি খুব দামী।"},
+                {german: "billig", article: "", pronunciation: "['bɪlɪç]", bengali: "সস্তা", exampleGerman: "Diese Schuhe waren sehr billig.", exampleBengali: "এই জুতাগুলো খুব সস্তা ছিল।"},
+                {german: "schwer", article: "", pronunciation: "[ʃveːɐ̯]", bengali: "ভারী/কঠিন", exampleGerman: "Der Koffer ist schwer. / Deutsch ist schwer.", exampleBengali: "স্যুটকেসটি ভারী। / জার্মান কঠিন।"},
+                {german: "leicht", article: "", pronunciation: "[laɪçt]", bengali: "হালকা/সহজ", exampleGerman: "Die Feder ist leicht. / Die Aufgabe ist leicht.", exampleBengali: "পালকটি হালকা। / কাজটি সহজ।"},
+                {german: "richtig", article: "", pronunciation: "['rɪçtɪç]", bengali: "সঠিক", exampleGerman: "Die Antwort ist richtig.", exampleBengali: "উত্তরটি সঠিক।"},
+                {german: "falsch", article: "", pronunciation: "[falʃ]", bengali: "ভুল", exampleGerman: "Das ist die falsche Nummer.", exampleBengali: "এটি ভুল নম্বর।"},
+                {german: "wichtig", article: "", pronunciation: "['vɪçtɪç]", bengali: "গুরুত্বপূর্ণ", exampleGerman: "Das ist eine wichtige Information.", exampleBengali: "এটি একটি গুরুত্বপূর্ণ তথ্য।"},
+                {german: "interessant", article: "", pronunciation: "[ɪntə'rɛsant]", bengali: "আকর্ষণীয়", exampleGerman: "Der Film war sehr interessant.", exampleBengali: "সিনেমাটি খুব আকর্ষণীয় ছিল।"},
+                {german: "langweilig", article: "", pronunciation: "['laŋvaɪlɪç]", bengali: "বিরক্তিকর", exampleGerman: "Das Buch ist langweilig.", exampleBengali: "বইটি বিরক্তিকর।"},
+                {german: "freundlich", article: "", pronunciation: "['frɔʏntlɪç]", bengali: "বন্ধুত্বপূর্ণ", exampleGerman: "Die Leute hier sind sehr freundlich.", exampleBengali: "এখানকার লোকেরা খুব বন্ধুত্বপূর্ণ।"},
+                {german: "nett", article: "", pronunciation: "[nɛt]", bengali: "মিষ্টি/ভালো", exampleGerman: "Das ist sehr nett von dir.", exampleBengali: "এটা তোমার খুব ভালো একটা কাজ।"},
+                {german: "lustig", article: "", pronunciation: "['lʊstɪç]", bengali: "মজার", exampleGerman: "Er hat einen lustigen Witz erzählt.", exampleBengali: "সে একটি মজার কৌতুক বলেছে।"},
+                {german: "traurig", article: "", pronunciation: "['traʊrɪç]", bengali: "দুঃখিত", exampleGerman: "Warum bist du traurig?", exampleBengali: "তুমি দুঃখিত কেন?"},
+                {german: "glücklich", article: "", pronunciation: "['glʏklɪç]", bengali: "সুখী", exampleGerman: "Ich bin sehr glücklich.", exampleBengali: "আমি খুব সুখী।"},
+                {german: "müde", article: "", pronunciation: "['myːdə]", bengali: "ক্লান্ত", exampleGerman: "Nach der Arbeit bin ich immer müde.", exampleBengali: "কাজের পর আমি সবসময় ক্লান্ত থাকি।"},
+                {german: "gesund", article: "", pronunciation: "[gə'zʊnt]", bengali: "সুস্থ", exampleGerman: "Obst und Gemüse sind gesund.", exampleBengali: "ফল এবং সবজি স্বাস্থ্যকর।"},
+                {german: "krank", article: "", pronunciation: "[kraŋk]", bengali: "অসুস্থ", exampleGerman: "Ich bin heute krank und kann nicht kommen.", exampleBengali: "আমি আজ অসুস্থ এবং আসতে পারব না।"},
+                {german: "frei", article: "", pronunciation: "[fraɪ]", bengali: "মুক্ত/খালি", exampleGerman: "Ist dieser Platz frei?", exampleBengali: "এই জায়গাটি কি খালি আছে?"},
+                {german: "besetzt", article: "", pronunciation: "[bə'zɛtst]", bengali: "দখল করা", exampleGerman: "Der Platz ist leider besetzt.", exampleBengali: "দুঃখিত, জায়গাটি দখল করা আছে।"},
+                {german: "offen", article: "", pronunciation: "['ɔfən]", bengali: "খোলা", exampleGerman: "Das Geschäft ist noch offen.", exampleBengali: "দোকানটি এখনও খোলা আছে।"},
+                {german: "geschlossen", article: "", pronunciation: "[gə'ʃlɔsən]", bengali: "বন্ধ", exampleGerman: "Die Bank ist am Sonntag geschlossen.", exampleBengali: "ব্যাংক রবিবারে বন্ধ থাকে।"},
+                {german: "voll", article: "", pronunciation: "[fɔl]", bengali: "পূর্ণ/ভরা", exampleGerman: "Das Glas ist voll.", exampleBengali: "গ্লাসটি ভরা।"},
+                {german: "leer", article: "", pronunciation: "[leːɐ̯]", bengali: "খালি", exampleGerman: "Mein Teller ist leer.", exampleBengali: "আমার প্লেট খালি।"},
+                {german: "sauber", article: "", pronunciation: "['zaʊbɐ]", bengali: "পরিষ্কার", exampleGerman: "Das Zimmer ist sauber.", exampleBengali: "রুমটি পরিষ্কার।"},
+                {german: "schmutzig", article: "", pronunciation: "['ʃmʊtsɪç]", bengali: "নোংরা", exampleGerman: "Deine Hände sind schmutzig.", exampleBengali: "তোমার হাত নোংরা।"},
+                {german: "laut", article: "", pronunciation: "[laʊt]", bengali: "শোরগোলপূর্ণ", exampleGerman: "Die Musik ist zu laut.", exampleBengali: "সংগীতটি খুব শোরগোলপূর্ণ।"},
+                {german: "leise", article: "", pronunciation: "['laɪzə]", bengali: "শান্ত/চুপচাপ", exampleGerman: "Bitte seid leise, das Baby schläft.", exampleBengali: "দয়া করে চুপ থাকো, বাচ্চাটি ঘুমাচ্ছে।"},
+                {german: "stark", article: "", pronunciation: "[ʃtark]", bengali: "শক্তিশালী", exampleGerman: "Er ist sehr stark.", exampleBengali: "সে খুব শক্তিশালী।"},
+                {german: "schwach", article: "", pronunciation: "[ʃvax]", bengali: "দুর্বল", exampleGerman: "Nach der Krankheit fühle ich mich schwach.", exampleBengali: "অসুখের পর আমি দুর্বল বোধ করছি।"},
+                {german: "berühmt", article: "", pronunciation: "[bə'ryːmt]", bengali: "বিখ্যাত", exampleGerman: "Er ist ein berühmter Sänger.", exampleBengali: "তিনি একজন বিখ্যাত গায়ক।"}
+            ],
+            // 12: Orte (30)
+            [
+                {german: "Ort", article: "der", pronunciation: "[ɔrt]", bengali: "স্থান/জায়গা", exampleGerman: "Das ist ein schöner Ort.", exampleBengali: "এটি একটি সুন্দর জায়গা।"},
+                {german: "Stadt", article: "die", pronunciation: "[ʃtat]", bengali: "শহর", exampleGerman: "Berlin ist eine große Stadt.", exampleBengali: "বার্লিন একটি বড় শহর।"},
+                {german: "Dorf", article: "das", pronunciation: "[dɔrf]", bengali: "গ্রাম", exampleGerman: "Meine Großeltern leben in einem kleinen Dorf.", exampleBengali: "আমার দাদা-দাদী একটি ছোট গ্রামে বাস করেন।"},
+                {german: "Land", article: "das", pronunciation: "[lant]", bengali: "দেশ/গ্রামাঞ্চল", exampleGerman: "Deutschland ist ein schönes Land.", exampleBengali: "জার্মানি একটি সুন্দর দেশ।"},
+                {german: "Zentrum", article: "das", pronunciation: "['tsɛntrʊm]", bengali: "কেন্দ্র", exampleGerman: "Wir treffen uns im Stadtzentrum.", exampleBengali: "আমরা শহরের কেন্দ্রে দেখা করব।"},
+                {german: "Platz", article: "der", pronunciation: "[plats]", bengali: "স্কোয়ার/চত্বর", exampleGerman: "Der Alexanderplatz ist ein berühmter Platz in Berlin.", exampleBengali: "আলেকজান্ডারপ্লাৎস বার্লিনের একটি বিখ্যাত চত্বর।"},
+                {german: "Straße", article: "die", pronunciation: "['ʃtraːsə]", bengali: "রাস্তা", exampleGerman: "In welcher Straße wohnst du?", exampleBengali: "তুমি কোন রাস্তায় থাকো?"},
+                {german: "Markt", article: "der", pronunciation: "[markt]", bengali: "বাজার", exampleGerman: "Auf dem Markt kaufe ich frisches Gemüse.", exampleBengali: "আমি বাজার থেকে তাজা সবজি কিনি।"},
+                {german: "Supermarkt", article: "der", pronunciation: "['zuːpɐmarkt]", bengali: "সুপারমার্কেট", exampleGerman: "Ich gehe in den Supermarkt, um Essen zu kaufen.", exampleBengali: "আমি খাবার কেনার জন্য সুপারমার্কেটে যাই।"},
+                {german: "Geschäft", article: "das", pronunciation: "[gə'ʃɛft]", bengali: "দোকান", exampleGerman: "Das Geschäft schließt um 18 Uhr.", exampleBengali: "দোকানটি সন্ধ্যা ৬টায় বন্ধ হয়।"},
+                {german: "Laden", article: "der", pronunciation: "['laːdən]", bengali: "দোকান", exampleGerman: "Ich gehe kurz in den Laden.", exampleBengali: "আমি একটু দোকানে যাচ্ছি।"},
+                {german: "Bank", article: "die", pronunciation: "[baŋk]", bengali: "ব্যাংক", exampleGerman: "Ich muss Geld von der Bank abheben.", exampleBengali: "আমাকে ব্যাংক থেকে টাকা তুলতে হবে।"},
+                {german: "Post", article: "die", pronunciation: "[pɔst]", bengali: "ডাকঘর", exampleGerman: "Ich muss ein Paket zur Post bringen.", exampleBengali: "আমাকে একটি পার্সেল ডাকঘরে নিয়ে যেতে হবে।"},
+                {german: "Apotheke", article: "die", pronunciation: "[apo'teːkə]", bengali: "ঔষধের দোকান", exampleGerman: "Ich kaufe Medikamente in der Apotheke.", exampleBengali: "আমি ঔষধের দোকান থেকে ঔষধ কিনি।"},
+                {german: "Krankenhaus", article: "das", pronunciation: "['kraŋkənhaʊs]", bengali: "হাসপাতাল", exampleGerman: "Er liegt im Krankenhaus.", exampleBengali: "সে হাসপাতালে আছে।"},
+                {german: "Polizei", article: "die", pronunciation: "[poli'tsaɪ]", bengali: "থানা", exampleGerman: "Bei einem Unfall ruft man die Polizei.", exampleBengali: "দুর্ঘটনা ঘটলে পুলিশকে ডাকা হয়।"},
+                {german: "Schule", article: "die", pronunciation: "['ʃuːlə]", bengali: "স্কুল", exampleGerman: "Meine Kinder gehen zur Schule.", exampleBengali: "আমার বাচ্চারা স্কুলে যায়।"},
+                {german: "Universität", article: "die", pronunciation: "[univɛrzi'tɛːt]", bengali: "বিশ্ববিদ্যালয়", exampleGerman: "Er studiert an der Humboldt-Universität.", exampleBengali: "সে হামবোল্ট বিশ্ববিদ্যালয়ে পড়াশোনা করে।"},
+                {german: "Bibliothek", article: "die", pronunciation: "[biblio'teːk]", bengali: "লাইব্রেরি", exampleGerman: "Ich leihe Bücher in der Bibliothek aus.", exampleBengali: "আমি লাইব্রেরি থেকে বই ধার করি।"},
+                {german: "Kirche", article: "die", pronunciation: "['kɪrçə]", bengali: "গির্জা", exampleGerman: "Die Kirche im Dorf ist sehr alt.", exampleBengali: "গ্রামের গির্জাটি খুব পুরানো।"},
+                {german: "Restaurant", article: "das", pronunciation: "[rɛsto'rãː]", bengali: "রেস্তোরাঁ", exampleGerman: "Wir essen heute Abend in einem Restaurant.", exampleBengali: "আমরা আজ রাতে একটি রেস্তোরাঁয় খাব।"},
+                {german: "Café", article: "das", pronunciation: "[ka'feː]", bengali: "ক্যাফে", exampleGerman: "Ich trinke einen Kaffee im Café.", exampleBengali: "আমি ক্যাফেতে একটি কফি পান করছি।"},
+                {german: "Kino", article: "das", pronunciation: "['kiːno]", bengali: "সিনেমা হল", exampleGerman: "Welcher Film läuft im Kino?", exampleBengali: "সিনেমা হলে কোন সিনেমা চলছে?"},
+                {german: "Theater", article: "das", pronunciation: "[te'aːtɐ]", bengali: "থিয়েটার", exampleGerman: "Ich gehe gern ins Theater.", exampleBengali: "আমি থিয়েটারে যেতে পছন্দ করি।"},
+                {german: "Museum", article: "das", pronunciation: "[mu'zeːʊm]", bengali: "জাদুঘর", exampleGerman: "Das Pergamonmuseum ist weltberühmt.", exampleBengali: "পারগামন জাদুঘর বিশ্ববিখ্যাত।"},
+                {german: "Park", article: "der", pronunciation: "[park]", bengali: "পার্ক", exampleGerman: "Wir machen einen Spaziergang im Park.", exampleBengali: "আমরা পার্কে হাঁটতে যাচ্ছি।"},
+                {german: "Schwimmbad", article: "das", pronunciation: "['ʃvɪmbat]", bengali: "সুইমিং পুল", exampleGerman: "Im Sommer gehe ich oft ins Schwimmbad.", exampleBengali: "গ্রীষ্মে আমি প্রায়ই সুইমিং পুলে যাই।"},
+                {german: "Hotel", article: "das", pronunciation: "[ho'tɛl]", bengali: "হোটেল", exampleGerman: "Wir übernachten in einem Hotel.", exampleBengali: "আমরা একটি হোটেলে থাকব।"},
+                {german: "Flughafen", article: "der", pronunciation: "['fluːkhaːfən]", bengali: "বিমানবন্দর", exampleGerman: "Der Flughafen ist außerhalb der Stadt.", exampleBengali: "বিমানবন্দরটি শহরের বাইরে।"},
+                {german: "Bahnhof", article: "der", pronunciation: "['baːnhoːf]", bengali: "রেল স্টেশন", exampleGerman: "Ich warte auf dich am Bahnhof.", exampleBengali: "আমি তোমার জন্য স্টেশনে অপেক্ষা করছি।"}
+            ],
+            // 13: Schule (40)
+            [
+                {german: "Schule", article: "die", pronunciation: "['ʃuːlə]", bengali: "স্কুল", exampleGerman: "Die Schule beginnt um 8 Uhr.", exampleBengali: "স্কুল সকাল ৮টায় শুরু হয়।"},
+                {german: "Schüler", article: "der", pronunciation: "['ʃyːlɐ]", bengali: "ছাত্র", exampleGerman: "Der Schüler lernt für die Prüfung.", exampleBengali: "ছাত্রটি পরীক্ষার জন্য পড়ছে।"},
+                {german: "Schülerin", article: "die", pronunciation: "['ʃyːlərɪn]", bengali: "ছাত্রী", exampleGerman: "Die Schülerin ist sehr fleißig.", exampleBengali: "ছাত্রীটি খুব পরিশ্রমী।"},
+                {german: "Lehrer", article: "der", pronunciation: "['leːrɐ]", bengali: "শিক্ষক", exampleGerman: "Der Lehrer erklärt die Aufgabe.", exampleBengali: "শিক্ষক কাজটি ব্যাখ্যা করছেন।"},
+                {german: "Klasse", article: "die", pronunciation: "['klasə]", bengali: "ক্লাস", exampleGerman: "Ich bin in der zehnten Klasse.", exampleBengali: "আমি দশম শ্রেণীতে পড়ি।"},
+                {german: "Klassenzimmer", article: "das", pronunciation: "['klasəntsɪmɐ]", bengali: "শ্রেণীকক্ষ", exampleGerman: "Das Klassenzimmer ist groß und hell.", exampleBengali: "শ্রেণীকক্ষটি বড় এবং উজ্জ্বল।"},
+                {german: "Unterricht", article: "der", pronunciation: "['ʊntɐrɪçt]", bengali: "পাঠদান", exampleGerman: "Der Unterricht fängt gleich an.", exampleBengali: "পাঠদান শীঘ্রই শুরু হবে।"},
+                {german: "Fach", article: "das", pronunciation: "[fax]", bengali: "বিষয়", exampleGerman: "Mathe ist mein Lieblingsfach.", exampleBengali: "গণিত আমার প্রিয় বিষয়।"},
+                {german: "Deutsch", article: "das", pronunciation: "[dɔʏtʃ]", bengali: "জার্মান ভাষা", exampleGerman: "Wir lernen Deutsch.", exampleBengali: "আমরা জার্মান শিখছি।"},
+                {german: "Mathe", article: "die", pronunciation: "['matə]", bengali: "গণিত", exampleGerman: "Ich bin gut in Mathe.", exampleBengali: "আমি গণিতে ভালো।"},
+                {german: "Englisch", article: "das", pronunciation: "['ɛŋlɪʃ]", bengali: "ইংরেজি ভাষা", exampleGerman: "Englisch ist eine Weltsprache.", exampleBengali: "ইংরেজি একটি বিশ্ব ভাষা।"},
+                {german: "Geschichte", article: "die", pronunciation: "[gə'ʃɪçtə]", bengali: "ইতিহাস", exampleGerman: "Ich finde Geschichte interessant.", exampleBengali: "আমার কাছে ইতিহাস আকর্ষণীয় মনে হয়।"},
+                {german: "Sport", article: "der", pronunciation: "[ʃpɔrt]", bengali: "খেলাধুলা", exampleGerman: "Am Montag haben wir Sport.", exampleBengali: "সোমবার আমাদের খেলাধুলা আছে।"},
+                {german: "Musik", article: "die", pronunciation: "[mu'ziːk]", bengali: "সংগীত", exampleGerman: "Im Musikunterricht singen wir.", exampleBengali: "সংগীত ক্লাসে আমরা গান গাই।"},
+                {german: "Kunst", article: "die", pronunciation: "[kʊnst]", bengali: "শিল্পকলা", exampleGerman: "In Kunst malen wir Bilder.", exampleBengali: "শিল্পকলা ক্লাসে আমরা ছবি আঁকি।"},
+                {german: "Pause", article: "die", pronunciation: "['paʊzə]", bengali: "বিরতি", exampleGerman: "In der Pause spiele ich mit meinen Freunden.", exampleBengali: "বিরতিতে আমি আমার বন্ধুদের সাথে খেলি।"},
+                {german: "Hausaufgabe", article: "die", pronunciation: "['haʊsaʊfgaːbə]", bengali: "বাড়ির কাজ", exampleGerman: "Ich muss noch meine Hausaufgaben machen.", exampleBengali: "আমাকে এখনও আমার বাড়ির কাজ করতে হবে।"},
+                {german: "Prüfung", article: "die", pronunciation: "['pryːfʊŋ]", bengali: "পরীক্ষা", exampleGerman: "Morgen habe ich eine wichtige Prüfung.", exampleBengali: "আগামীকাল আমার একটি গুরুত্বপূর্ণ পরীক্ষা আছে।"},
+                {german: "Test", article: "der", pronunciation: "[tɛst]", bengali: "টেস্ট", exampleGerman: "Wir schreiben heute einen Test in Englisch.", exampleBengali: "আমরা আজ ইংরেজিতে একটি টেস্ট লিখছি।"},
+                {german: "Note", article: "die", pronunciation: "['noːtə]", bengali: "নম্বর/গ্রেড", exampleGerman: "Ich habe eine gute Note bekommen.", exampleBengali: "আমি একটি ভালো গ্রেড পেয়েছি।"},
+                {german: "Zeugnis", article: "das", pronunciation: "['tsɔyknɪs]", bengali: "রিপোর্ট কার্ড", exampleGerman: "Am Ende des Schuljahres gibt es ein Zeugnis.", exampleBengali: "স্কুল বছরের শেষে একটি রিপোর্ট কার্ড দেওয়া হয়।"},
+                {german: "Buch", article: "das", pronunciation: "[buːx]", bengali: "বই", exampleGerman: "Ich lese ein Buch.", exampleBengali: "আমি একটি বই পড়ছি।"},
+                {german: "Heft", article: "das", pronunciation: "[hɛft]", bengali: "খাতা", exampleGerman: "Schreib das in dein Heft.", exampleBengali: "এটা তোমার খাতায় লেখ।"},
+                {german: "Stift", article: "der", pronunciation: "[ʃtɪft]", bengali: "কলম", exampleGerman: "Kann ich mir einen Stift leihen?", exampleBengali: "আমি কি একটি কলম ধার নিতে পারি?"},
+                {german: "Bleistift", article: "der", pronunciation: "['blaɪʃtɪft]", bengali: "পেন্সিল", exampleGerman: "Ich schreibe lieber mit Bleistift.", exampleBengali: "আমি পেন্সিল দিয়ে লিখতে বেশি পছন্দ করি।"},
+                {german: "Radiergummi", article: "der", pronunciation: "[ra'diːɐ̯gʊmi]", bengali: "রাবার", exampleGerman: "Hast du einen Radiergummi für mich?", exampleBengali: "তোমার কাছে কি আমার জন্য একটি রাবার আছে?"},
+                {german: "Lineal", article: "das", pronunciation: "[line'aːl]", bengali: "রুলার", exampleGerman: "Ich brauche ein Lineal, um eine gerade Linie zu ziehen.", exampleBengali: "একটি সোজা রেখা আঁকার জন্য আমার একটি রুলার দরকার।"},
+                {german: "Tafel", article: "die", pronunciation: "['taːfəl]", bengali: "বোর্ড", exampleGerman: "Der Lehrer schreibt an die Tafel.", exampleBengali: "শিক্ষক বোর্ডে লিখছেন।"},
+                {german: "Kreide", article: "die", pronunciation: "['kraɪdə]", bengali: "চক", exampleGerman: "Die Kreide ist weiß.", exampleBengali: "চকটি সাদা।"},
+                {german: "Tisch", article: "der", pronunciation: "[tɪʃ]", bengali: "টেবিল", exampleGerman: "Mein Buch liegt auf dem Tisch.", exampleBengali: "আমার বইটি টেবিলের উপর আছে।"},
+                {german: "Stuhl", article: "der", pronunciation: "[ʃtuːl]", bengali: "চেয়ার", exampleGerman: "Der Schüler sitzt auf dem Stuhl.", exampleBengali: "ছাত্রটি চেয়ারে বসে আছে।"},
+                {german: "Schultasche", article: "die", pronunciation: "['ʃuːltaʃə]", bengali: "স্কুল ব্যাগ", exampleGerman: "Meine Schultasche ist schwer.", exampleBengali: "আমার স্কুল ব্যাগ ভারী।"},
+                {german: "Frage", article: "die", pronunciation: "['fraːgə]", bengali: "প্রশ্ন", exampleGerman: "Ich habe eine Frage.", exampleBengali: "আমার একটি প্রশ্ন আছে।"},
+                {german: "Antwort", article: "die", pronunciation: "['antvɔrt]", bengali: "উত্তর", exampleGerman: "Wer weiß die Antwort?", exampleBengali: "কে উত্তরটি জানে?"},
+                {german: "Beispiel", article: "das", pronunciation: "['baɪʃpiːl]", bengali: "উদাহরণ", exampleGerman: "Kannst du mir ein Beispiel geben?", exampleBengali: "তুমি কি আমাকে একটি উদাহরণ দিতে পারো?"},
+                {german: "lernen", article: "", pronunciation: "['lɛrnən]", bengali: "শেখা", exampleGerman: "Wir lernen jeden Tag etwas Neues.", exampleBengali: "আমরা প্রতিদিন নতুন কিছু শিখি।"},
+                {german: "lehren", article: "", pronunciation: "['leːrən]", bengali: "শেখানো", exampleGerman: "Mein Vater lehrt mich Autofahren.", exampleBengali: "আমার বাবা আমাকে গাড়ি চালানো শেখান।"},
+                {german: "verstehen", article: "", pronunciation: "[fɛɐ̯'ʃteːən]", bengali: "বোঝা", exampleGerman: "Ich verstehe die Frage nicht.", exampleBengali: "আমি প্রশ্নটি বুঝতে পারছি না।"},
+                {german: "wiederholen", article: "", pronunciation: "[viːdɐ'hoːlən]", bengali: "পুনরাবৃত্তি করা", exampleGerman: "Können Sie das bitte wiederholen?", exampleBengali: "আপনি কি দয়া করে এটি পুনরাবৃত্তি করতে পারেন?"},
+                {german: "Ferien", article: "die (pl)", pronunciation: "['feːriən]", bengali: "ছুটি", exampleGerman: "Im Sommer haben wir sechs Wochen Ferien.", exampleBengali: "গ্রীষ্মকালে আমাদের ছয় সপ্তাহের ছুটি থাকে।"}
+            ],
+            // 14: Einkaufen (35)
+            [
+                {german: "einkaufen", article: "", pronunciation: "['aɪnkaʊfən]", bengali: "কেনাকাটা করা", exampleGerman: "Ich gehe am Samstag einkaufen.", exampleBengali: "আমি শনিবারে কেনাকাটা করতে যাই।"},
+                {german: "Geschäft", article: "das", pronunciation: "[gə'ʃɛft]", bengali: "দোকান", exampleGerman: "Welches Geschäft ist das beste?", exampleBengali: "কোন দোকানটি সেরা?"},
+                {german: "Supermarkt", article: "der", pronunciation: "['zuːpɐmarkt]", bengali: "সুপারমার্কেট", exampleGerman: "Im Supermarkt gibt es alles.", exampleBengali: "সুপারমার্কেটে সবকিছু পাওয়া যায়।"},
+                {german: "Markt", article: "der", pronunciation: "[markt]", bengali: "বাজার", exampleGerman: "Auf dem Markt ist das Gemüse frisch.", exampleBengali: "বাজারে সবজি তাজা থাকে।"},
+                {german: "Bäckerei", article: "die", pronunciation: "[bɛkə'raɪ]", bengali: "বেকারি", exampleGerman: "Ich hole Brot von der Bäckerei.", exampleBengali: "আমি বেকারি থেকে রুটি আনি।"},
+                {german: "Metzgerei", article: "die", pronunciation: "[mɛtsgə'raɪ]", bengali: "কসাইয়ের দোকান", exampleGerman: "In der Metzgerei kaufe ich Wurst.", exampleBengali: "আমি কসাইয়ের দোকান থেকে সসেজ কিনি।"},
+                {german: "Kaufhaus", article: "das", pronunciation: "['kaʊfhaʊs]", bengali: "ডিপার্টমেন্টাল স্টোর", exampleGerman: "Im Kaufhaus findet man Kleidung und Elektronik.", exampleBengali: "ডিপার্টমেন্টাল স্টোরে পোশাক এবং ইলেকট্রনিক্স পাওয়া যায়।"},
+                {german: "Preis", article: "der", pronunciation: "[praɪs]", bengali: "দাম", exampleGerman: "Was ist der Preis von diesem Hemd?", exampleBengali: "এই শার্টটির দাম কত?"},
+                {german: "kosten", article: "", pronunciation: "['kɔstən]", bengali: "দাম হওয়া", exampleGerman: "Wie viel kostet das?", exampleBengali: "এটার দাম কত?"},
+                {german: "Angebot", article: "das", pronunciation: "['angəboːt]", bengali: "অফার", exampleGerman: "Diese Woche sind Äpfel im Angebot.", exampleBengali: "এই সপ্তাহে আপেল অফারে আছে।"},
+                {german: "billig", article: "", pronunciation: "['bɪlɪç]", bengali: "সস্তা", exampleGerman: "Das T-Shirt war sehr billig.", exampleBengali: "টি-শার্টটি খুব সস্তা ছিল।"},
+                {german: "teuer", article: "", pronunciation: "['tɔʏɐ]", bengali: "দামী", exampleGerman: "Lederjacken sind oft teuer.", exampleBengali: "চামড়ার জ্যাকেট প্রায়ই দামী হয়।"},
+                {german: "Geld", article: "das", pronunciation: "[gɛlt]", bengali: "টাকা", exampleGerman: "Ich habe nicht genug Geld dabei.", exampleBengali: "আমার সাথে যথেষ্ট টাকা নেই।"},
+                {german: "bezahlen", article: "", pronunciation: "[bə'tsaːlən]", bengali: "পরিশোধ করা", exampleGerman: "Wo kann ich bezahlen?", exampleBengali: "আমি কোথায় বিল পরিশোধ করতে পারি?"},
+                {german: "Kasse", article: "die", pronunciation: "['kasə]", bengali: "ক্যাশ কাউন্টার", exampleGerman: "Bitte gehen Sie zur Kasse.", exampleBengali: "দয়া করে ক্যাশ কাউন্টারে যান।"},
+                {german: "Kreditkarte", article: "die", pronunciation: "[kre'diːtkartə]", bengali: "ক্রেডিট কার্ড", exampleGerman: "Kann ich mit Kreditkarte bezahlen?", exampleBengali: "আমি কি ক্রেডিট কার্ড দিয়ে পরিশোধ করতে পারি?"},
+                {german: "bar", article: "", pronunciation: "[baːɐ̯]", bengali: "নগদ", exampleGerman: "Ich bezahle lieber bar.", exampleBengali: "আমি নগদে পরিশোধ করতে পছন্দ করি।"},
+                {german: "Rechnung", article: "die", pronunciation: "['rɛçnʊŋ]", bengali: "বিল/রসিদ", exampleGerman: "Kann ich bitte die Rechnung haben?", exampleBengali: "আমি কি দয়া করে বিলটি পেতে পারি?"},
+                {german: "Quittung", article: "die", pronunciation: "['kvɪtʊŋ]", bengali: "রসিদ", exampleGerman: "Brauchen Sie eine Quittung?", exampleBengali: "আপনার কি রসিদ লাগবে?"},
+                {german: "Kunde", article: "der", pronunciation: "['kʊndə]", bengali: "গ্রাহক", exampleGerman: "Der Kunde ist König.", exampleBengali: "গ্রাহকই রাজা।"},
+                {german: "Verkäufer", article: "der", pronunciation: "[fɛɐ̯'kɔʏfɐ]", bengali: "বিক্রেতা", exampleGerman: "Der Verkäufer war sehr freundlich.", exampleBengali: "বিক্রেতা খুব বন্ধুত্বপূর্ণ ছিল।"},
+                {german: "Einkaufswagen", article: "der", pronunciation: "['aɪnkaʊfsvaːgən]", bengali: "শপিং কার্ট", exampleGerman: "Ich brauche einen Einkaufswagen.", exampleBengali: "আমার একটি শপিং কার্ট দরকার।"},
+                {german: "Einkaufskorb", article: "der", pronunciation: "['aɪnkaʊfskɔrp]", bengali: "শপিং বাস্কেট", exampleGerman: "Ein Einkaufskorb reicht für mich.", exampleBengali: "আমার জন্য একটি শপিং বাস্কেটই যথেষ্ট।"},
+                {german: "Tüte", article: "die", pronunciation: "['tyːtə]", bengali: "ব্যাগ/থলে", exampleGerman: "Möchten Sie eine Tüte?", exampleBengali: "আপনি কি একটি ব্যাগ চান?"},
+                {german: "Liste", article: "die", pronunciation: "['lɪstə]", bengali: "তালিকা", exampleGerman: "Ich habe eine Einkaufsliste geschrieben.", exampleBengali: "আমি একটি কেনাকাটার তালিকা লিখেছি।"},
+                {german: "probieren", article: "", pronunciation: "[pro'biːrən]", bengali: "চেষ্টা করা/ট্রাই করা", exampleGerman: "Ich möchte diesen Käse probieren.", exampleBengali: "আমি এই পনিরটি চেষ্টা করতে চাই।"},
+                {german: "anprobieren", article: "", pronunciation: "['anprobiːrən]", bengali: "পরে দেখা", exampleGerman: "Kann ich das Hemd anprobieren?", exampleBengali: "আমি কি শার্টটি পরে দেখতে পারি?"},
+                {german: "Umkleidekabine", article: "die", pronunciation: "['ʊmklaɪdəkabiːnə]", bengali: "ট্রায়াল রুম", exampleGerman: "Wo ist die Umkleidekabine?", exampleBengali: "ট্রায়াল রুম কোথায়?"},
+                {german: "Größe", article: "die", pronunciation: "['grøːsə]", bengali: "সাইজ", exampleGerman: "Haben Sie das auch in Größe M?", exampleBengali: "আপনার কাছে কি এটি এম সাইজেও আছে?"},
+                {german: "Garantie", article: "die", pronunciation: "[garan'tiː]", bengali: "গ্যারান্টি/ওয়ারেন্টি", exampleGerman: "Das Gerät hat zwei Jahre Garantie.", exampleBengali: "যন্ত্রটির দুই বছরের ওয়ারেন্টি আছে।"},
+                {german: "zurückgeben", article: "", pronunciation: "[tsu'rʏkgeːbən]", bengali: "ফেরত দেওয়া", exampleGerman: "Ich möchte diesen Artikel zurückgeben.", exampleBengali: "আমি এই জিনিসটি ফেরত দিতে চাই।"},
+                {german: "umtauschen", article: "", pronunciation: "['ʊmtaʊʃən]", bengali: "বদলানো", exampleGerman: "Kann ich das gegen eine andere Größe umtauschen?", exampleBengali: "আমি কি এটি অন্য সাইজের সাথে বদলাতে পারি?"},
+                {german: "geöffnet", article: "", pronunciation: "[gə'œfnət]", bengali: "খোলা", exampleGerman: "Das Geschäft ist von 9 bis 20 Uhr geöffnet.", exampleBengali: "দোকানটি সকাল ৯টা থেকে রাত ৮টা পর্যন্ত খোলা থাকে।"},
+                {german: "geschlossen", article: "", pronunciation: "[gə'ʃlɔsən]", bengali: "বন্ধ", exampleGerman: "Am Sonntag sind die meisten Geschäfte geschlossen.", exampleBengali: "রবিবারে বেশিরভাগ দোকান বন্ধ থাকে।"},
+                {german: "Ausverkauf", article: "der", pronunciation: "['aʊsfɛɐ̯kaʊf]", bengali: "সেল/ছাড়", exampleGerman: "Im Sommer gibt es einen großen Ausverkauf.", exampleBengali: "গ্রীষ্মকালে একটি বড় সেল থাকে।"}
+            ],
+            // 15: Gesundheit (25)
+            [
+                {german: "Gesundheit", article: "die", pronunciation: "[gə'zʊnthaɪt]", bengali: "স্বাস্থ্য", exampleGerman: "Gesundheit ist das Wichtigste.", exampleBengali: "স্বাস্থ্যই সবচেয়ে গুরুত্বপূর্ণ।"},
+                {german: "krank", article: "", pronunciation: "[kraŋk]", bengali: "অসুস্থ", exampleGerman: "Ich fühle mich krank.", exampleBengali: "আমার অসুস্থ লাগছে।"},
+                {german: "gesund", article: "", pronunciation: "[gə'zʊnt]", bengali: "সুস্থ", exampleGerman: "Ich bin wieder gesund.", exampleBengali: "আমি আবার সুস্থ হয়েছি।"},
+                {german: "Arzt", article: "der", pronunciation: "[aːɐ̯tst]", bengali: "ডাক্তার", exampleGerman: "Du solltest zum Arzt gehen.", exampleBengali: "তোমার ডাক্তারের কাছে যাওয়া উচিত।"},
+                {german: "Krankenhaus", article: "das", pronunciation: "['kraŋkənhaʊs]", bengali: "হাসপাতাল", exampleGerman: "Er wurde ins Krankenhaus gebracht.", exampleBengali: "তাকে হাসপাতালে নিয়ে যাওয়া হয়েছে।"},
+                {german: "Apotheke", article: "die", pronunciation: "[apo'teːkə]", bengali: "ঔষধের দোকান", exampleGerman: "Ich hole die Medizin aus der Apotheke.", exampleBengali: "আমি ঔষধের দোকান থেকে ঔষধ আনছি।"},
+                {german: "Medikament", article: "das", pronunciation: "[medika'mɛnt]", bengali: "ঔষধ", exampleGerman: "Nehmen Sie dieses Medikament dreimal täglich.", exampleBengali: "এই ঔষধটি দিনে তিনবার নিন।"},
+                {german: "Tablette", article: "die", pronunciation: "[ta'blɛtə]", bengali: "ট্যাবলেট", exampleGerman: "Ich muss eine Tablette gegen Kopfschmerzen nehmen.", exampleBengali: "আমাকে মাথাব্যথার জন্য একটি ট্যাবলেট নিতে হবে।"},
+                {german: "Rezept", article: "das", pronunciation: "[re'tsɛpt]", bengali: "প্রেসক্রিপশন", exampleGerman: "Der Arzt hat mir ein Rezept gegeben.", exampleBengali: "ডাক্তার আমাকে একটি প্রেসক্রিপশন দিয়েছেন।"},
+                {german: "Schmerz", article: "der", pronunciation: "[ʃmɛrts]", bengali: "ব্যথা", exampleGerman: "Ich habe starke Schmerzen im Rücken.", exampleBengali: "আমার পিঠে তীব্র ব্যথা।"},
+                {german: "Kopfschmerzen", article: "die (pl)", pronunciation: "['kɔpfʃmɛrtsən]", bengali: "মাথাব্যথা", exampleGerman: "Wegen dem Stress habe ich Kopfschmerzen.", exampleBengali: "চাপের কারণে আমার মাথাব্যথা হচ্ছে।"},
+                {german: "Bauchschmerzen", article: "die (pl)", pronunciation: "['baʊxʃmɛrtsən]", bengali: "পেটব্যথা", exampleGerman: "Das Kind hat Bauchschmerzen.", exampleBengali: "বাচ্চাটির পেটব্যথা করছে।"},
+                {german: "Zahnschmerzen", article: "die (pl)", pronunciation: "['tsaːnʃmɛrtsən]", bengali: "দাঁতব্যথা", exampleGerman: "Bei Zahnschmerzen gehe ich zum Zahnarzt.", exampleBengali: "দাঁতব্যথা হলে আমি দাঁতের ডাক্তারের কাছে যাই।"},
+                {german: "Fieber", article: "das", pronunciation: "['fiːbɐ]", bengali: "জ্বর", exampleGerman: "Er hat hohes Fieber.", exampleBengali: "তার উচ্চ জ্বর আছে।"},
+                {german: "Husten", article: "der", pronunciation: "['huːstən]", bengali: "কাশি", exampleGerman: "Der Husten hält mich nachts wach.", exampleBengali: "কাশির কারণে আমি রাতে জেগে থাকি।"},
+                {german: "Schnupfen", article: "der", pronunciation: "['ʃnʊpfən]", bengali: "সর্দি", exampleGerman: "Im Winter habe ich oft Schnupfen.", exampleBengali: "শীতকালে আমার প্রায়ই সর্দি লাগে।"},
+                {german: "Erkältung", article: "die", pronunciation: "[ɛɐ̯'kɛltʊŋ]", bengali: "ঠান্ডা লাগা", exampleGerman: "Ich habe eine starke Erkältung.", exampleBengali: "আমার তীব্র ঠান্ডা লেগেছে।"},
+                {german: "Grippe", article: "die", pronunciation: "['grɪpə]", bengali: "ফ্লু", exampleGerman: "Die Grippe ist ansteckend.", exampleBengali: "ফ্লু সংক্রামক।"},
+                {german: "Verletzung", article: "die", pronunciation: "[fɛɐ̯'lɛtsʊŋ]", bengali: "আঘাত", exampleGerman: "Er hat eine Verletzung am Knie.", exampleBengali: "তার হাঁটুতে আঘাত লেগেছে।"},
+                {german: "Wunde", article: "die", pronunciation: "['vʊndə]", bengali: "ক্ষত", exampleGerman: "Die Wunde muss gereinigt werden.", exampleBengali: "ক্ষতটি পরিষ্কার করতে হবে।"},
+            ],
+            [
+                {german: "der Name", article: "der", pronunciation: "[ˈnaːmə]", bengali: "নাম", exampleGerman: "Mein Name ist Ali.", exampleBengali: "আমার নাম আলী।"},
+                {german: "heißen", article: "", pronunciation: "[ˈhaɪ̯sn̩]", bengali: "নামে পরিচিত হওয়া", exampleGerman: "Wie heißen Sie?", exampleBengali: "আপনার নাম কী?"},
+                {german: "kommen", article: "", pronunciation: "[ˈkɔmən]", bengali: "আসা", exampleGerman: "Ich komme aus Bangladesch.", exampleBengali: "আমি বাংলাদেশ থেকে এসেছি।"},
+                {german: "wohnen", article: "", pronunciation: "[ˈvoːnən]", bengali: "বসবাস করা", exampleGerman: "Ich wohne in Magdeburg.", exampleBengali: "আমি ম্যাগডেবুর্গে বসবাস করি।"},
+                {german: "Adresse", article: "die", pronunciation: "[aˈdʁɛsə]", bengali: "ঠিকানা", exampleGerman: "Was ist Ihre Adresse?", exampleBengali: "আপনার ঠিকানা কী?"},
+                {german: "sprechen", article: "", pronunciation: "[ˈʃpʁɛçn̩]", bengali: "কথা বলা", exampleGerman: "Ich spreche Bengalisch und ein bisschen Deutsch.", exampleBengali: "আমি বাংলা এবং সামান্য জার্মান বলতে পারি।"},
+                {german: "Sprache", article: "die", pronunciation: "[ˈʃpʁaːxə]", bengali: "ভাষা", exampleGerman: "Welche Sprachen sprechen Sie?", exampleBengali: "আপনি কোন কোন ভাষায় কথা বলেন?"},
+                {german: "Hallo", article: "", pronunciation: "[haˈloː]", bengali: "হ্যালো", exampleGerman: "Hallo, wie geht es Ihnen?", exampleBengali: "হ্যালো, আপনি কেমন আছেন?"},
+                {german: "Guten Tag", article: "", pronunciation: "[ˌɡuːtn̩ ˈtaːk]", bengali: "শুভ দিন", exampleGerman: "Guten Tag, Frau Weber.", exampleBengali: "শুভ দিন, মিসেস ওয়েবার।"},
+                {german: "Auf Wiedersehen", article: "", pronunciation: "[aʊ̯f ˈviːdɐˌzeːən]", bengali: "আবার দেখা হবে", exampleGerman: "Auf Wiedersehen, bis morgen.", exampleBengali: "আবার দেখা হবে, আগামীকাল পর্যন্ত।"},
+                {german: "Tschüss", article: "", pronunciation: "[t͡ʃʏs]", bengali: "বিদায় (অনানুষ্ঠানিক)", exampleGerman: "Tschüss, bis bald!", exampleBengali: "বিদায়, শীঘ্রই দেখা হবে!"},
+                {german: "bitte", article: "", pronunciation: "[ˈbɪtə]", bengali: "দয়া করে / স্বাগতম", exampleGerman: "Ein Kaffee, bitte. / Danke! - Bitte!", exampleBengali: "দয়া করে, একটি কফি। / ধন্যবাদ! - স্বাগতম!"},
+                {german: "danke", article: "", pronunciation: "[ˈdaŋkə]", bengali: "ধন্যবাদ", exampleGerman: "Vielen Dank für Ihre Hilfe.", exampleBengali: "আপনার সাহায্যের জন্য অনেক ধন্যবাদ।"},
+                {german: "die Entschuldigung", article: "die", pronunciation: "[ɛntˈʃʊldɪɡʊŋ]", bengali: "ক্ষমা", exampleGerman: "Entschuldigung, wie spät ist es?", exampleBengali: "দুঃখিত, এখন কয়টা বাজে?"},
+                {german: "glücklich", article: "", pronunciation: "[ˈɡlʏklɪç]", bengali: "সুখী", exampleGerman: "Ich bin sehr glücklich, weil ich die Prüfung bestanden habe.", exampleBengali: "আমি খুব সুখী, কারণ আমি পরীক্ষায় পাস করেছি।"},
+                {german: "traurig", article: "", pronunciation: "[ˈtʁaʊ̯ʁɪç]", bengali: "দুঃখিত", exampleGerman: "Sie war traurig, als sie die Nachricht hörte.", exampleBengali: "খবরটি শুনে সে দুঃখ পেয়েছিল।"},
+                {german: "müde", article: "", pronunciation: "[ˈmyːdə]", bengali: "ক্লান্ত", exampleGerman: "Nach der langen Reise war ich sehr müde.", exampleBengali: "দীর্ঘ যাত্রার পর আমি খুব ক্লান্ত ছিলাম।"},
+                {german: "wütend", article: "", pronunciation: "[ˈvyːtənt]", bengali: "রাগান্বিত", exampleGerman: "Er ist wütend auf seinen Bruder.", exampleBengali: "সে তার ভাইয়ের উপর রাগান্বিত।"},
+                {german: "überrascht", article: "", pronunciation: "[yːbɐˈʁaʃt]", bengali: "অবাক", exampleGerman: "Ich war überrascht, dich hier zu sehen.", exampleBengali: "তোমাকে এখানে দেখে আমি অবাক হয়েছিলাম।"},
+                {german: "Meinung", article: "die", pronunciation: "[ˈmaɪ̯nʊŋ]", bengali: "মতামত", exampleGerman: "Meiner Meinung nach ist das eine gute Idee.", exampleBengali: "আমার মতে, এটি একটি ভালো বুদ্ধি।"},
+                {german: "finden", article: "", pronunciation: "[ˈfɪndn̩]", bengali: "মনে করা", exampleGerman: "Ich finde, dass der Film sehr interessant war.", exampleBengali: "আমি মনে করি যে সিনেমাটি খুব আকর্ষণীয় ছিল।"},
+                {german: "glauben", article: "", pronunciation: "[ˈɡlaʊ̯bn̩]", bengali: "বিশ্বাস করা / মনে করা", exampleGerman: "Ich glaube, es wird morgen regnen.", exampleBengali: "আমার মনে হয়, আগামীকাল বৃষ্টি হবে।"},
+                {german: "hoffen", article: "", pronunciation: "[ˈhɔfn̩]", bengali: "আশা করা", exampleGerman: "Ich hoffe, dass alles gut wird.", exampleBengali: "আমি আশা করি যে সবকিছু ঠিক হয়ে যাবে।"},
+                {german: "Gesellschaft", article: "die", pronunciation: "[ɡəˈzɛlʃaft]", bengali: "সমাজ", exampleGerman: "Jeder Einzelne ist ein Teil der Gesellschaft.", exampleBengali: "প্রত্যেক ব্যক্তিই সমাজের একটি অংশ।"},
+                {german: "Regierung", article: "die", pronunciation: "[ʁeˈɡiːʁʊŋ]", bengali: "সরকার", exampleGerman: "Die Regierung hat neue Gesetze vorgeschlagen.", exampleBengali: "সরকার নতুন আইন প্রস্তাব করেছে।"},
+                {german: "Gesetz", article: "das", pronunciation: "[ɡəˈzɛt͡s]", bengali: "আইন", exampleGerman: "Alle Bürger müssen die Gesetze respektieren.", exampleBengali: "সকল নাগরিককে আইন মেনে চলতে হবে।"},
+                {german: "Wahl", article: "die", pronunciation: "[vaːl]", bengali: "নির্বাচন", exampleGerman: "Die nächsten Wahlen finden in vier Jahren statt.", exampleBengali: "পরবর্তী নির্বাচন চার বছর পর অনুষ্ঠিত হবে।"},
+                {german: "Bürger / die Bürgerin", article: "der/die", pronunciation: "[ˈbʏʁɡɐ / ˈbʏʁɡəʁɪn]", bengali: "নাগরিক", exampleGerman: "Als Bürger hat man sowohl Rechte als auch Pflichten.", exampleBengali: "একজন নাগরিক হিসেবে অধিকার এবং কর্তব্য দুটোই থাকে।"},
+                {german: "Politik", article: "die", pronunciation: "[poliˈtiːk]", bengali: "রাজনীতি", exampleGerman: "Er interessiert sich sehr für Politik.", exampleBengali: "সে রাজনীতির প্রতি খুব আগ্রহী।"},
+                {german: "Meinungfreiheit", article: "die", pronunciation: "[ˈmaɪ̯nʊŋsˌfʁaɪ̯haɪ̯t]", bengali: "মতামত প্রকাশের স্বাধীনতা", exampleGerman: "Die Meinungsfreiheit ist ein wichtiges Grundrecht.", exampleBengali: "মতামত প্রকাশের স্বাধীনতা একটি গুরুত্বপূর্ণ মৌলিক অধিকার।"},
+                {german: "Ausbildung", article: "die", pronunciation: "[ˈaʊ̯sˌbɪldʊŋ]", bengali: "বৃত্তিমূলক প্রশিক্ষণ", exampleGerman: "Nach der Schule hat er eine Ausbildung zum Mechatroniker gemacht.", exampleBengali: "স্কুলের পর সে মেকাট্রনিক্স-এর উপর একটি বৃত্তিমূলক প্রশিক্ষণ নিয়েছে।"},
+                {german: "Abschluss", article: "der", pronunciation: "[ˈapˌʃlʊs]", bengali: "স্নাতক/ডিগ্রি", exampleGerman: "Für diese Stelle ist ein Universitätsabschluss erforderlich.", exampleBengali: "এই পদের জন্য একটি বিশ্ববিদ্যালয় ডিগ্রি প্রয়োজন।"},
+                {german: "Kenntnisse", article: "die (pl.)", pronunciation: "[ˈkɛntnɪsə]", bengali: "জ্ঞান", exampleGerman: "Er verfügt über ausgezeichnete Computerkenntnisse.", exampleBengali: "তার চমৎকার কম্পিউটার জ্ঞান রয়েছে।"},
+                {german: "sich verbessern", article: "", pronunciation: "[zɪç fɛɐ̯ˈbɛsɐn]", bengali: "উন্নত করা", exampleGerman: "Ich möchte meine Deutschkenntnisse so schnell wie möglich verbessern.", exampleBengali: "আমি যত তাড়াতাড়ি সম্ভব আমার জার্মান ভাষার জ্ঞান উন্নত করতে চাই।"},
+                {german: "Herausforderung", article: "die", pronunciation: "[hɛˈʁaʊ̯sˌfɔʁdəʁʊŋ]", bengali: "চ্যালেঞ্জ", exampleGerman: "Eine neue Sprache zu lernen, ist eine große Herausforderung.", exampleBengali: "একটি নতুন ভাষা শেখা একটি বড় চ্যালেঞ্জ।"},
+                {german: "Erfahrung", article: "die", pronunciation: "[ɛɐ̯ˈfaːʁʊŋ]", bengali: "অভিজ্ঞতা", exampleGerman: "Durch Reisen sammelt man wertvolle Erfahrungen.", exampleBengali: "ভ্রমণের মাধ্যমে মানুষ মূল্যবান অভিজ্ঞতা অর্জন করে।"},
+                {german: "teilnehmen an", article: "", pronunciation: "[ˈtaɪ̯lˌneːmən an]", bengali: "অংশগ্রহণ করা", exampleGerman: "Nächste Woche nehme ich an einem Computerkurs teil.", exampleBengali: "আগামী সপ্তাহে আমি একটি কম্পিউটার কোর্সে অংশগ্রহণ করব।"}
+
+            ],
+                // 3: সাধারণ
+            [
+            {german: "sozialen Netzwerke", article: "die (pl.)", pronunciation: "[diː zoˈt͡si̯aːlən ˈnɛt͡sˌvɛʁkə]", bengali: "সামাজিক যোগাযোগ মাধ্যম", exampleGerman: "Viele Jugendliche verbringen zu viel Zeit in sozialen Netzwerken.", exampleBengali: "অনেক তরুণ-তরুণী সামাজিক যোগাযোগ মাধ্যমে অনেক বেশি সময় ব্যয় করে।"},
+            {german: "Profil", article: "das", pronunciation: "[das pʁoˈfiːl]", bengali: "প্রোফাইল", exampleGerman: "Du solltest dein Profil mit einem aktuellen Foto aktualisieren.", exampleBengali: "তোমার প্রোফাইলটি একটি বর্তমান ছবি দিয়ে হালনাগাদ করা উচিত।"},
+            {german: "hochladen", article: "", pronunciation: "[ˈhoːxˌlaːdn̩]", bengali: "আপলোড করা", exampleGerman: "Ich habe die Fotos von unserem Urlaub auf Facebook hochgeladen.", exampleBengali: "আমি আমাদের ছুটির ছবিগুলো ফেসবুকে আপলোড করেছি।"},
+            {german: "herunterladen", article: "", pronunciation: "[hɛˈʁʊntɐˌlaːdn̩]", bengali: "ডাউনলোড করা", exampleGerman: "Sie können die Software kostenlos aus dem Internet herunterladen.", exampleBengali: "আপনি ইন্টারনেট থেকে বিনামূল্যে সফটওয়্যারটি ডাউনলোড করতে পারেন।"},
+            {german: "Datei", article: "die", pronunciation: "[diː daˈtaɪ̯]", bengali: "ফাইল", exampleGerman: "Ich habe dir die Datei als Anhang per E-Mail geschickt.", exampleBengali: "আমি তোমাকে ফাইলটি ই-মেইলে সংযুক্তি হিসেবে পাঠিয়েছি।"},
+            {german: "Datenschutz", article: "der", pronunciation: "[ˈdaːtn̩ˌʃʊt͡s]", bengali: "ডেটা সুরক্ষা", exampleGerman: "Der Datenschutz ist in der digitalen Welt ein sehr wichtiges Thema.", exampleBengali: "ডিজিটাল বিশ্বে ডেটা সুরক্ষা একটি অত্যন্ত গুরুত্বপূর্ণ বিষয়।"},
+            {german: "Webseite", article: "die", pronunciation: "[ˈvɛpˌzaɪ̯tə]", bengali: "ওয়েবসাইট", exampleGerman: "Auf unserer Webseite finden Sie alle wichtigen Informationen.", exampleBengali: "আমাদের ওয়েবসাইটে আপনি সমস্ত গুরুত্বপূর্ণ তথ্য পাবেন।"},
+            {german: "Blog", article: "der", pronunciation: "[blɔk]", bengali: "ব্লগ", exampleGerman: "Sie schreibt einen Blog über ihre Reisen um die Welt.", exampleBengali: "সে বিশ্বজুড়ে তার ভ্রমণ নিয়ে একটি ব্লগ লেখে।"},
+            {german: "eins", article: "", pronunciation: "[aɪ̯ns]", bengali: "এক", exampleGerman: "Ich habe eine Katze.", exampleBengali: "আমার একটি বিড়াল আছে।"},
+            {german: "zwei", article: "", pronunciation: "[t͡svaɪ̯]", bengali: "দুই", exampleGerman: "Zwei Tassen Kaffee, bitte.", exampleBengali: "দয়া করে, দুই কাপ কফি।"},
+            {german: "drei", article: "", pronunciation: "[dʁaɪ̯]", bengali: "তিন", exampleGerman: "Wir sind drei Personen.", exampleBengali: "আমরা তিনজন।"},
+            {german: "vier", article: "", pronunciation: "[fiːɐ̯]", bengali: "চার", exampleGerman: "Das Auto hat vier Reifen.", exampleBengali: "গাড়িটির চারটি চাকা আছে।"},
+            {german: "fünf", article: "", pronunciation: "[fʏnf]", bengali: "পাঁচ", exampleGerman: "Es ist fünf Uhr.", exampleBengali: "এখন পাঁচটা বাজে।"},
+            {german: "sechs", article: "", pronunciation: "[zɛks]", bengali: "ছয়", exampleGerman: "Der Tisch hat sechs Stühle.", exampleBengali: "টেবিলটিতে ছয়টি চেয়ার আছে।"},
+            {german: "sieben", article: "", pronunciation: "[ˈziːbn̩]", bengali: "সাত", exampleGerman: "Eine Woche hat sieben Tage.", exampleBengali: "এক সপ্তাহে সাত দিন থাকে।"},
+            {german: "acht", article: "", pronunciation: "[axt]", bengali: "আট", exampleGerman: "Ich komme um acht Uhr.", exampleBengali: "আমি আটটায় আসব।"},
+            {german: "neun", article: "", pronunciation: "[nɔɪ̯n]", bengali: "নয়", exampleGerman: "Das Buch kostet neun Euro.", exampleBengali: "বইটির দাম নয় ইউরো।"},
+            {german: "zehn", article: "", pronunciation: "[t͡seːn]", bengali: "দশ", exampleGerman: "Ich habe zehn Finger.", exampleBengali: "আমার দশটি আঙুল আছে।"},
+            {german: "null", article: "", pronunciation: "[nʊl]", bengali: "শূন্য", exampleGerman: "Die Telefonnummer hat eine Null.", exampleBengali: "ফোন নম্বরটিতে একটি শূন্য আছে।"},
+            {german: "viel", article: "", pronunciation: "[fiːl]", bengali: "অনেক", exampleGerman: "Ich habe nicht viel Zeit.", exampleBengali: "আমার হাতে বেশি সময় নেই।"},
+            {german: "wenig", article: "", pronunciation: "[ˈveːnɪç]", bengali: "কম/অল্প", exampleGerman: "Ich habe nur wenig Geld.", exampleBengali: "আমার কাছে অল্প টাকা আছে।"},
+            {german: "was", article: "", pronunciation: "[vas]", bengali: "কী", exampleGerman: "Was ist das?", exampleBengali: "এটা কী?"},
+            {german: "wer", article: "", pronunciation: "[veːɐ̯]", bengali: "কে", exampleGerman: "Wer sind Sie?", exampleBengali: "আপনি কে?"},
+            {german: "wie", article: "", pronunciation: "[viː]", bengali: "কেমন / কীভাবে", exampleGerman: "Wie geht es Ihnen?", exampleBengali: "আপনি কেমন আছেন?"},
+            {german: "wo", article: "", pronunciation: "[voː]", bengali: "কোথায়", exampleGerman: "Wo wohnen Sie?", exampleBengali: "আপনি কোথায় থাকেন?"},
+            {german: "woher", article: "", pronunciation: "[voˈheːɐ̯]", bengali: "কোথা থেকে", exampleGerman: "Woher kommen Sie?", exampleBengali: "আপনি কোথা থেকে এসেছেন?"},
+            {german: "wohin", article: "", pronunciation: "[voˈhɪn]", bengali: "কোথায় (গন্তব্য)", exampleGerman: "Wohin gehen Sie?", exampleBengali: "আপনি কোথায় যাচ্ছেন?"},
+            {german: "wann", article: "", pronunciation: "[van]", bengali: "কখন", exampleGerman: "Wann beginnt der Kurs?", exampleBengali: "কোর্সটি কখন শুরু হবে?"},
+            {german: "warum", article: "", pronunciation: "[vaˈʁʊm]", bengali: "কেন", exampleGerman: "Warum lernen Sie Deutsch?", exampleBengali: "আপনি কেন জার্মান শিখছেন?"},
+            {german: "buchen", article: "", pronunciation: "[ˈbuːxn̩]", bengali: "বুক করা", exampleGerman: "Ich habe ein Hotelzimmer online gebucht.", exampleBengali: "আমি অনলাইনে একটি হোটেল রুম বুক করেছি।"},
+            {german: "Fahrkarte", article: "die", pronunciation: "[diː ˈfaːɐ̯ˌkaʁtə]", bengali: "টিকেট", exampleGerman: "Wo kann ich eine Fahrkarte kaufen?", exampleBengali: "আমি কোথা থেকে একটি টিকেট কিনতে পারি?"},
+            {german: "Gleis", article: "das", pronunciation: "[das ɡlaɪ̯s]", bengali: "প্ল্যাটফর্ম", exampleGerman: "Der Zug nach Hamburg fährt von Gleis 5 ab.", exampleBengali: "হামবুর্গের ট্রেনটি ৫ নম্বর প্ল্যাটফর্ম থেকে ছাড়বে।"},
+            {german: "Abfahrt", article: "die", pronunciation: "[diː ˈapˌfaːɐ̯t]", bengali: "প্রস্থান", exampleGerman: "Die Abfahrt des Busses ist um 14:30 Uhr.", exampleBengali: "বাসটির প্রস্থানের সময় দুপুর ২:৩০।"},
+            {german: "Ankunft", article: "die", pronunciation: "[diː ˈanˌkʊnft]", bengali: "আগমন", exampleGerman: "Informieren Sie mich bitte über Ihre Ankunft.", exampleBengali: "দয়া করে আমাকে আপনার আগমনের বিষয়ে জানান।"},
+            {german: "Unterkunft", article: "die", pronunciation: "[diː ˈʊntɐˌkʊnft]", bengali: "থাকার ব্যবস্থা", exampleGerman: "Wir suchen eine günstige Unterkunft für zwei Nächte.", exampleBengali: "আমরা দুই রাতের জন্য একটি সস্তা থাকার ব্যবস্থা খুঁজছি।"},
+            {german: "Koffer", article: "der", pronunciation: "[deːɐ̯ ˈkɔfɐ]", bengali: "স্যুটকেস", exampleGerman: "Mein Koffer ist sehr schwer.", exampleBengali: "আমার স্যুটকেসটি খুব ভারী।"},
+            {german: "Gepäck", article: "das", pronunciation: "[das ɡəˈpɛk]", bengali: "লাগেজ", exampleGerman: "Sie können Ihr Gepäck hier lassen.", exampleBengali: "আপনি আপনার লাগেজ এখানে রাখতে পারেন।"},
+            {german: "Verspätung", article: "die", pronunciation: "[diː fɛɐ̯ˈʃpɛːtʊŋ]", bengali: "বিলম্ব/দেরি", exampleGerman: "Der Zug hat 10 Minuten Verspätung.", exampleBengali: "ট্রেনটি ১০ মিনিট দেরিতে চলছে।"},
+            {german: "umsteigen", article: "", pronunciation: "[ˈʊmˌʃtaɪ̯ɡn̩]", bengali: "ট্রেন/গাড়ি বদলানো", exampleGerman: "In Hannover müssen wir umsteigen.", exampleBengali: "হানোফারে আমাদের ট্রেন বদলাতে হবে।"},
+            {german: "Handy", article: "das", pronunciation: "[das ˈhɛndi]", bengali: "মোবাইল ফোন", exampleGerman: "Mein Handy-Akku ist fast leer.", exampleBengali: "আমার মোবাইল ফোনের ব্যাটারি প্রায় শেষ।"},
+            {german: "Computer", article: "der", pronunciation: "[deːɐ̯ kɔmˈpjuːtɐ]", bengali: "কম্পিউটার", exampleGerman: "Ich arbeite jeden Tag am Computer.", exampleBengali: "আমি প্রতিদিন কম্পিউটারে কাজ করি।"},
+            {german: "Internet", article: "das", pronunciation: "[das ˈɪntɐˌnɛt]", bengali: "ইন্টারনেট", exampleGerman: "Haben Sie hier Internet?", exampleBengali: "আপনাদের কি এখানে ইন্টারনেট আছে?"},
+            {german: "E-Mail", article: "die", pronunciation: "[diː ˈiːmeːl]", bengali: "ই-মেইল", exampleGerman: "Ich habe dir eine E-Mail geschickt.", exampleBengali: "আমি তোমাকে একটি ই-মেইল পাঠিয়েছি।"},
+            {german: "Nachricht", article: "die", pronunciation: "[diː ˈnaːxˌʁɪçt]", bengali: "বার্তা / খবর", exampleGerman: "Hast du meine Nachricht bekommen?", exampleBengali: "তুমি কি আমার বার্তাটি পেয়েছ?"},
+            {german: "anrufen", article: "", pronunciation: "[ˈanˌʁuːfn̩]", bengali: "ফোন করা", exampleGerman: "Ich muss meinen Chef anrufen.", exampleBengali: "আমাকে আমার বসকে ফোন করতে হবে।"},
+            {german: "senden", article: "", pronunciation: "[ˈzɛndn̩]", bengali: "পাঠানো", exampleGerman: "Können Sie mir die Dokumente per E-Mail senden?", exampleBengali: "আপনি কি আমাকে ডকুমেন্টগুলো ই-মেইলে পাঠাতে পারবেন?"},
+            {german: "drucken", article: "", pronunciation: "[ˈdʁʊkn̩]", bengali: "প্রিন্ট করা", exampleGerman: "Ich muss dieses Formular drucken.", exampleBengali: "আমাকে এই ফর্মটি প্রিন্ট করতে হবে।"},
+            {german: "sowohl ... als auch", article: "", pronunciation: "[zoˈvoːl ... als aʊ̯x]", bengali: "এটাও ... ওটাও (both ... and)", exampleGerman: "Er spricht sowohl Deutsch als auch Englisch fließend.", exampleBengali: "সে জার্মান এবং ইংরেজি দুটোই অনর্গল বলতে পারে।"},
+            {german: "entweder ... oder", article: "", pronunciation: "[ˈɛntˌveːdɐ ... ˈoːdɐ]", bengali: "হয় এটা ... অথবা ওটা (either ... or)", exampleGerman: "Wir können entweder ins Kino gehen oder zu Hause bleiben.", exampleBengali: "আমরা হয় সিনেমায় যেতে পারি অথবা বাড়িতে থাকতে পারি।"},
+            {german: "weder ... noch", article: "", pronunciation: "[ˈveːdɐ ... nɔx]", bengali: "এটাও না ... ওটাও না (neither ... nor)", exampleGerman: "Ich habe weder Hunger noch Durst.", exampleBengali: "আমার ক্ষুধাও নেই, তৃষ্ণাও নেই।"},
+            {german: "einerseits ... andererseits", article: "", pronunciation: "[ˈaɪ̯nɐˌzaɪ̯t͡s ... ˈandəʁɐˌzaɪ̯t͡s]", bengali: "একদিকে ... অন্যদিকে", exampleGerman: "Einerseits möchte ich reisen, andererseits muss ich Geld sparen.", exampleBengali: "একদিকে আমি ভ্রমণ করতে চাই, অন্যদিকে আমাকে টাকা সঞ্চয় করতে হবে।"},
+            {german: "um ... zu (+ Infinitiv)", article: "", pronunciation: "[ʊm ... t͡suː]", bengali: "জন্য (উদ্দেশ্য)", exampleGerman: "Ich lerne Deutsch, um in Deutschland studieren zu können.", exampleBengali: "আমি জার্মান শিখি যাতে জার্মানিতে পড়াশোনা করতে পারি।"},
+            {german: "damit", article: "", pronunciation: "[daˈmɪt]", bengali: "যাতে (উদ্দেশ্য, ভিন্ন কর্তা)", exampleGerman: "Ich gebe dir Geld, damit du dir ein Buch kaufen kannst.", exampleBengali: "আমি তোমাকে টাকা দিচ্ছি যাতে তুমি একটি বই কিনতে পারো।"},
+            {german: "nachdem", article: "", pronunciation: "[naxˈdeːm]", bengali: "করার পর (after)", exampleGerman: "Nachdem er gefrühstückt hatte, ging er zur Arbeit.", exampleBengali: "সে সকালের নাস্তা করার পর কাজে গিয়েছিল।"},
+            {german: "bevor", article: "", pronunciation: "[bəˈfoːɐ̯]", bengali: "করার আগে (before)", exampleGerman: "Bevor du gehst, schließe bitte alle Fenster.", exampleBengali: "তুমি যাওয়ার আগে, দয়া করে সমস্ত জানালা বন্ধ করে দিও।"}
+            ]
+        ];
+
+        let currentDeck = [];
+        let currentCardIndex = 0;
+        let currentMode = 'sequential'; // sequential, random, difficult
+        let currentTopicName = 'সবগুলো';
+        let progress = {}; // { germanWord: 'easy'/'medium'/'hard' }
+
+        const cardElement = document.getElementById('flashcard');
+        const cardInnerElement = document.querySelector('.card-inner');
+        
+        // DOM Elements
+        const germanWordEl = document.getElementById('germanWord');
+        const articleEl = document.getElementById('article');
+        const pronunciationEl = document.getElementById('pronunciation');
+        const bengaliMeaningEl = document.getElementById('bengaliMeaning');
+        const exampleGermanEl = document.getElementById('exampleGerman');
+        const exampleBengaliEl = document.getElementById('exampleBengali');
+        const currentCardEl = document.getElementById('currentCard');
+        const totalCardsEl = document.getElementById('totalCards');
+        const progressFillEl = document.getElementById('progressFill');
+        const currentTopicEl = document.getElementById('currentTopic');
+        const learnedWordsEl = document.getElementById('learnedWords');
+        const difficultWordsEl = document.getElementById('difficultWords');
+        
+        function initialize() {
+            loadProgress();
+            selectTopic('all');
+        }
+
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('germanFlashcardProgress');
+            if (savedProgress) {
+                progress = JSON.parse(savedProgress);
+            }
+            updateStats();
+        }
+
+        function saveProgress() {
+            localStorage.setItem('germanFlashcardProgress', JSON.stringify(progress));
+            updateStats();
+        }
+
+        function updateStats() {
+            const learnedCount = Object.values(progress).filter(p => p === 'easy').length;
+            const difficultCount = Object.values(progress).filter(p => p === 'hard').length;
+            learnedWordsEl.textContent = learnedCount;
+            difficultWordsEl.textContent = difficultCount;
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`mode-${mode}`).classList.add('active');
+            selectTopic(currentTopicName === 'সবগুলো' ? 'all' : allFlashcards.findIndex(topic => topic[0] && topic[0].bengali === currentTopicName)); // Re-filter deck
+        }
+
+        function selectTopic(topicIndexOrAll) {
+            let topicName = "বিষয়: ";
+            if (topicIndexOrAll === 'all') {
+                currentDeck = allFlashcards.flat();
+                topicName += 'সবগুলো';
+                currentTopicName = 'সবগুলো';
+            } else {
+                currentDeck = [...allFlashcards[topicIndexOrAll]];
+                const topicBtn = document.querySelector(`.topic-btn[onclick="selectTopic(${topicIndexOrAll})"]`);
+                topicName += topicBtn.textContent.split('(')[0].trim();
+                currentTopicName = topicBtn.textContent.split('(')[0].trim();
+            }
+
+            if (currentMode === 'difficult') {
+                 currentDeck = currentDeck.filter(card => progress[card.german] === 'hard');
+            }
+
+            if(currentDeck.length === 0 && currentMode === 'difficult') {
+                alert('এই বিষয়ে কোনো কঠিন শব্দ চিহ্নিত করা নেই।');
+                setMode('sequential'); // fallback to sequential
+                return;
+            }
+
+            currentTopicEl.textContent = topicName;
+            document.querySelectorAll('.topic-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = topicIndexOrAll === 'all' ? document.querySelector('.topic-btn[onclick="selectTopic(\'all\')"]') : document.querySelector(`.topic-btn[onclick="selectTopic(${topicIndexOrAll})"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+            
+            resetAndDisplay();
+        }
+
+        function resetAndDisplay() {
+            currentCardIndex = 0;
+            if (currentMode === 'random') {
+                shuffle(currentDeck);
+            }
+            displayCard();
+            updateCardCounterAndProgress();
+        }
+
+        function displayCard() {
+            if (currentDeck.length === 0) {
+                // Handle empty deck case
+                germanWordEl.textContent = 'কোনো কার্ড নেই';
+                articleEl.textContent = '';
+                pronunciationEl.textContent = 'অন্য একটি বিষয় বা মোড বেছে নিন';
+                bengaliMeaningEl.textContent = '';
+                exampleGermanEl.textContent = '';
+                exampleBengaliEl.textContent = '';
+                currentCardEl.textContent = 0;
+                totalCardsEl.textContent = 0;
+                return;
+            }
+            const card = currentDeck[currentCardIndex];
+            germanWordEl.textContent = card.german;
+            articleEl.textContent = card.article || '';
+            pronunciationEl.textContent = card.pronunciation;
+            bengaliMeaningEl.textContent = card.bengali;
+            exampleGermanEl.textContent = card.exampleGerman;
+            exampleBengaliEl.textContent = card.exampleBengali;
+            
+            cardElement.classList.remove('flipped');
+            updateCardCounterAndProgress();
+        }
+
+        function updateCardCounterAndProgress() {
+            const total = currentDeck.length;
+            totalCardsEl.textContent = total;
+            currentCardEl.textContent = total > 0 ? currentCardIndex + 1 : 0;
+            progressFillEl.style.width = total > 0 ? `${((currentCardIndex + 1) / total) * 100}%` : '0%';
+        }
+        
+        function flipCard(event) {
+            // Prevent flipping when a difficulty button is clicked
+            if (event && event.target.classList.contains('difficulty-btn')) {
+                event.stopPropagation();
+                return;
+            }
+            cardElement.classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (currentDeck.length > 0) {
+                currentCardIndex = (currentCardIndex + 1) % currentDeck.length;
+                displayCard();
+            }
+        }
+
+        function previousCard() {
+            if (currentDeck.length > 0) {
+                currentCardIndex = (currentCardIndex - 1 + currentDeck.length) % currentDeck.length;
+                displayCard();
+            }
+        }
+
+        function shuffleCards() {
+            if (currentDeck.length > 0) {
+                shuffle(currentDeck);
+                currentCardIndex = 0;
+                displayCard();
+            }
+        }
+        
+        function markDifficulty(difficulty) {
+            event.stopPropagation(); // Stop the event from bubbling up to the card's flip listener
+            const currentCard = currentDeck[currentCardIndex];
+            progress[currentCard.german] = difficulty;
+            saveProgress();
+            
+            // Automatically move to the next card after marking
+            setTimeout(nextCard, 200); 
+        }
+
+        function resetProgress() {
+            if (confirm("আপনি কি আপনার সমস্ত অগ্রগতি রিসেট করতে চান? এটি মুছে ফেলা হলে আর ফেরানো যাবে না।")) {
+                progress = {};
+                localStorage.removeItem('germanFlashcardProgress');
+                updateStats();
+                alert("আপনার অগ্রগতি রিসেট করা হয়েছে।");
+            }
+        }
+
+        // Fisher-Yates shuffle algorithm
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        // Initial load
+        document.addEventListener('DOMContentLoaded', initialize);
+    </script>
+</body>
+</html>
